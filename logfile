@@ -1,0 +1,13 @@
+2019-09-04 09:01:01.888 PDT [33390] LOG:  listening on IPv6 address "::1", port 5432
+2019-09-04 09:01:01.895 PDT [33390] LOG:  listening on IPv6 address "fe80::1%lo0", port 5432
+2019-09-04 09:01:01.895 PDT [33390] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-09-04 09:01:01.895 PDT [33390] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-09-04 09:01:01.979 PDT [33391] LOG:  database system was shut down at 2019-08-12 08:01:28 PDT
+2019-09-04 09:01:01.994 PDT [33390] LOG:  database system is ready to accept connections
+2019-09-04 09:10:12.602 PDT [39430] ERROR:  syntax error at or near "[" at character 88
+2019-09-04 09:10:12.602 PDT [39430] STATEMENT:  CREATE TABLE users (
+		primary_key SERIAL PRIMARY KEY,
+	    company_name TEXT,
+	    email [TEXT],
+	    password [text]
+	);
