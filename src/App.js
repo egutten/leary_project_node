@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import styles from "./App.module.scss";
+import {Route, Switch} from 'react-router-dom';
+import SignUp from './containers/SignUp/SignUp';
+import Placeholder from './containers/Placeholder';
 
 class App extends Component {
   constructor(props) {
@@ -16,26 +18,10 @@ class App extends Component {
   }
   render() {
     return (
-      <div className={styles.Main}>
-        <h1>Database API</h1>
-        <div className={styles.Container}>
-          <h2>Data</h2>
-          {this.state.data.map((item, i) => {
-            return (
-              <div key={i} className={styles.Data}>
-                <ul>
-                  <li>ID: {item.id}</li>
-                  <li>Company Name: {item.company_name}</li>
-                  <li>Email: {item.email}</li>
-                  {/* <li>Name: {item.name</li> */}
-                  {/* <li>Age: {item.age}</li> */}
-                  {/* <li>Password: {item.pass}</li> */}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <Switch>
+        <Route path="/" exact component={Placeholder} />
+        <Route path="/signup" component={SignUp}/>
+      </Switch>
     );
   }
 }
