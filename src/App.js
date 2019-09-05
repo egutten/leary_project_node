@@ -35,7 +35,7 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path = "/logout" component={Logout} />
-          <Route path="/" component={Placeholder} />
+          <Route path= "/" component={Placeholder} />
         </Switch>
       );
     }

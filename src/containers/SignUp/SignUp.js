@@ -3,6 +3,8 @@ import Input from '../../components/Input/Input';
 import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
+import * as actions from '../../store/actions';
+import {connect} from 'react-redux';
 
 class SignUp extends Component {
   state = {
@@ -74,9 +76,10 @@ class SignUp extends Component {
     })
     .then(response => {
       console.log(response);
-      if (response.data.errors.length < 0) {
-        this.props.history.push('/');
-      }  
+      this.props.onAuth(this.state.signUpForm.email.value, this.state.signUpForm.password.value);
+      if (this.props.isAuthenticated) {
+        this.props.history.push("/");
+      }
     })
     .catch(err => {
       console.log(err.message);
@@ -117,4 +120,16 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.sessionId !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return{
+    onAuth: (email, password) => dispatch(actions.auth(email, password))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
