@@ -4,9 +4,9 @@ import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
 
-class SignUp extends Component {
+class Login extends Component {
   state = {
-    signUpForm: {
+    LoginForm: {
       email: {
         elementType: 'input',
         elementConfig: {
@@ -36,56 +36,42 @@ class SignUp extends Component {
         valid: false,
         touched: false,
         label: 'Password',
-      },
-      company_name: {
-        elementType: 'input',
-        elementConfig: {
-          type: 'text',
-          placeholder: 'Company Name'
-        },
-        value: '',
-        validation: {
-          required: true
-        },
-        valid: false,
-        touched: false,
-        label: 'Company Name'
       }
-    },
+    }
   }
   
   inputChangedHandler = (event, inputName) => {
-    const updatedForm = updateObject(this.state.signUpForm, {
-      [inputName]: updateObject(this.state.signUpForm[inputName], {
+    const updatedForm = updateObject(this.state.LoginForm, {
+      [inputName]: updateObject(this.state.LoginForm[inputName], {
         value: event.target.value,
-        valid: checkValidation(event.target.value, this.state.signUpForm[inputName].validation),
+        valid: checkValidation(event.target.value, this.state.LoginForm[inputName].validation),
         touched: true
       })
     });
-    this.setState({signUpForm: updatedForm});
+    this.setState({LoginForm: updatedForm});
   }
   
-  submitHandler = (event) => {
-    event.preventDefault();
-    axios.post("http://localhost:8080/signup", {
-      email: this.state.signUpForm.email.value,
-      password: this.state.signUpForm.password.value,
-      company_name: this.state.signUpForm.company_name.value
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  };
+  // submitHandler = (event) => {
+  //   event.preventDefault();
+  //   axios.post("http://localhost:8080/api.json", {
+  //     email: this.state.signUpForm.email.value,
+  //     password: this.state.signUpForm.password.value,
+  //     company_name: this.state.signUpForm.company_name.value
+  //   })
+  //   .then(response => {
+  //     console.log(response);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   });
+  // };
   
   render() {
     const formElementsArray = [];
-    for (let key in this.state.signUpForm) {
+    for (let key in this.state.LoginForm) {
       formElementsArray.push({
         id: key, 
-        config: this.state.signUpForm[key]
+        config: this.state.LoginForm[key]
       });
     }
     
@@ -104,7 +90,7 @@ class SignUp extends Component {
 
     return (
       <div>
-        <h4>Sign Up</h4>
+        <h4>Login</h4>
         <form>
           {form}
           <Button clicked={this.submitHandler}>Submit</ Button>
@@ -114,4 +100,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default Login;

@@ -11,3 +11,13 @@
 	    email [TEXT],
 	    password [text]
 	);
+2019-09-04 16:45:08.795 PDT [37974] LOG:  stats collector's time 2019-09-04 16:45:15.359185-07 is later than backend local time 2019-09-04 16:45:08.795518-07
+2019-09-04 16:45:08.795 PDT [37974] STATEMENT:  SELECT
+	   (SELECT sum(tup_fetched) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Fetched",
+	   (SELECT sum(tup_returned) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Returned"
+2019-09-04 16:45:08.802 PDT [33396] LOG:  stats_timestamp 2019-09-04 16:45:15.359185-07 is later than collector's time 2019-09-04 16:45:08.802294-07 for database 13382
+2019-09-04 16:45:08.803 PDT [37974] LOG:  stats collector's time 2019-09-04 16:45:15.359185-07 is later than backend local time 2019-09-04 16:45:08.803474-07
+2019-09-04 16:45:08.803 PDT [37974] STATEMENT:  SELECT
+	   (SELECT sum(xact_commit) + sum(xact_rollback) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Transactions",
+	   (SELECT sum(xact_commit) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Commits",
+	   (SELECT sum(xact_rollback) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Rollbacks"
