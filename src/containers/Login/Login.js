@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import Input from '../../components/Input/Input';
 import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
-import axios from 'axios';
+import * as actions from '../../store/actions';
+import {connect} from 'react-redux';
 
 class Login extends Component {
   state = {
@@ -37,8 +38,7 @@ class Login extends Component {
         touched: false,
         label: 'Password',
       }
-    },
-    userToken: null
+    }
   }
   
   inputChangedHandler = (event, inputName) => {
@@ -54,17 +54,10 @@ class Login extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:8080/login", {
-      email: this.state.loginForm.email.value,
-      password: this.state.loginForm.password.value
-    })
-    .then(response => {
-      this.setState({userToken: response});
-      this.props.history.push('/');
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
+    this.props.onAuth(this.state.loginForm.email.value, this.state.loginForm.password.value);
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/");
+    }
   };
   
   render() {
@@ -88,7 +81,7 @@ class Login extends Component {
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
-
+    
     return (
       <div>
         <h4>Login</h4>
@@ -101,4 +94,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.sessionId !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return{
+    onAuth: (email, password) => dispatch(actions.auth(email, password))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

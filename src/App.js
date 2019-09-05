@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
 import Placeholder from './containers/Placeholder';
-import axios from 'axios';
+// import axios from 'axios';
+import Navbar from './components/Navbar/Navbar';
+import {connect} from 'react-redux';
 
 class App extends Component {
   constructor(props) {
@@ -13,21 +16,43 @@ class App extends Component {
     };
   }
   
-  componentDidMount() {
-    axios.get("http://localhost:8080/api")
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
+  // componentDidMount() {
+  //   axios.get("http://localhost:8080/api")
+  //     .then(res => console.log(res))
+  //     .catch(err => console.log(err));
+  // };
   
   render() {
-    return (
+    let routes = (
       <Switch>
-        <Route path="/" exact component={Placeholder} />
         <Route path="/signup" component={SignUp}/>
         <Route path="/login" component={Login}/>
+        <Redirect to="/login" />
       </Switch>
+    );
+    
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+          <Route path = "/logout" component={Logout} />
+          <Route path="/" component={Placeholder} />
+        </Switch>
+      );
+    }
+    
+    return (
+      <React.Fragment> 
+        <Navbar isAuthenticated={this.props.isAuthenticated}/>
+        {routes}
+      </React.Fragment>   
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.sessionId !== null
+  };
+};
+
+export default connect(mapStateToProps)(App);
