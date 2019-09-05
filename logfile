@@ -21,3 +21,44 @@
 	   (SELECT sum(xact_commit) + sum(xact_rollback) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Transactions",
 	   (SELECT sum(xact_commit) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Commits",
 	   (SELECT sum(xact_rollback) FROM pg_stat_database WHERE datname = (SELECT datname FROM pg_database WHERE oid = 16608)) AS "Rollbacks"
+2019-09-05 09:41:06.977 PDT [12303] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 09:41:06.977 PDT [12303] DETAIL:  Key (email)=(test@test.com) already exists.
+2019-09-05 09:41:06.977 PDT [12303] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 09:59:57.066 PDT [24691] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 09:59:57.066 PDT [24691] DETAIL:  Key (email)=(test@test.com) already exists.
+2019-09-05 09:59:57.066 PDT [24691] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 10:06:01.537 PDT [28621] ERROR:  syntax error at or near "/" at character 1
+2019-09-05 10:06:01.537 PDT [28621] STATEMENT:  /c leary
+	;
+2019-09-05 10:07:29.586 PDT [29738] FATAL:  database "Users" does not exist
+2019-09-05 10:09:15.829 PDT [39430] ERROR:  relation "users" does not exist at character 15
+2019-09-05 10:09:15.829 PDT [39430] STATEMENT:  select * from users;
+2019-09-05 10:10:53.568 PDT [31911] ERROR:  relation "users" does not exist at character 15
+2019-09-05 10:10:53.568 PDT [31911] STATEMENT:  select * from users;
+2019-09-05 10:11:01.015 PDT [31911] ERROR:  relation "users" does not exist at character 15
+2019-09-05 10:11:01.015 PDT [31911] STATEMENT:  select * from Users
+	;
+2019-09-05 10:13:01.081 PDT [33462] FATAL:  database "template0" is not currently accepting connections
+2019-09-05 10:14:40.495 PDT [34246] ERROR:  syntax error at or near "'Users'" at character 15
+2019-09-05 10:14:40.495 PDT [34246] STATEMENT:  SELECT * FROM 'Users';
+2019-09-05 10:14:52.582 PDT [34246] ERROR:  relation "users" does not exist at character 15
+2019-09-05 10:14:52.582 PDT [34246] STATEMENT:  SELECT * FROM Users;
+2019-09-05 10:15:03.302 PDT [34246] ERROR:  relation "users" does not exist at character 15
+2019-09-05 10:15:03.302 PDT [34246] STATEMENT:  SELECT * FROM users;
+2019-09-05 10:15:29.397 PDT [34246] ERROR:  syntax error at or near "'users'" at character 15
+2019-09-05 10:15:29.397 PDT [34246] STATEMENT:  SELECT * FROM 'users';
+2019-09-05 11:09:40.409 PDT [70990] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 11:09:40.409 PDT [70990] DETAIL:  Key (email)=(emily1@test.com) already exists.
+2019-09-05 11:09:40.409 PDT [70990] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 11:23:32.694 PDT [80205] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 11:23:32.694 PDT [80205] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 11:23:32.694 PDT [80205] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 11:26:16.292 PDT [82008] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 11:26:16.292 PDT [82008] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 11:26:16.292 PDT [82008] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 11:30:27.850 PDT [84814] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 11:30:27.850 PDT [84814] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 11:30:27.850 PDT [84814] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 11:32:07.491 PDT [85718] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 11:32:07.491 PDT [85718] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 11:32:07.491 PDT [85718] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;

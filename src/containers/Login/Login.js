@@ -6,7 +6,7 @@ import axios from 'axios';
 
 class Login extends Component {
   state = {
-    LoginForm: {
+    loginForm: {
       email: {
         elementType: 'input',
         elementConfig: {
@@ -37,41 +37,42 @@ class Login extends Component {
         touched: false,
         label: 'Password',
       }
-    }
+    },
+    userToken: null
   }
   
   inputChangedHandler = (event, inputName) => {
-    const updatedForm = updateObject(this.state.LoginForm, {
-      [inputName]: updateObject(this.state.LoginForm[inputName], {
+    const updatedForm = updateObject(this.state.loginForm, {
+      [inputName]: updateObject(this.state.loginForm[inputName], {
         value: event.target.value,
-        valid: checkValidation(event.target.value, this.state.LoginForm[inputName].validation),
+        valid: checkValidation(event.target.value, this.state.loginForm[inputName].validation),
         touched: true
       })
     });
-    this.setState({LoginForm: updatedForm});
+    this.setState({loginForm: updatedForm});
   }
   
-  // submitHandler = (event) => {
-  //   event.preventDefault();
-  //   axios.post("http://localhost:8080/api.json", {
-  //     email: this.state.signUpForm.email.value,
-  //     password: this.state.signUpForm.password.value,
-  //     company_name: this.state.signUpForm.company_name.value
-  //   })
-  //   .then(response => {
-  //     console.log(response);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
-  // };
+  submitHandler = (event) => {
+    event.preventDefault();
+    axios.post("http://localhost:8080/login", {
+      email: this.state.loginForm.email.value,
+      password: this.state.loginForm.password.value
+    })
+    .then(response => {
+      this.setState({userToken: response});
+      this.props.history.push('/');
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+  };
   
   render() {
     const formElementsArray = [];
-    for (let key in this.state.LoginForm) {
+    for (let key in this.state.loginForm) {
       formElementsArray.push({
         id: key, 
-        config: this.state.LoginForm[key]
+        config: this.state.loginForm[key]
       });
     }
     
