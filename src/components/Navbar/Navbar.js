@@ -1,26 +1,22 @@
-// src/components/NavBar.js
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-import React from "react";
-import { useAuth0 } from "../react-auth0-wrapper";
 
-const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+const Navbar = (props) => (
+  <ul>
+    {props.isAuthenticated ? 
+      <React.Fragment>
+        <li><NavLink to="/logout">Logout</ NavLink></li>
+        <li><NavLink to="/">Secret Page</ NavLink></li> 
+      </React.Fragment>
+        : 
+      <React.Fragment> 
+        <li><NavLink to="/login">Login</ NavLink></li>
+        <li><NavLink to="/signup">Sign Up</ NavLink></li>
+      </React.Fragment>
+    }  
+    </ul>  
+);
 
-  return (
-    <div>
-      {!isAuthenticated && (
-        <button
-          onClick={() =>
-            loginWithRedirect({})
-          }
-        >
-          Log in
-        </button>
-      )}
 
-      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-    </div>
-  );
-};
-
-export default NavBar;
+export default Navbar;
