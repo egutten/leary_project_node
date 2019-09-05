@@ -4,7 +4,9 @@ var passport = require("../config/passport");
 //
 module.exports = function(app) {
 
+//Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
+    console.log(res);
     res.json(res.req.sessionID);
   });
 
@@ -24,6 +26,20 @@ module.exports = function(app) {
 
   app.get("/logout", function(req, res) {
     req.logout();
+  });
+  
+//Conversion Events
+  app.post("/ce", function(req, res) {
+    console.log(req.body);
+    const newConversionEvent = db.ConversionEvent.create({
+      conversion_event: req.body.conversion_event,
+      userId: req.body.userId 
+    }).then(function() {
+      res.json(newConversionEvent);
+    }).catch(function(err) {
+      res.status(500);
+      res.json({error: err});
+    });
   });
 
   app.get("/api", async function(req, res){

@@ -31,14 +31,3 @@ module.exports = function(sequelize, DataTypes) {
   });
   return User;
 };
-
-//This is a fix by Samaila Philemon Bala in case you want to use ES6
-//and the above is not working
-
-//User.beforeCreate(user => {
-  //  user.password = bcrypt.hashSync(
-    //  user.password,
-      //bcrypt.genSaltSync(10),
-      //null
-    //);
-  //});

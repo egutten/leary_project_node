@@ -62,3 +62,9 @@
 2019-09-05 11:32:07.491 PDT [85718] ERROR:  duplicate key value violates unique constraint "Users_email_key"
 2019-09-05 11:32:07.491 PDT [85718] DETAIL:  Key (email)=(emily3@test.com) already exists.
 2019-09-05 11:32:07.491 PDT [85718] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 16:14:18.618 PDT [47201] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 16:14:18.618 PDT [47201] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 16:14:18.618 PDT [47201] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-05 16:14:27.983 PDT [47201] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-05 16:14:27.983 PDT [47201] DETAIL:  Key (email)=(emily3@test.com) already exists.
+2019-09-05 16:14:27.983 PDT [47201] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
