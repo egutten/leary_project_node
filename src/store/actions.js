@@ -30,7 +30,7 @@ export const auth = (email, password) => {
     };
     axios.post("http://localhost:8080/login", authData)
     .then(response => {
-      dispatch(authSuccess(response.sessionID, response.email));
+      dispatch(authSuccess(response.data.sessionId, response.data.email));
     })
     .catch(err => {
       console.log(err.message);

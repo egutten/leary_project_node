@@ -3,6 +3,7 @@ import Input from '../../components/Input/Input';
 import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 class ConversionEventConfig extends Component {
   state = {
@@ -10,13 +11,26 @@ class ConversionEventConfig extends Component {
       elementType: 'select',
       elementConfig: {
         options: [
-        {value: 'trial', displayValue: 'Just signed-up for a trial'},
-        {value: 'demo', displayValue: 'Just signed-up for a demo'}
+        {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
+        {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
         ]
       },
-      value: 'trial'
-    }  
+      value: 'Just signed-up for a trial'
+    },
+    userId: null
   }
+  
+  componentDidMount() {
+    axios.post("http://localhost:8080/user", {
+        email: this.props.email
+    })
+      .then(res => 
+        this.setState({userId: res.data[0].id})
+      )
+      .catch(err => 
+        console.log(err)
+    );
+  };
   
   inputChangedHandler = (event) => {
     const updatedConfig = updateObject(this.state.conversion_event, {
@@ -27,8 +41,10 @@ class ConversionEventConfig extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
+    console.log(this.state.userId)
     axios.post("http://localhost:8080/ce", {
-      conversion_event: this.state.conversion_event.displayValue
+      conversion_event: this.state.conversion_event.value,
+      user_id: this.state.userId
     })
     .then(response => {
       console.log(response);
@@ -56,4 +72,11 @@ class ConversionEventConfig extends Component {
   }
 }
 
-export default ConversionEventConfig;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.sessionId !== null,
+    email: state.email
+  };
+};
+
+export default connect(mapStateToProps)(ConversionEventConfig);
