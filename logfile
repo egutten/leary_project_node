@@ -78,3 +78,34 @@
 2019-09-06 07:05:08.765 PDT [11463] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
 2019-09-06 07:05:57.136 PDT [12037] ERROR:  column "ConversionEventId" does not exist at character 77
 2019-09-06 07:05:57.136 PDT [12037] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
+2019-09-06 09:37:39.340 PDT [39430] ERROR:  syntax error at or near ""ConversionEvents"" at character 7
+2019-09-06 09:37:39.340 PDT [39430] STATEMENT:  ALTER "ConversionEvents"
+	ADD COLUMN user_id INT REFERENCES "Users" (id);
+2019-09-06 09:51:06.583 PDT [39430] ERROR:  null value in column "createdAt" violates not-null constraint
+2019-09-06 09:51:06.583 PDT [39430] DETAIL:  Failing row contains (7, null, null, null, 5).
+2019-09-06 09:51:06.583 PDT [39430] STATEMENT:  
+	INSERT INTO "ConversionEvents" (user_id)
+	VALUES (5);
+2019-09-06 09:52:31.040 PDT [39430] ERROR:  column "createdAt" is of type timestamp with time zone but expression is of type integer at character 66
+2019-09-06 09:52:31.040 PDT [39430] HINT:  You will need to rewrite or cast the expression.
+2019-09-06 09:52:31.040 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (user_id, "createdAt")
+	VALUES (5, 2019-08-14);
+2019-09-06 09:52:41.119 PDT [39430] ERROR:  column "2019-08-14" does not exist at character 66
+2019-09-06 09:52:41.119 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (user_id, "createdAt")
+	VALUES (5, "2019-08-14");
+2019-09-06 09:53:43.020 PDT [39430] ERROR:  column "2019-08-14" does not exist at character 66
+2019-09-06 09:53:43.020 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (user_id, "createdAt")
+	VALUES (5, "2019-08-14");
+2019-09-06 09:55:17.443 PDT [39430] ERROR:  column "user_id" of relation "ConversionEvents" already exists
+2019-09-06 09:55:17.443 PDT [39430] STATEMENT:  ALTER TABLE "ConversionEvents"
+	RENAME COLUMN "user_id" TO user_id;
+2019-09-06 10:05:56.086 PDT [39430] ERROR:  column "createdat" of relation "ConversionEvents" does not exist at character 51
+2019-09-06 10:05:56.086 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (conversion_event, createdAt, user_id)
+	VALUES (trial, '2019-08-14', 16); 
+2019-09-06 10:06:06.685 PDT [39430] ERROR:  column "trial" does not exist at character 81
+2019-09-06 10:06:06.685 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (conversion_event, "createdAt", user_id)
+	VALUES (trial, '2019-08-14', 16); 
+2019-09-06 10:06:20.075 PDT [39430] ERROR:  null value in column "updatedAt" violates not-null constraint
+2019-09-06 10:06:20.075 PDT [39430] DETAIL:  Failing row contains (10, trial, 2019-08-14 00:00:00-07, null, 16).
+2019-09-06 10:06:20.075 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (conversion_event, "createdAt", user_id)
+	VALUES ('trial', '2019-08-14', 16); 

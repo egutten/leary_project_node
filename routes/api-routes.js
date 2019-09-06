@@ -1,14 +1,17 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
-const {stringify} = require('flatted/cjs');
+// const {stringify} = require('flatted/cjs')
 //
 module.exports = function(app) {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
-    console.log(res.req)
-    res.json(stringify(res.req));
+    res.json(
+      {
+        sessionId: res.req.sessionID,
+        email: res.req.body.email
+      });
   });
 
   app.post("/signup", function(req, res) {
@@ -31,10 +34,12 @@ module.exports = function(app) {
   
 //Conversion Events
   app.post("/ce", function(req, res) {
-    console.log(req.body);
+    console.log(req.body.user_id);
     const newConversionEvent = db.ConversionEvent.create({
-      conversion_event: req.body.conversion_event
+      conversion_event: req.body.conversion_event,
+      user_id: req.body.user_id
     }).then(function() {
+      console.log(newConversionEvent)
       res.json(newConversionEvent);
     }).catch(function(err) {
       res.status(500);
@@ -46,6 +51,23 @@ module.exports = function(app) {
     try {
       const users = await db.User.findAll();
       res.json(users);
+    }
+    catch(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    }
+  });
+  
+  app.post("/user", async function(req, res){
+    try {
+      console.log(req.params)
+      const user = await db.User.findAll({
+        where: {
+          email: req.body.email
+        }
+      });
+      res.json(user);
     }
     catch(err) {
       console.log(err);

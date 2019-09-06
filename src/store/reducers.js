@@ -7,7 +7,8 @@ const initialState = {
 
 const authSuccess = (state, action) => {
   return updateObject(state, {
-    sessionId: action.sessionId
+    sessionId: action.sessionId,
+    email: action.email
   });
 };
 
