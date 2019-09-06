@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Input from '../../components/Input/Input';
-import {updateObject, checkValidation} from '../../shared/utility';
+import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
 
@@ -10,33 +10,29 @@ class ConversionEventConfig extends Component {
       elementType: 'select',
       elementConfig: {
         options: [
-        {value: 'Just signed-up for a trial'}
-        {value: 'Just signed-up for a demo'}
+        {value: 'trial', displayValue: 'Just signed-up for a trial'},
+        {value: 'demo', displayValue: 'Just signed-up for a demo'}
         ]
       },
-      value: 'Just signed-up for a trial'
+      value: 'trial'
     }  
   }
   
-  inputChangedHandler = (event, inputName) => {
+  inputChangedHandler = (event) => {
     const updatedConfig = updateObject(this.state.conversion_event, {
-        value: event.target.value)
+        value: event.target.value
       });
-    });
-    this.setState({text: updatedConfig});
-  }
+      this.setState({conversion_event: updatedConfig});
+    };  
   
   submitHandler = (event) => {
     event.preventDefault();
     axios.post("http://localhost:8080/ce", {
-      conversion_event: this.state.signUpForm.email.value,
-      
+      conversion_event: this.state.conversion_event.displayValue
     })
     .then(response => {
       console.log(response);
-      if (response.data.errors.length < 0) {
-        this.props.history.push('/');
-      }  
+      this.props.history.push('/');
     })
     .catch(err => {
       console.log(err.message);
@@ -44,32 +40,15 @@ class ConversionEventConfig extends Component {
   };
   
   render() {
-    const formElementsArray = [];
-    for (let key in this.state.signUpForm) {
-      formElementsArray.push({
-        id: key, 
-        config: this.state.signUpForm[key]
-      });
-    }
-    
-    let form = formElementsArray.map(formElement => (
-      <Input 
-        key={formElement.id}
-        label={formElement.config.label}
-        elementType={formElement.config.elementType}
-        elementConfig={formElement.config.elementConfig}
-        value={formElement.config.value}
-        invalid={!formElement.config.valid}
-        shouldValidate={formElement.config.validation}
-        touched={formElement.config.touched}
-        changed={(event) => this.inputChangedHandler(event, formElement.id)} />
-    ));
-
     return (
       <div>
         <h4>Sign Up</h4>
         <form>
-          {form}
+          <Input 
+            elementType={this.state.conversion_event.elementType}
+            elementConfig={this.state.conversion_event.elementConfig}
+            value={this.state.conversion_event.value}
+            changed={(event) => this.inputChangedHandler(event)} />
           <Button clicked={this.submitHandler}>Submit</ Button>
         </form>
       </div>
@@ -77,4 +56,4 @@ class ConversionEventConfig extends Component {
   }
 }
 
-export default SignUp;
+export default ConversionEventConfig;

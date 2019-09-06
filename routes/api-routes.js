@@ -1,13 +1,14 @@
 // Requiring our models and passport as we've configured it
 var db = require("../models");
 var passport = require("../config/passport");
+const {stringify} = require('flatted/cjs');
 //
 module.exports = function(app) {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
-    console.log(res);
-    res.json(res.req.sessionID);
+    console.log(res.req)
+    res.json(stringify(res.req));
   });
 
   app.post("/signup", function(req, res) {
@@ -32,8 +33,7 @@ module.exports = function(app) {
   app.post("/ce", function(req, res) {
     console.log(req.body);
     const newConversionEvent = db.ConversionEvent.create({
-      conversion_event: req.body.conversion_event,
-      userId: req.body.userId 
+      conversion_event: req.body.conversion_event
     }).then(function() {
       res.json(newConversionEvent);
     }).catch(function(err) {
@@ -48,6 +48,7 @@ module.exports = function(app) {
       res.json(users);
     }
     catch(err) {
+      console.log(err);
       res.status(500);
       res.json({error: err});
     }

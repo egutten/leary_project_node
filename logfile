@@ -68,3 +68,13 @@
 2019-09-05 16:14:27.983 PDT [47201] ERROR:  duplicate key value violates unique constraint "Users_email_key"
 2019-09-05 16:14:27.983 PDT [47201] DETAIL:  Key (email)=(emily3@test.com) already exists.
 2019-09-05 16:14:27.983 PDT [47201] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-06 07:02:27.538 PDT [9553] ERROR:  column "ConversionEventId" does not exist at character 77
+2019-09-06 07:02:27.538 PDT [9553] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
+2019-09-06 07:03:13.485 PDT [10229] ERROR:  column "ConversionEventId" does not exist at character 77
+2019-09-06 07:03:13.485 PDT [10229] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
+2019-09-06 07:03:52.862 PDT [10676] ERROR:  column "ConversionEventId" does not exist at character 77
+2019-09-06 07:03:52.862 PDT [10676] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
+2019-09-06 07:05:08.765 PDT [11463] ERROR:  column "ConversionEventId" does not exist at character 77
+2019-09-06 07:05:08.765 PDT [11463] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";
+2019-09-06 07:05:57.136 PDT [12037] ERROR:  column "ConversionEventId" does not exist at character 77
+2019-09-06 07:05:57.136 PDT [12037] STATEMENT:  SELECT "id", "email", "password", "company_name", "createdAt", "updatedAt", "ConversionEventId" FROM "Users" AS "User";

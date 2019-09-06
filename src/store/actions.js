@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-export const authSuccess = (sessionId) => {
+export const authSuccess = (sessionId, email) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    sessionId: sessionId
+    sessionId: sessionId,
+    email: email
   };
 };
 
@@ -29,7 +30,7 @@ export const auth = (email, password) => {
     };
     axios.post("http://localhost:8080/login", authData)
     .then(response => {
-      dispatch(authSuccess(response));
+      dispatch(authSuccess(response.sessionID, response.email));
     })
     .catch(err => {
       console.log(err.message);
