@@ -4,6 +4,7 @@ import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -56,7 +57,8 @@ class Login extends Component {
     event.preventDefault();
     this.props.onAuth(this.state.loginForm.email.value, this.state.loginForm.password.value);
     if (this.props.isAuthenticated) {
-      this.props.history.push("/");
+      return <Redirect exact to="/confconfig" />
+      // this.props.history.push("/convconfig");
     }
   };
   

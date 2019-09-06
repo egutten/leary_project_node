@@ -4,7 +4,8 @@ import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
 import Placeholder from './containers/Placeholder';
-// import axios from 'axios';
+import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig'
+import axios from 'axios';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
 
@@ -16,11 +17,11 @@ class App extends Component {
     };
   }
   
-  // componentDidMount() {
-  //   axios.get("http://localhost:8080/api")
-  //     .then(res => console.log(res))
-  //     .catch(err => console.log(err));
-  // };
+  componentDidMount() {
+    axios.get("http://localhost:8080/api")
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
   
   render() {
     let routes = (
@@ -35,7 +36,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path = "/logout" component={Logout} />
-          <Route path= "/" component={Placeholder} />
+          <Route path = "/convconfig" component={ConversionEventConfig} />
+          <Route path = "/" component={ConversionEventConfig} />
         </Switch>
       );
     }
