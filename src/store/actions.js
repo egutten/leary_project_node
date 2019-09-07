@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 export const authSuccess = (sessionId, email) => {
+  console.log("action authSuccess" + sessionId);
   return {
     type: actionTypes.AUTH_SUCCESS,
     sessionId: sessionId,

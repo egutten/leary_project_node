@@ -1,4 +1,6 @@
 var bcrypt = require("bcryptjs");
+ConversionEvent = require("./conversion_events")
+
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
@@ -29,5 +31,10 @@ module.exports = function(sequelize, DataTypes) {
       null
     );
   });
+  User.associate = (models) => {
+    User.hasMany(models.ConversionEvent, {
+      foreignKey: 'user_id'
+    });
+  };
   return User;
 };

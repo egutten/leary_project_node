@@ -4,7 +4,6 @@ import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -51,15 +50,11 @@ class Login extends Component {
       })
     });
     this.setState({loginForm: updatedForm});
-  }
+  };
   
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.onAuth(this.state.loginForm.email.value, this.state.loginForm.password.value);
-    if (this.props.isAuthenticated) {
-      return <Redirect exact to="/confconfig" />
-      // this.props.history.push("/convconfig");
-    }
+    this.props.onAuth(this.state.loginForm.email.value, this.state.loginForm.password.value)
   };
   
   render() {
@@ -83,6 +78,13 @@ class Login extends Component {
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
+    
+    console.log(this.props.isAuthenticated);
+    
+    if (this.props.isAuthenticated) {
+      console.log("yes");
+      this.props.history.push("/");
+    }
     
     return (
       <div>

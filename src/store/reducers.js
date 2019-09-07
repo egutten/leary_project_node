@@ -2,10 +2,12 @@ import * as actionTypes from './actionTypes';
 import {updateObject} from '../shared/utility';
 
 const initialState = {
-  sessionId: null
-}
+  sessionId: null,
+  email: null,
+};
 
 const authSuccess = (state, action) => {
+  console.log("reducer authSuccess" + action.sessionId)
   return updateObject(state, {
     sessionId: action.sessionId,
     email: action.email

@@ -41,13 +41,11 @@ class ConversionEventConfig extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    console.log(this.state.userId)
     axios.post("http://localhost:8080/ce", {
       conversion_event: this.state.conversion_event.value,
       user_id: this.state.userId
     })
     .then(response => {
-      console.log(response);
       this.props.history.push('/');
     })
     .catch(err => {
@@ -74,7 +72,6 @@ class ConversionEventConfig extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.sessionId !== null,
     email: state.email
   };
 };
