@@ -77,9 +77,6 @@ class SignUp extends Component {
     .then(response => {
       console.log(response);
       this.props.onAuth(this.state.signUpForm.email.value, this.state.signUpForm.password.value);
-      if (this.props.isAuthenticated) {
-        this.props.history.push("/");
-      }
     })
     .catch(err => {
       console.log(err.message);
@@ -107,6 +104,12 @@ class SignUp extends Component {
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
+    
+    console.log(this.props.isAuthenticated);
+    
+    if (this.props.isAuthenticated) {
+      this.props.history.push("/convconfig");
+    }
 
     return (
       <div>

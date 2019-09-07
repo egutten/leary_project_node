@@ -109,3 +109,17 @@
 2019-09-06 10:06:20.075 PDT [39430] DETAIL:  Failing row contains (10, trial, 2019-08-14 00:00:00-07, null, 16).
 2019-09-06 10:06:20.075 PDT [39430] STATEMENT:  INSERT INTO "ConversionEvents" (conversion_event, "createdAt", user_id)
 	VALUES ('trial', '2019-08-14', 16); 
+2019-09-06 13:12:44.119 PDT [39430] ERROR:  syntax error at or near "DELETE" at character 32
+2019-09-06 13:12:44.119 PDT [39430] STATEMENT:  ALTER TABLE "ConversionEvents"
+	DELETE COLUMN user_id;
+2019-09-06 13:12:52.898 PDT [39430] ERROR:  syntax error at or near "REMOVE" at character 32
+2019-09-06 13:12:52.898 PDT [39430] STATEMENT:  ALTER TABLE "ConversionEvents"
+	REMOVE COLUMN user_id;
+2019-09-06 13:30:02.230 PDT [51599] ERROR:  column "user_id" of relation "ConversionEvents" does not exist at character 81
+2019-09-06 13:30:02.230 PDT [51599] STATEMENT:  INSERT INTO "ConversionEvents" ("id","conversion_event","createdAt","updatedAt","user_id") VALUES (DEFAULT,$1,$2,$3,$4) RETURNING *;
+2019-09-06 13:41:24.299 PDT [59239] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-06 13:41:24.299 PDT [59239] DETAIL:  Key (email)=(testy@test.com) already exists.
+2019-09-06 13:41:24.299 PDT [59239] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-06 14:29:48.321 PDT [91305] ERROR:  duplicate key value violates unique constraint "Users_email_key"
+2019-09-06 14:29:48.321 PDT [91305] DETAIL:  Key (email)=(testy@test.com) already exists.
+2019-09-06 14:29:48.321 PDT [91305] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
