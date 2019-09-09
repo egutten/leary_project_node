@@ -75,10 +75,10 @@ module.exports = function(app) {
 
   //create customer on load
   app.post("/customer", async function(req, res){
+    var response = res
     var newCustomer = db.Customer.create()
-      .then(function() {
-        // console.log(res.dataValues.id);
-        res.send(newCustomer);
+      .then(function(response) {
+        res.send({id: response.dataValues.id});
       })
       .catch(function(err) {
       res.status(500);
@@ -91,9 +91,10 @@ module.exports = function(app) {
   app.post("/customer-activity", async function(req, res){
     const newCustomerActivity = db.CustomerActivity.create({
       user_id: req.body.user_id,
-      customer_id: req.body.customer_id
+      customer_id: req.body.customer_id,
+      event: 'view'
     }).then(function() {
-      res.json(newCustomer);
+      res.json(newCustomerActivity);
     }).catch(function(err) {
       res.status(500);
       res.json({error: err});
