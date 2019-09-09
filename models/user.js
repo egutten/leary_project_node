@@ -1,5 +1,6 @@
 var bcrypt = require("bcryptjs");
-ConversionEvent = require("./conversion_events")
+ConversionEvent = require("./conversion_events");
+CustomerActivity = require("./customer_activity");
 
 
 module.exports = function(sequelize, DataTypes) {
@@ -33,6 +34,11 @@ module.exports = function(sequelize, DataTypes) {
   });
   User.associate = (models) => {
     User.hasMany(models.ConversionEvent, {
+      foreignKey: 'user_id'
+    });
+  };
+  User.associate = (models) => {
+    User.hasMany(models.CustomerActivity, {
       foreignKey: 'user_id'
     });
   };
