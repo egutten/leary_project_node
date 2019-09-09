@@ -15,7 +15,7 @@ const Navbar = (props) => (
         <li><NavLink to="/signup">Sign Up</ NavLink></li>
       </React.Fragment>
     }  
-    </ul>  
+  </ul>  
 );
 
 

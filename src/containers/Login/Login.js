@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
@@ -58,6 +59,12 @@ class Login extends Component {
   };
   
   render() {
+    
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to='/' />
+    }
+    
     const formElementsArray = [];
     for (let key in this.state.loginForm) {
       formElementsArray.push({
@@ -79,15 +86,9 @@ class Login extends Component {
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
     
-    console.log(this.props.isAuthenticated);
-    
-    if (this.props.isAuthenticated) {
-      console.log("yes");
-      this.props.history.push("/");
-    }
-    
     return (
       <div>
+        {authRedirect}
         <h4>Login</h4>
         <form>
           {form}
@@ -105,9 +106,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
     onAuth: (email, password) => dispatch(actions.auth(email, password))
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
