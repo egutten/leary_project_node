@@ -1,43 +1,57 @@
 import React, { Component } from "react";
-import styles from "./App.module.scss";
+import {Route, Switch, Redirect} from 'react-router-dom';
+import SignUp from './containers/SignUp/SignUp';
+import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
+import Placeholder from './containers/Placeholder';
+import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig'
+// import axios from 'axios';
+import Navbar from './components/Navbar/Navbar';
+import {connect} from 'react-redux';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-  }
-  componentDidMount() {
-    fetch("http://localhost:8080/api.json")
-      .then(res => res.json())
-      .then(res => this.setState({ data: res }))
-      .catch(err => console.log(err));
-  }
+  
+  // componentDidMount() {
+  //   axios.get("http://localhost:8080/api")
+  //     .then(res => console.log(res))
+  //     .catch(err => console.log(err));
+  // };
+  
   render() {
+    
+    let routes = (
+      <Switch>
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/login" component={Login}/>
+        <Redirect to="/login" />
+      </Switch>
+    );
+    
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+          <Route path = "/logout" component={Logout} />
+          <Route path="/login" component={Login}/>
+          <Route path="/signup" component={SignUp}/>
+          <Route path = "/convconfig" component={ConversionEventConfig} />
+          <Route path = "/" component={Placeholder} />
+        </Switch>
+      );
+    }
+    
     return (
-      <div className={styles.Main}>
-        <h1>Database API</h1>
-        <div className={styles.Container}>
-          <h2>Data</h2>
-          {this.state.data.map((item, i) => {
-            return (
-              <div key={i} className={styles.Data}>
-                <ul>
-                  <li>ID: {item.id}</li>
-                  <li>Company Name: {item.company_name}</li>
-                  <li>Email: {item.email}</li>
-                  {/* <li>Name: {item.name</li> */}
-                  {/* <li>Age: {item.age}</li> */}
-                  {/* <li>Password: {item.pass}</li> */}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <React.Fragment> 
+        <Navbar isAuthenticated={this.props.isAuthenticated}/>
+        {routes}
+      </React.Fragment>   
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.sessionId !== null
+  };
+};
+
+export default connect(mapStateToProps)(App);
