@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
@@ -84,6 +85,12 @@ class SignUp extends Component {
   };
   
   render() {
+    
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to='/convconfig' />
+    }
+    
     const formElementsArray = [];
     for (let key in this.state.signUpForm) {
       formElementsArray.push({
@@ -113,6 +120,7 @@ class SignUp extends Component {
 
     return (
       <div>
+        {authRedirect}
         <h4>Sign Up</h4>
         <form>
           {form}

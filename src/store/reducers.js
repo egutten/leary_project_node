@@ -7,7 +7,6 @@ const initialState = {
 };
 
 const authSuccess = (state, action) => {
-  console.log("reducer authSuccess" + action.sessionId)
   return updateObject(state, {
     sessionId: action.sessionId,
     email: action.email

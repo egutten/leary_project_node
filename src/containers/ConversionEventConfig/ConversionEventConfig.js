@@ -56,7 +56,7 @@ class ConversionEventConfig extends Component {
   render() {
     return (
       <div>
-        <h4>Sign Up</h4>
+        <h4>Step 1: Configure Messages</h4>
         <form>
           <Input 
             elementType={this.state.conversion_event.elementType}

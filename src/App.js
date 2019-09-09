@@ -19,7 +19,6 @@ class App extends Component {
   
   render() {
     
-    console.log(this.props.isAuthenticated);
     let routes = (
       <Switch>
         <Route path="/signup" component={SignUp}/>
@@ -32,6 +31,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path = "/logout" component={Logout} />
+          <Route path="/login" component={Login}/>
+          <Route path="/signup" component={SignUp}/>
           <Route path = "/convconfig" component={ConversionEventConfig} />
           <Route path = "/" component={Placeholder} />
         </Switch>
