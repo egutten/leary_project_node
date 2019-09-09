@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "mgutten",
+    "password": "peachy6m",
+    "database": "leary",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "mgutten",
+    "password": "peachy6m",
+    "database": "leary",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "mgutten",
+    "password": "peachy6m",
+    "database": "leary",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
