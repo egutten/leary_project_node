@@ -2,6 +2,18 @@ var db = require("../models");
 var passport = require("../config/passport");
 
 module.exports = function(app) {
+  
+  // app.get("/api", async function(req, res){
+  //   try {
+  //     const users = await db.User.findAll();
+  //     res.json(users);
+  //   }
+  //   catch(err) {
+  //     console.log(err);
+  //     res.status(500);
+  //     res.json({error: err});
+  //   }
+  // });
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
@@ -43,18 +55,7 @@ module.exports = function(app) {
     });
   });
 
-  // app.get("/api", async function(req, res){
-  //   try {
-  //     const users = await db.User.findAll();
-  //     res.json(users);
-  //   }
-  //   catch(err) {
-  //     console.log(err);
-  //     res.status(500);
-  //     res.json({error: err});
-  //   }
-  // });
-  
+  //get user id for conversion event.
   app.post("/user", async function(req, res){
     try {
       console.log(req.params)
@@ -71,4 +72,32 @@ module.exports = function(app) {
       res.json({error: err});
     }
   });
-};
+
+  //create customer on load
+  app.post("/customer", async function(req, res){
+    var newCustomer = db.Customer.create()
+      .then(function(response) {
+        res.json({id: response.dataValues.id});
+      })
+      .catch(function(err) {
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+
+
+  //create customer-acvitity on load
+  app.post("/customer-activity", async function(req, res){
+    const newCustomerActivity = db.CustomerActivity.create({
+      user_id: req.body.user_id,
+      customer_id: req.body.customer_id,
+      event: 'view'
+    }).then(function() {
+      res.json(newCustomerActivity);
+    }).catch(function(err) {
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+
+}

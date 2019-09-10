@@ -1,3 +1,5 @@
+CustomerActivity = require("./customer_activity");
+
 module.exports = function(sequelize, DataTypes) {
   
   var ConversionEvent = sequelize.define("ConversionEvent", {
@@ -8,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.INTEGER
       }
     });  
-  
+    ConversionEvent.associate = (models) => {
+      ConversionEvent.hasMany(models.CustomerActivity, {
+        foreignKey: 'conversion_event_id'
+      });
+    };
   return ConversionEvent;
 };
