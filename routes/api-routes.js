@@ -91,10 +91,11 @@ module.exports = function(app) {
     const newCustomerActivity = db.CustomerActivity.create({
       user_id: req.body.user_id,
       customer_id: req.body.customer_id,
-      event: 'view'
+      event: req.body.event
     }).then(function() {
       res.json(newCustomerActivity);
     }).catch(function(err) {
+      console.log(err);
       res.status(500);
       res.json({error: err});
     });
