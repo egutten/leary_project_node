@@ -9,7 +9,7 @@
   },
   "test": {
     "username": "mgutten",
-    "password": "***REMOVED***",
+    "password": "",
     "database": "leary",
     "host": "localhost",
     "dialect": "postgres",
@@ -17,7 +17,7 @@
   },
   "production": {
     "username": "mgutten",
-    "password": "***REMOVED***",
+    "password": "",
     "database": "leary",
     "host": "localhost",
     "dialect": "postgres",
