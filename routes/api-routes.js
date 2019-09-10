@@ -100,5 +100,28 @@ module.exports = function(app) {
       res.json({error: err});
     });
   });
+  
+  //receive customer data from user form
+  app.put("/customer-update", async function(req, res){
+    db.Customer.update({
+      {
+        email: req.body.email,
+        company_name: req.body.company_name,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+      },
+      {
+      where: {
+        customer_id: req.body.customer_id
+        }
+      }
+    }).then(function() {
+      res.json(newCustomerActivity);
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  });
 
 }
