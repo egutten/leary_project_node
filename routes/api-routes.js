@@ -75,10 +75,9 @@ module.exports = function(app) {
 
   //create customer on load
   app.post("/customer", async function(req, res){
-    var response = res
     var newCustomer = db.Customer.create()
       .then(function(response) {
-        res.send({id: response.dataValues.id});
+        res.json({id: response.dataValues.id});
       })
       .catch(function(err) {
       res.status(500);
