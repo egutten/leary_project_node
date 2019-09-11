@@ -103,7 +103,7 @@ module.exports = function(app) {
   
   //receive customer data from user form
   app.put("/customer-update", async function(req, res){
-    db.Customer.update({
+    db.Customer.update(
       {
         email: req.body.email,
         company_name: req.body.company_name,
@@ -112,11 +112,11 @@ module.exports = function(app) {
       },
       {
       where: {
-        customer_id: req.body.customer_id
+        id: req.body.customer_id
         }
       }
-    }).then(function() {
-      res.json(newCustomerActivity);
+    ).then(function() {
+      res.json("done");
     }).catch(function(err) {
       console.log(err);
       res.status(500);
