@@ -101,8 +101,8 @@ module.exports = function(app) {
     });
   });
   
-  //receive customer data from user form
-  app.put("/customer-update", async function(req, res){
+  //update customer data upon conversion
+  app.post("/customer-update", async function(req, res){
     db.Customer.update(
       {
         email: req.body.email,
@@ -114,6 +114,25 @@ module.exports = function(app) {
       where: {
         id: req.body.customer_id
         }
+      }
+    ).then(function() {
+      res.json("done");
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+  
+  //update customer activities upon conversion
+  app.post("/customer-activity-conversion", async function(req, res){
+    console.log(req.body.event, req.body.conversion_event_id);
+    db.CustomerActivity.create(
+      {
+        event: req.body.event,
+        conversion_event_id: req.body.conversion_event_id,
+        customer_id: req.body.customer_id,
+        user_id: req.body.user_id
       }
     ).then(function() {
       res.json("done");
