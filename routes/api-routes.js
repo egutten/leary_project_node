@@ -1,22 +1,49 @@
 var db = require("../models");
 var passport = require("../config/passport");
 var moment = require("moment");
+var Queue = require('better-queue');
+var cloudinary = require("cloudinary");
+var Jimp = require('jimp');
 
-moment().format();
+const axios = require('axios');
+
+cloudinary.config({ 
+  cloud_name: 'dy6kyyprj', 
+  api_key: 387751374424766, 
+  api_secret: "***REMOVED***"
+});
+
+var q = new Queue(function(input, cb) {
+  var email = input.email;
+  var emailParse = email.split("@");
+  var url = emailParse[1];
+  axios.get("https://api.ritekit.com/v1/images/logo?domain=" + url + "&client_id=c2f7b301191de1ea382281a7aec589eba6d8d3378c36")
+    .then(response => {
+      let path = 'logo.jpeg';
+      Jimp.read(response)
+        .then(logo => {
+          console.log("read it")
+          return logo.write(__dirname + path);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      // cloudinary.v2.uploader.upload(response.data,  function(err, result){
+      //     if(err){
+      //       console.log(err);
+      //     }
+      //     console.log(result);
+      // })
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+  //access logo api and retrieve logo url
+  //insert logo url into customers table where customer_id = customer_id
+})
 
 module.exports = function(app) {
-  
-  // app.get("/api", async function(req, res){
-  //   try {
-  //     const users = await db.User.findAll();
-  //     res.json(users);
-  //   }
-  //   catch(err) {
-  //     console.log(err);
-  //     res.status(500);
-  //     res.json({error: err});
-  //   }
-  // });
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
@@ -118,6 +145,10 @@ module.exports = function(app) {
       }
     ).then(function() {
       res.json("done");
+      q.push({
+        email: res.req.body.email,
+        customer_id: res.req.body.customer_id
+      })
     }).catch(function(err) {
       console.log(err);
       res.status(500);
@@ -143,7 +174,7 @@ module.exports = function(app) {
     });
   });
   
-  //get conversion event id to retrieve text for message
+  //get conversion event id to retrieve text for message and set timestamp
   app.get("/conversion-event-id", async function(req, res){
     db.CustomerActivity.findAll(
       {
