@@ -1,5 +1,8 @@
 var db = require("../models");
 var passport = require("../config/passport");
+var moment = require("moment");
+
+moment().format();
 
 module.exports = function(app) {
   
@@ -25,7 +28,6 @@ module.exports = function(app) {
   });
 
   app.post("/signup", function(req, res) {
-    console.log(req.body);
     const newUser = db.User.create({
       email: req.body.email,
       password: req.body.password,
@@ -58,7 +60,6 @@ module.exports = function(app) {
   //get user id for conversion event.
   app.post("/user", async function(req, res){
     try {
-      console.log(req.params)
       const user = await db.User.findAll({
         where: {
           email: req.body.email
@@ -124,9 +125,8 @@ module.exports = function(app) {
     });
   });
   
-  //update customer activities upon conversion
+  //create customer activity upon conversion
   app.post("/customer-activity-conversion", async function(req, res){
-    console.log(req.body.event, req.body.conversion_event_id);
     db.CustomerActivity.create(
       {
         event: req.body.event,
@@ -141,6 +141,48 @@ module.exports = function(app) {
       res.status(500);
       res.json({error: err});
     });
+  });
+  
+  //get conversion event id to retrieve text for message
+  app.get("/conversion-event-id", async function(req, res){
+    db.CustomerActivity.findAll(
+      {
+        limit: 1,
+        where: {
+          event: "conversion",
+        },
+        order: [ ['createdAt', 'DESC'] ]
+      }
+    ).then(function(response) {
+      var created = response[0].dataValues.createdAt
+      var createdAt = moment(created).valueOf();
+      var timestamp = moment(createdAt).fromNow();
+      res.json({
+          timestamp: timestamp,
+          conversion_event_id: response[0].dataValues.conversion_event_id
+      });
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  })
+  
+  //get conversion text for message from conversion event id
+  app.post("/conversion-event-text", async function(req, res){
+    try {
+      const conversionEvent = await db.ConversionEvent.findAll({
+        where: {
+          id: req.body.id
+        }
+      });
+      res.json(conversionEvent);
+    }
+    catch(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    }
   });
 
 }
