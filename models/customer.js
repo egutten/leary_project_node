@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     logo: {
-      type: DataTypes.TEXT
+      type: DataTypes.STRING
     },
   });  
   Customer.associate = (models) => {

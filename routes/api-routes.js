@@ -8,25 +8,33 @@ const axios = require('axios');
 var q = new Queue(function(input, cb) {
   var email = input.email;
   var customer_id = input.customer_id;
-  console.log(customer_id);
   var emailParse = email.split("@");
   var url = emailParse[1];
-  axios.get("https://api.ritekit.com/v1/images/logo?domain=" + url + "&client_id=c2f7b301191de1ea382281a7aec589eba6d8d3378c36")
-    .then(response => {
-      let buff = new Buffer(response.data);
-      var logo = (buff.toString("base64"));
-      axios.post("http://localhost:8080/add-logo", {
-          logo: 'data:image/png;base64,' + logo,
-          customer_id: customer_id
-        }).then(response => {
-          console.log("done");
-        }).catch(err => {
-          console.log(err.message);
-        })
+  console.log(url);
+  axios.post("http://localhost:8080/add-logo", {
+      logo: url,
+      customer_id: customer_id
+    }).then(response => {
+      console.log("done");
+    }).catch(err => {
+      console.log(err.message);
     })
-    .catch(error => {
-      console.log(error);
-    });
+  // axios.get("https://api.ritekit.com/v1/images/logo?domain=" + url + "&client_id=c2f7b301191de1ea382281a7aec589eba6d8d3378c36")
+  //   .then(response => {
+  //     // let buff = new Buffer(response.data);
+  //     // var logo = (buff.toString("utf-8"));
+  //     axios.post("http://localhost:8080/add-logo", {
+  //         logo: response.data,
+  //         customer_id: customer_id
+  //       }).then(response => {
+  //         console.log("done");
+  //       }).catch(err => {
+  //         console.log(err.message);
+  //       })
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
 })
 
 module.exports = function(app) {
@@ -130,7 +138,7 @@ module.exports = function(app) {
         }
       }
     ).then(function() {
-      res.json("done");
+      console.log("done");
       q.push({
         email: res.req.body.email,
         customer_id: res.req.body.customer_id
