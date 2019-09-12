@@ -2,45 +2,31 @@ var db = require("../models");
 var passport = require("../config/passport");
 var moment = require("moment");
 var Queue = require('better-queue');
-var cloudinary = require("cloudinary");
-var Jimp = require('jimp');
 
 const axios = require('axios');
 
-cloudinary.config({ 
-  cloud_name: 'dy6kyyprj', 
-  api_key: 387751374424766, 
-  api_secret: "***REMOVED***"
-});
-
 var q = new Queue(function(input, cb) {
   var email = input.email;
+  var customer_id = input.customer_id;
+  console.log(customer_id);
   var emailParse = email.split("@");
   var url = emailParse[1];
   axios.get("https://api.ritekit.com/v1/images/logo?domain=" + url + "&client_id=c2f7b301191de1ea382281a7aec589eba6d8d3378c36")
     .then(response => {
-      let path = 'logo.jpeg';
-      Jimp.read(response)
-        .then(logo => {
-          console.log("read it")
-          return logo.write(__dirname + path);
+      let buff = new Buffer(response.data);
+      var logo = (buff.toString("base64"));
+      axios.post("http://localhost:8080/add-logo", {
+          logo: 'data:image/png;base64,' + logo,
+          customer_id: customer_id
+        }).then(response => {
+          console.log("done");
+        }).catch(err => {
+          console.log(err.message);
         })
-        .catch(err => {
-          console.log(err);
-        })
-      // cloudinary.v2.uploader.upload(response.data,  function(err, result){
-      //     if(err){
-      //       console.log(err);
-      //     }
-      //     console.log(result);
-      // })
     })
     .catch(error => {
       console.log(error);
     });
-
-  //access logo api and retrieve logo url
-  //insert logo url into customers table where customer_id = customer_id
 })
 
 module.exports = function(app) {
@@ -190,7 +176,8 @@ module.exports = function(app) {
       var timestamp = moment(createdAt).fromNow();
       res.json({
           timestamp: timestamp,
-          conversion_event_id: response[0].dataValues.conversion_event_id
+          conversion_event_id: response[0].dataValues.conversion_event_id,
+          customer_id: response[0].dataValues.customer_id
       });
     }).catch(function(err) {
       console.log(err);
@@ -215,5 +202,41 @@ module.exports = function(app) {
       res.json({error: err});
     }
   });
-
+  
+  //update customer for logo
+  app.post("/add-logo", async function(req, res){
+    db.Customer.update(
+      {
+        logo: req.body.logo,
+      },
+      {
+      where: {
+        id: req.body.customer_id
+        }
+      }
+    ).then(function() {
+      res.json("done");
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+  
+  //get customer by customer_id
+  app.post("/get-customer", async function(req, res){
+    try {
+      const customer = await db.Customer.findAll({
+        where: {
+          id: req.body.id
+        }
+      });
+      res.json(customer);
+    }
+    catch(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    }
+  });
 }
