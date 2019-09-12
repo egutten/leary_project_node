@@ -1,5 +1,8 @@
 var db = require("../models");
 var passport = require("../config/passport");
+var moment = require("moment");
+
+moment().format();
 
 module.exports = function(app) {
   
@@ -151,7 +154,13 @@ module.exports = function(app) {
         order: [ ['createdAt', 'DESC'] ]
       }
     ).then(function(response) {
-      res.json(response);
+      var created = response[0].dataValues.createdAt
+      var createdAt = moment(created).valueOf();
+      var timestamp = moment(createdAt).fromNow();
+      res.json({
+          timestamp: timestamp,
+          conversion_event_id: response[0].dataValues.conversion_event_id
+      });
     }).catch(function(err) {
       console.log(err);
       res.status(500);
