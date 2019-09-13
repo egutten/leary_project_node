@@ -14,7 +14,7 @@ var q = new Queue(function(input, cb) {
       logo: url,
       customer_id: customer_id
     }).then(response => {
-      console.log("done");
+      console.log("logo done");
     }).catch(err => {
       console.log(err.message);
     })
@@ -124,7 +124,8 @@ module.exports = function(app) {
         }
       }
     ).then(function() {
-      console.log("done");
+      console.log("customer-update done");
+      res.json("done");
       q.push({
         email: res.req.body.email,
         customer_id: res.req.body.customer_id
@@ -161,6 +162,7 @@ module.exports = function(app) {
         user_id: req.body.user_id
       }
     ).then(function() {
+      console.log("customer-activity-conversion done")
       res.json("done");
     }).catch(function(err) {
       console.log(err);
