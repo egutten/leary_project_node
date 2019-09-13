@@ -10,7 +10,6 @@ var q = new Queue(function(input, cb) {
   var customer_id = input.customer_id;
   var emailParse = email.split("@");
   var url = emailParse[1];
-  console.log(url);
   axios.post("http://localhost:8080/add-logo", {
       logo: url,
       customer_id: customer_id
@@ -19,25 +18,12 @@ var q = new Queue(function(input, cb) {
     }).catch(err => {
       console.log(err.message);
     })
-  // axios.get("https://api.ritekit.com/v1/images/logo?domain=" + url + "&client_id=c2f7b301191de1ea382281a7aec589eba6d8d3378c36")
-  //   .then(response => {
-  //     // let buff = new Buffer(response.data);
-  //     // var logo = (buff.toString("utf-8"));
-  //     axios.post("http://localhost:8080/add-logo", {
-  //         logo: response.data,
-  //         customer_id: customer_id
-  //       }).then(response => {
-  //         console.log("done");
-  //       }).catch(err => {
-  //         console.log(err.message);
-  //       })
-  //   })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
 })
 
 module.exports = function(app) {
+//***************************************************************
+//User flow
+//***************************************************************
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
@@ -65,7 +51,22 @@ module.exports = function(app) {
     req.logout();
   });
   
-//Conversion Events
+  //Get user id to associate it to the conversion event created below
+  app.post("/user", async function(req, res){
+    const user = await db.User.findAll({
+      where: {
+        email: req.body.email
+      }
+    }).then(function(user) {
+      res.json(user);
+    }).catch(function(err){
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  });
+  
+//User creates conversion events
   app.post("/ce", function(req, res) {
     const newConversionEvent = db.ConversionEvent.create({
       conversion_event: req.body.conversion_event,
@@ -77,38 +78,23 @@ module.exports = function(app) {
       res.json({error: err});
     });
   });
+  
+  //******************************************************************
+  //Widget-flow
+  //******************************************************************
 
-  //get user id for conversion event.
-  app.post("/user", async function(req, res){
-    try {
-      const user = await db.User.findAll({
-        where: {
-          email: req.body.email
-        }
-      });
-      res.json(user);
-    }
-    catch(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }
-  });
-
-  //create customer on load
+  //Create customer on load
   app.post("/customer", async function(req, res){
     var newCustomer = db.Customer.create()
       .then(function(response) {
         res.json({id: response.dataValues.id});
-      })
-      .catch(function(err) {
+    }).catch(function(err) {
       res.status(500);
       res.json({error: err});
     });
   });
 
-
-  //create customer-acvitity on load
+  //Create customer-acvitity (visit) on load
   app.post("/customer-activity", async function(req, res){
     const newCustomerActivity = db.CustomerActivity.create({
       user_id: req.body.user_id,
@@ -123,7 +109,7 @@ module.exports = function(app) {
     });
   });
   
-  //update customer data upon conversion
+  //Update customer data upon conversion
   app.post("/customer-update", async function(req, res){
     db.Customer.update(
       {
@@ -150,7 +136,22 @@ module.exports = function(app) {
     });
   });
   
-  //create customer activity upon conversion
+  //Get conversion_id for specific user
+  app.post("/conversion-id", async function(req, res){
+    db.ConversionEvent.findAll({
+        where: {
+          user_id: req.body.user_id
+        }
+    }).then(function(response) {
+      res.json(response[0].dataValues.id);
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  })
+  
+  //Create customer activity (conversion) upon conversion
   app.post("/customer-activity-conversion", async function(req, res){
     db.CustomerActivity.create(
       {
@@ -168,50 +169,7 @@ module.exports = function(app) {
     });
   });
   
-  //get conversion event id to retrieve text for message and set timestamp
-  app.get("/conversion-event-id", async function(req, res){
-    db.CustomerActivity.findAll(
-      {
-        limit: 1,
-        where: {
-          event: "conversion",
-        },
-        order: [ ['createdAt', 'DESC'] ]
-      }
-    ).then(function(response) {
-      var created = response[0].dataValues.createdAt
-      var createdAt = moment(created).valueOf();
-      var timestamp = moment(createdAt).fromNow();
-      res.json({
-          timestamp: timestamp,
-          conversion_event_id: response[0].dataValues.conversion_event_id,
-          customer_id: response[0].dataValues.customer_id
-      });
-    }).catch(function(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    })
-  })
-  
-  //get conversion text for message from conversion event id
-  app.post("/conversion-event-text", async function(req, res){
-    try {
-      const conversionEvent = await db.ConversionEvent.findAll({
-        where: {
-          id: req.body.id
-        }
-      });
-      res.json(conversionEvent);
-    }
-    catch(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }
-  });
-  
-  //update customer for logo
+  //Update customer record with logo url (company URL to be used in logo API)
   app.post("/add-logo", async function(req, res){
     db.Customer.update(
       {
@@ -231,20 +189,60 @@ module.exports = function(app) {
     });
   });
   
-  //get customer by customer_id
-  app.post("/get-customer", async function(req, res){
-    try {
-      const customer = await db.Customer.findAll({
+  //Assembling all data to render a message
+  app.post("/message", async function(req, res){
+    db.CustomerActivity.findAll(
+      {
+        limit: 1,
         where: {
-          id: req.body.id
-        }
-      });
-      res.json(customer);
-    }
-    catch(err) {
+          event: "conversion",
+          user_id: req.body.user_id
+        },
+        include: [
+        {
+          model: db.ConversionEvent,
+          as: 'ConversionEvent'
+        },
+        { 
+          model: db.Customer,
+          as: 'Customer'
+        }],
+        order: [ ['createdAt', 'DESC'] ]
+      }
+    ).then(function(response) {
+      var created = response[0].dataValues.createdAt
+      var createdAt = moment(created).valueOf();
+      var timestamp = moment(createdAt).fromNow();
+      res.json({
+        conversion_event: response[0].dataValues.ConversionEvent.dataValues.conversion_event,
+        logo: response[0].dataValues.Customer.dataValues.logo,
+        timestamp: timestamp
+        });
+    }).catch(function(err) {
       console.log(err);
       res.status(500);
       res.json({error: err});
-    }
+    })
+  });
+  
+  //Record message logo that customer saw
+  app.post("/customer-props", async function(req, res){
+    db.CustomerActivity.update(
+      {
+        props: req.body.logo,
+      },
+      {
+      where: {
+        customer_id: req.body.customer_id,
+        event: "view"
+        }
+      }
+    ).then(function() {
+      res.json("done");
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
   });
 }

@@ -16,7 +16,20 @@ module.exports = function(sequelize, DataTypes) {
     customer_id: {
       type: DataTypes.INTEGER
     },
-  });  
-  
+  });
+  CustomerActivity.associate = (models) => {
+    CustomerActivity.belongsTo(models.ConversionEvent, {
+      foreignKey: 'conversion_event_id',
+      as: 'ConversionEvent'
+    });
+    CustomerActivity.belongsTo(models.Customer, {
+      foreignKey: 'customer_id',
+      as: 'Customer'
+    });
+    CustomerActivity.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      as: 'User'
+    });
+  };  
   return CustomerActivity;
 };
