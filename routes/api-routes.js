@@ -185,11 +185,12 @@ module.exports = function(app) {
   });
   
   //Check that messages exist
-  app.get("/message-check", async function(req, res){
+  app.post("/message-check", async function(req, res){
     db.CustomerActivity.findAll(
       {
         where: {
-          event: "conversion"
+          event: "conversion",
+          user_id: req.body.user_id
         }
       }
     ).then(function(response) {
