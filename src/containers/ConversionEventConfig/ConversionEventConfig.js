@@ -23,11 +23,9 @@ class ConversionEventConfig extends Component {
   componentDidMount() {
     axios.post("http://localhost:8080/user", {
         email: this.props.email
-    })
-      .then(res => 
-        this.setState({userId: res.data[0].id})
-      )
-      .catch(err => 
+    }).then(res => 
+       this.setState({userId: res.data[0].id})
+      ).catch(err => 
         console.log(err)
     );
   };

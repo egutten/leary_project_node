@@ -2,21 +2,12 @@ var db = require("../models");
 var passport = require("../config/passport");
 var moment = require("moment");
 
-moment().format();
+const axios = require('axios');
 
 module.exports = function(app) {
-  
-  // app.get("/api", async function(req, res){
-  //   try {
-  //     const users = await db.User.findAll();
-  //     res.json(users);
-  //   }
-  //   catch(err) {
-  //     console.log(err);
-  //     res.status(500);
-  //     res.json({error: err});
-  //   }
-  // });
+//***************************************************************
+//User flow
+//***************************************************************
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
@@ -44,7 +35,22 @@ module.exports = function(app) {
     req.logout();
   });
   
-//Conversion Events
+  //Get user id to associate it to the conversion event created below
+  app.post("/user", async function(req, res){
+    const user = await db.User.findAll({
+      where: {
+        email: req.body.email
+      }
+    }).then(function(user) {
+      res.json(user);
+    }).catch(function(err){
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  });
+  
+//User creates conversion events
   app.post("/ce", function(req, res) {
     const newConversionEvent = db.ConversionEvent.create({
       conversion_event: req.body.conversion_event,
@@ -56,38 +62,23 @@ module.exports = function(app) {
       res.json({error: err});
     });
   });
+  
+  //******************************************************************
+  //Widget-flow
+  //******************************************************************
 
-  //get user id for conversion event.
-  app.post("/user", async function(req, res){
-    try {
-      const user = await db.User.findAll({
-        where: {
-          email: req.body.email
-        }
-      });
-      res.json(user);
-    }
-    catch(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }
-  });
-
-  //create customer on load
+  //Create customer on load
   app.post("/customer", async function(req, res){
     var newCustomer = db.Customer.create()
       .then(function(response) {
         res.json({id: response.dataValues.id});
-      })
-      .catch(function(err) {
+    }).catch(function(err) {
       res.status(500);
       res.json({error: err});
     });
   });
 
-
-  //create customer-acvitity on load
+  //Create customer-acvitity (visit) on load
   app.post("/customer-activity", async function(req, res){
     const newCustomerActivity = db.CustomerActivity.create({
       user_id: req.body.user_id,
@@ -102,7 +93,7 @@ module.exports = function(app) {
     });
   });
   
-  //update customer data upon conversion
+  //Update customer data upon conversion
   app.post("/customer-update", async function(req, res){
     db.Customer.update(
       {
@@ -110,6 +101,74 @@ module.exports = function(app) {
         company_name: req.body.company_name,
         first_name: req.body.first_name,
         last_name: req.body.last_name
+      },
+      {
+      where: {
+        id: req.body.customer_id
+        }
+      }
+    ).then(function() {
+      console.log("customer-update done");
+      res.json("done");
+      // post generate logo url and add to customer data
+      var email = res.req.body.email;
+      var customer_id = res.req.body.customer_id;
+      var emailParse = email.split("@");
+      var url = emailParse[1];
+      axios.post("http://localhost:8080/add-logo", {
+          logo: url,
+          customer_id: customer_id
+        }).then(response => {
+          console.log("logo done");
+        }).catch(err => {
+          console.log(err.message);
+        })
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+  
+  //Get conversion_id for specific user
+  app.post("/conversion-id", async function(req, res){
+    db.ConversionEvent.findAll({
+        where: {
+          user_id: req.body.user_id
+        }
+    }).then(function(response) {
+      res.json(response[0].dataValues.id);
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  })
+  
+  //Create customer activity (conversion) upon conversion
+  app.post("/customer-activity-conversion", async function(req, res){
+    db.CustomerActivity.create(
+      {
+        event: req.body.event,
+        conversion_event_id: req.body.conversion_event_id,
+        customer_id: req.body.customer_id,
+        user_id: req.body.user_id
+      }
+    ).then(function() {
+      console.log("customer-activity-conversion done")
+      res.json("done");
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    });
+  });
+  
+  //Update customer record with logo url (company URL to be used in logo API)
+  app.post("/add-logo", async function(req, res){
+    db.Customer.update(
+      {
+        logo: req.body.logo,
       },
       {
       where: {
@@ -125,14 +184,70 @@ module.exports = function(app) {
     });
   });
   
-  //create customer activity upon conversion
-  app.post("/customer-activity-conversion", async function(req, res){
-    db.CustomerActivity.create(
+  //Check that messages exist
+  app.get("/message-check", async function(req, res){
+    db.CustomerActivity.findAll(
       {
-        event: req.body.event,
-        conversion_event_id: req.body.conversion_event_id,
+        where: {
+          event: "conversion"
+        }
+      }
+    ).then(function(response) {
+      res.json(response);
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  })
+  
+  //Assembling all data to render a message
+  app.post("/message", async function(req, res){
+    db.CustomerActivity.findAll(
+      {
+        limit: 1,
+        where: {
+          event: "conversion",
+          user_id: req.body.user_id
+        },
+        include: [
+        {
+          model: db.ConversionEvent,
+          as: 'ConversionEvent'
+        },
+        { 
+          model: db.Customer,
+          as: 'Customer'
+        }],
+        order: [ ['createdAt', 'DESC'] ]
+      }
+    ).then(function(response) {
+      var created = response[0].dataValues.createdAt
+      var createdAt = moment(created).valueOf();
+      var timestamp = moment(createdAt).fromNow();
+      res.json({
+        conversion_event: response[0].dataValues.ConversionEvent.dataValues.conversion_event,
+        logo: response[0].dataValues.Customer.dataValues.logo,
+        timestamp: timestamp
+        });
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  });
+  
+  //Record message logo that customer saw
+  app.post("/customer-props", async function(req, res){
+    db.CustomerActivity.update(
+      {
+        props: req.body.logo,
+      },
+      {
+      where: {
         customer_id: req.body.customer_id,
-        user_id: req.body.user_id
+        event: "view"
+        }
       }
     ).then(function() {
       res.json("done");
@@ -142,47 +257,4 @@ module.exports = function(app) {
       res.json({error: err});
     });
   });
-  
-  //get conversion event id to retrieve text for message
-  app.get("/conversion-event-id", async function(req, res){
-    db.CustomerActivity.findAll(
-      {
-        limit: 1,
-        where: {
-          event: "conversion",
-        },
-        order: [ ['createdAt', 'DESC'] ]
-      }
-    ).then(function(response) {
-      var created = response[0].dataValues.createdAt
-      var createdAt = moment(created).valueOf();
-      var timestamp = moment(createdAt).fromNow();
-      res.json({
-          timestamp: timestamp,
-          conversion_event_id: response[0].dataValues.conversion_event_id
-      });
-    }).catch(function(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    })
-  })
-  
-  //get conversion text for message from conversion event id
-  app.post("/conversion-event-text", async function(req, res){
-    try {
-      const conversionEvent = await db.ConversionEvent.findAll({
-        where: {
-          id: req.body.id
-        }
-      });
-      res.json(conversionEvent);
-    }
-    catch(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }
-  });
-
 }
