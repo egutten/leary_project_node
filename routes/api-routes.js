@@ -1,24 +1,8 @@
 var db = require("../models");
 var passport = require("../config/passport");
 var moment = require("moment");
-var Queue = require('better-queue');
 
 const axios = require('axios');
-
-var q = new Queue(function(input, cb) {
-  var email = input.email;
-  var customer_id = input.customer_id;
-  var emailParse = email.split("@");
-  var url = emailParse[1];
-  axios.post("http://localhost:8080/add-logo", {
-      logo: url,
-      customer_id: customer_id
-    }).then(response => {
-      console.log("logo done");
-    }).catch(err => {
-      console.log(err.message);
-    })
-})
 
 module.exports = function(app) {
 //***************************************************************
@@ -126,10 +110,19 @@ module.exports = function(app) {
     ).then(function() {
       console.log("customer-update done");
       res.json("done");
-      q.push({
-        email: res.req.body.email,
-        customer_id: res.req.body.customer_id
-      })
+      // post generate logo url and add to customer data
+      var email = res.req.body.email;
+      var customer_id = res.req.body.customer_id;
+      var emailParse = email.split("@");
+      var url = emailParse[1];
+      axios.post("http://localhost:8080/add-logo", {
+          logo: url,
+          customer_id: customer_id
+        }).then(response => {
+          console.log("logo done");
+        }).catch(err => {
+          console.log(err.message);
+        })
     }).catch(function(err) {
       console.log(err);
       res.status(500);
@@ -190,6 +183,23 @@ module.exports = function(app) {
       res.json({error: err});
     });
   });
+  
+  //Check that messages exist
+  app.get("/message-check", async function(req, res){
+    db.CustomerActivity.findAll(
+      {
+        where: {
+          event: "conversion"
+        }
+      }
+    ).then(function(response) {
+      res.json(response);
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    })
+  })
   
   //Assembling all data to render a message
   app.post("/message", async function(req, res){
