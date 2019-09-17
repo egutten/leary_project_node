@@ -13,6 +13,7 @@ module.exports = function(app) {
   app.post("/login", passport.authenticate("local"), function(req, res) {
     res.json(
       {
+        userId: res.req.user.dataValues.id,
         sessionId: res.req.sessionID,
         email: res.req.body.email
       });
@@ -33,21 +34,7 @@ module.exports = function(app) {
 
   app.get("/logout", function(req, res) {
     req.logout();
-  });
-  
-  //Get user id to associate it to the conversion event created below
-  app.post("/user", async function(req, res){
-    const user = await db.User.findAll({
-      where: {
-        email: req.body.email
-      }
-    }).then(function(user) {
-      res.json(user);
-    }).catch(function(err){
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    })
+    res.json("done");
   });
   
 //User creates conversion events
@@ -80,6 +67,8 @@ module.exports = function(app) {
 
   //Create customer-acvitity (visit) on load
   app.post("/customer-activity", async function(req, res){
+    // const customerId = getOrCreateCustomerId()
+    
     const newCustomerActivity = db.CustomerActivity.create({
       user_id: req.body.user_id,
       customer_id: req.body.customer_id,
@@ -223,10 +212,12 @@ module.exports = function(app) {
         order: [ ['createdAt', 'DESC'] ]
       }
     ).then(function(response) {
+      // Check if any rows returned in response (if not, "no messages")
       var created = response[0].dataValues.createdAt
       var createdAt = moment(created).valueOf();
       var timestamp = moment(createdAt).fromNow();
       res.json({
+        // messages: []
         conversion_event: response[0].dataValues.ConversionEvent.dataValues.conversion_event,
         logo: response[0].dataValues.Customer.dataValues.logo,
         timestamp: timestamp

@@ -10,9 +10,24 @@ class Logout extends Component {
   }
   
   render() {
-    return <Redirect to="/login"/>;
+    let authRedirect = null;
+    if (!this.props.isAuthenticated) {
+      authRedirect = <Redirect to='/login' />
+    }
+    
+    return (
+      <div>
+        {authRedirect}
+      </div>
+    );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.loggedIn !== undefined
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -20,4 +35,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Logout);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

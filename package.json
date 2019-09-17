@@ -25,7 +25,8 @@
     "react-scripts": "^2.1.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.18.1"
+    "sequelize": "^5.18.1",
+    "universal-cookie": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

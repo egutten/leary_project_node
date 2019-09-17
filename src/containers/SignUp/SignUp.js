@@ -112,8 +112,6 @@ class SignUp extends Component {
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
     
-    console.log(this.props.isAuthenticated);
-    
     if (this.props.isAuthenticated) {
       this.props.history.push("/convconfig");
     }
@@ -133,7 +131,7 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.sessionId !== null
+    isAuthenticated: state.loggedIn !== undefined
   };
 };
 

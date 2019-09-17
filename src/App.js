@@ -5,19 +5,20 @@ import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
 import Placeholder from './containers/Placeholder';
 import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig'
-// import axios from 'axios';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
+var cookieJar = cookies.get('sessionId');
 
 class App extends Component {
   
-  // componentDidMount() {
-  //   axios.get("http://localhost:8080/api")
-  //     .then(res => console.log(res))
-  //     .catch(err => console.log(err));
-  // };
-  
   render() {
+    
+    console.log(this.props.isAuthenticated);
+    console.log(cookieJar);
     
     let routes = (
       <Switch>
@@ -27,7 +28,7 @@ class App extends Component {
       </Switch>
     );
     
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated || cookieJar !== undefined) {
       routes = (
         <Switch>
           <Route path = "/logout" component={Logout} />
@@ -41,7 +42,7 @@ class App extends Component {
     
     return (
       <React.Fragment> 
-        <Navbar isAuthenticated={this.props.isAuthenticated}/>
+        <Navbar isAuthenticated={this.props.isAuthenticated} cookiePresent={cookieJar !== undefined}/>
         {routes}
       </React.Fragment>   
     );
@@ -50,7 +51,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.sessionId !== null
+    isAuthenticated: state.loggedIn !== undefined
   };
 };
 

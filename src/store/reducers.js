@@ -1,20 +1,27 @@
 import * as actionTypes from './actionTypes';
 import {updateObject} from '../shared/utility';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
+
 
 const initialState = {
-  sessionId: null,
-  email: null,
+  loggedIn: undefined,
+  userId: null
 };
 
 const authSuccess = (state, action) => {
   return updateObject(state, {
-    sessionId: action.sessionId,
-    email: action.email
+    loggedIn: cookies.get('sessionId'),
+    userId: action.userId
   });
 };
 
 const authLogout = (state, action) => {
-  return updateObject(state, {sessionId: null});
+  return updateObject(state, {
+    loggedIn: cookies.get('sessionId')
+  });
 }
 
 const reducer  = (state = initialState, action) => {

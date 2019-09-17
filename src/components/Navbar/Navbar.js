@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 
 const Navbar = (props) => (
   <ul>
-    {props.isAuthenticated ? 
+    {props.isAuthenticated || props.cookiePresent ? 
       <React.Fragment>
         <li><NavLink to="/logout">Logout</ NavLink></li>
         <li><NavLink to="/">Secret Page</ NavLink></li> 

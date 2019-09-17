@@ -16,19 +16,8 @@ class ConversionEventConfig extends Component {
         ]
       },
       value: 'Just signed-up for a trial'
-    },
-    userId: null
+    }
   }
-  
-  componentDidMount() {
-    axios.post("http://localhost:8080/user", {
-        email: this.props.email
-    }).then(res => 
-       this.setState({userId: res.data[0].id})
-      ).catch(err => 
-        console.log(err)
-    );
-  };
   
   inputChangedHandler = (event) => {
     const updatedConfig = updateObject(this.state.conversion_event, {
@@ -41,7 +30,7 @@ class ConversionEventConfig extends Component {
     event.preventDefault();
     axios.post("http://localhost:8080/ce", {
       conversion_event: this.state.conversion_event.value,
-      user_id: this.state.userId
+      user_id: this.props.userId
     })
     .then(response => {
       this.props.history.push('/');
@@ -70,7 +59,7 @@ class ConversionEventConfig extends Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.email
+    userId: state.userId
   };
 };
 
