@@ -23,7 +23,7 @@ module.exports = function(app) {
     const newUser = db.User.create({
       email: req.body.email,
       password: req.body.password,
-      company_name: req.body.company_name
+      company_name: req.body.company_namenode 
     }).then(function() {
       res.json(newUser);
     }).catch(function(err) {
@@ -54,32 +54,46 @@ module.exports = function(app) {
   //Widget-flow
   //******************************************************************
 
-  //Create customer on load
-  app.post("/customer", async function(req, res){
-    var newCustomer = db.Customer.create()
-      .then(function(response) {
-        res.json({id: response.dataValues.id});
-    }).catch(function(err) {
-      res.status(500);
-      res.json({error: err});
-    });
-  });
-
   //Create customer-acvitity (visit) on load
   app.post("/customer-activity", async function(req, res){
-    // const customerId = getOrCreateCustomerId()
-    
-    const newCustomerActivity = db.CustomerActivity.create({
-      user_id: req.body.user_id,
-      customer_id: req.body.customer_id,
-      event: req.body.event
-    }).then(function() {
-      res.json(newCustomerActivity);
-    }).catch(function(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    });
+    // console.log(req.body.event);
+    // if (req.body.event === "view") {
+    //   console.log("hey!");
+      var newCustomer = db.Customer.create()
+        .then(function() {
+          res.json(newCustomer);
+          const newCustomerActivity = db.CustomerActivity.create({
+            user_id: req.body.user_id,
+            customer_id: response.dataValues.id,
+            event: req.body.event
+          }).then(function() {
+            res.json(newCustomerActivity);
+          }).catch(function(err) {
+            console.log(err);
+            res.status(500);
+            res.json({error: err});
+          });
+      }).catch(function(err) {
+        res.status(500);
+        res.json({error: err});
+      });
+    // } else {
+    //   db.CustomerActivity.create(
+    //     {
+    //       event: req.body.event,
+    //       conversion_event_id: req.body.conversion_event_id,
+    //       customer_id: req.body.customer_id,
+    //       user_id: req.body.user_id
+    //     }
+    //   ).then(function() {
+    //     console.log("customer-activity-conversion done")
+    //     res.json("done");
+    //   }).catch(function(err) {
+    //     console.log(err);
+    //     res.status(500);
+    //     res.json({error: err});
+    //   });
+    // }
   });
   
   //Update customer data upon conversion
@@ -135,23 +149,7 @@ module.exports = function(app) {
   })
   
   //Create customer activity (conversion) upon conversion
-  app.post("/customer-activity-conversion", async function(req, res){
-    db.CustomerActivity.create(
-      {
-        event: req.body.event,
-        conversion_event_id: req.body.conversion_event_id,
-        customer_id: req.body.customer_id,
-        user_id: req.body.user_id
-      }
-    ).then(function() {
-      console.log("customer-activity-conversion done")
-      res.json("done");
-    }).catch(function(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    });
-  });
+  
   
   //Update customer record with logo url (company URL to be used in logo API)
   app.post("/add-logo", async function(req, res){
