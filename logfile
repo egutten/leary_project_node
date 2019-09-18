@@ -167,3 +167,6 @@
 2019-09-17 21:39:11.163 PDT [7843] LOG:  database system is ready to accept connections
 2019-09-17 21:49:08.780 PDT [15028] ERROR:  relation "customers" does not exist at character 16
 2019-09-17 21:49:08.780 PDT [15028] STATEMENT:   SELECT * FROM CUSTOMERS;
+2019-09-18 10:29:33.570 PDT [15028] ERROR:  syntax error at or near "ELECT" at character 1
+2019-09-18 10:29:33.570 PDT [15028] STATEMENT:  ELECT * FROM "CustomerActivities"
+	  ORDER BY id;
