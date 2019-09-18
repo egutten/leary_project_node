@@ -170,3 +170,8 @@
 2019-09-18 10:29:33.570 PDT [15028] ERROR:  syntax error at or near "ELECT" at character 1
 2019-09-18 10:29:33.570 PDT [15028] STATEMENT:  ELECT * FROM "CustomerActivities"
 	  ORDER BY id;
+2019-09-18 13:45:35.744 PDT [30620] ERROR:  invalid input syntax for integer: "NaN"
+2019-09-18 13:45:35.744 PDT [30620] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"conversion_event_id"=$2,"updatedAt"=$3 WHERE "customer_id" = $4 AND "event" = $5
+2019-09-18 14:05:09.111 PDT [15028] ERROR:  syntax error at or near "*" at character 9
+2019-09-18 14:05:09.111 PDT [15028] STATEMENT:   DELETE * FROM "CustomerActivities"
+2019-09-18 15:14:04.679 PDT [82000] LOG:  unexpected EOF on client connection with an open transaction

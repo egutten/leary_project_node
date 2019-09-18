@@ -60,7 +60,6 @@ module.exports = function(app) {
         var rawData = JSON.stringify(response);
         var data = JSON.parse(rawData);
         return data.id;
-        // return customer.dataValues.id;
       });
       const activity = {
         user_id: req.body.user_id,
@@ -142,21 +141,6 @@ module.exports = function(app) {
     });  
   })    
   
-  //Get conversion_id for specific user
-  app.post("/conversion-id", async function(req, res){
-    db.ConversionEvent.findAll({
-        where: {
-          user_id: req.body.user_id
-        }
-    }).then(function(response) {
-      res.json(response[0].dataValues.id);
-    }).catch(function(err) {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    });
-  })
-  
   //Check for messages, render them, then record views
   app.post("/messages", async function(req, res){
     const checkMessages = db.CustomerActivity.findAll({
@@ -197,32 +181,37 @@ module.exports = function(app) {
         timestamp: timestamp,
         logo: data[0].Customer.logo,
         conversion_event: data[0].ConversionEvent.conversion_event,
-        conversion_event_id: data[0].ConversionEvent.id,
+        conversion_event_id: data[0].ConversionEvent.id
       }
+    });
+    const recordMessageView = sendMessageData.then((response) => {
+      db.CustomerActivity.update({
+          props: response.logo,
+          conversion_event_id: response.conversion_event_id
+        },
+        {
+        where: {
+          customer_id: req.body.customer_id,
+          event: "view"
+        }
+      });
+      return response;
     });
     
     getMessageNumber
     .then((value) => {
       if (value > 0) {
-        sendMessageData
+        recordMessageView
         .then((value) => {
-          db.CustomerActivity.update({
-              props: value.logo,
-              conversion_event_id: value.conversion_event_id
-            },
-            {
-            where: {
-              customer_id: req.body.customer_id,
-              event: "view"
-            }
-          });
           res.json(value);
-        }).catch(function(err) {
-          console.log(err);
-          res.status(500);
-          res.json({error: err});
-        });   
+        })  
+      } else {
+        console.log(value);
       }
-    })
+    }).catch(function(err) {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    }); 
   });  
 }
