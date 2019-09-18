@@ -56,18 +56,17 @@ module.exports = function(app) {
 
   //Create customer-acvitity (visit) on load
   app.post("/customer-activity", async function(req, res){
-    // console.log(req.body.event);
-    // if (req.body.event === "view") {
-    //   console.log("hey!");
+    if (req.body.event === "view") {
       var newCustomer = db.Customer.create()
-        .then(function() {
-          res.json(newCustomer);
+        .then(function(response) {
+          // res.json(newCustomer);
+          const customerId = response.dataValues.id;
           const newCustomerActivity = db.CustomerActivity.create({
             user_id: req.body.user_id,
-            customer_id: response.dataValues.id,
+            customer_id: customerId,
             event: req.body.event
           }).then(function() {
-            res.json(newCustomerActivity);
+            res.json({customer_id: customerId});
           }).catch(function(err) {
             console.log(err);
             res.status(500);
@@ -77,6 +76,7 @@ module.exports = function(app) {
         res.status(500);
         res.json({error: err});
       });
+    }
     // } else {
     //   db.CustomerActivity.create(
     //     {
