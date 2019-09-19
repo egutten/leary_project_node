@@ -11,10 +11,16 @@ module.exports = function(app) {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), function(req, res) {
+    var rawUserData = JSON.stringify(res.req.user);
+    var rawSessionData = JSON.stringify(res.req.session);
+    var data = {
+      userData: JSON.parse(rawUserData),
+      sessionData: JSON.parse(rawSessionData),
+    }
     res.json({
-        userId: res.req.user.dataValues.id,
-        sessionId: res.req.sessionID,
-        email: res.req.body.email
+        userId: data.userData.id,
+        expiration: data.sessionData.cookie.expires,
+        email: data.userData.email
       });
   });
 
