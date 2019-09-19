@@ -169,7 +169,7 @@ module.exports = (app) => {
     function getMessageData() {
       return new Promise((resolve, reject) => {
         db.CustomerActivity.findAll({
-          limit: 1,
+          limit: 5,
           where: {
             event: "conversion",
             user_id: req.body.user_id
@@ -184,18 +184,23 @@ module.exports = (app) => {
             as: 'Customer'
           }],
           order: [ ['createdAt', 'DESC'] ]
-        }).then((activity) => {
-          const rawData = JSON.stringify(activity);
-          const data = JSON.parse(rawData);
-          const created = data[0].createdAt;
-          const createdAt = moment(created).valueOf();
-          const timestamp = moment(createdAt).fromNow();
-          resolve({
-            timestamp: timestamp,
-            logo: data[0].Customer.logo,
-            conversion_event: data[0].ConversionEvent.conversion_event,
-            conversion_event_id: data[0].ConversionEvent.id
-          })
+        }).then((activities) => {
+          const messages = [];
+          for (i = 0; i < activities.length; i++) {
+            const rawData = JSON.stringify(activities[i]);
+            const data = JSON.parse(rawData);
+            const created = data.createdAt;
+            const createdAt = moment(created).valueOf();
+            const timestamp = moment(createdAt).fromNow();
+            const messageData = {
+              timestamp: timestamp,
+              logo: data.Customer.logo,
+              conversion_event: data.ConversionEvent.conversion_event,
+              conversion_event_id: data.ConversionEvent.id
+            }
+            messages.push(messageData);
+          }
+          resolve(messages);
         }).catch((err) => {
           console.log(err);
           res.status(500);
@@ -222,8 +227,8 @@ module.exports = (app) => {
       if (response > 0) {
         getMessageData()
         .then((response) => {
-          res.json(response);
-          recordMessageView(response);
+          res.json(response[0]);
+          recordMessageView(response[0]);
         })
       } else {
         return
