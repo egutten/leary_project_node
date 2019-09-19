@@ -7,18 +7,12 @@ import Placeholder from './containers/Placeholder';
 import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig'
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
-
-var cookieJar = cookies.get('sessionId');
 
 class App extends Component {
   
   render() {
     
     console.log(this.props.isAuthenticated);
-    console.log(cookieJar);
     
     let routes = (
       <Switch>
@@ -28,7 +22,7 @@ class App extends Component {
       </Switch>
     );
     
-    if (this.props.isAuthenticated || cookieJar !== undefined) {
+    if (this.props.isAuthenticated) {
       routes = (
         <Switch>
           <Route path = "/logout" component={Logout} />
@@ -42,7 +36,7 @@ class App extends Component {
     
     return (
       <React.Fragment> 
-        <Navbar isAuthenticated={this.props.isAuthenticated} cookiePresent={cookieJar !== undefined}/>
+        <Navbar isAuthenticated={this.props.isAuthenticated}/>
         {routes}
       </React.Fragment>   
     );
@@ -51,7 +45,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.loggedIn !== undefined
+    isAuthenticated: state.userId !== null
   };
 };
 

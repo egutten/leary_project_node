@@ -1,26 +1,19 @@
 import * as actionTypes from './actionTypes';
 import {updateObject} from '../shared/utility';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
-
-
 
 const initialState = {
-  loggedIn: undefined,
   userId: null
 };
 
 const authSuccess = (state, action) => {
   return updateObject(state, {
-    loggedIn: cookies.get('sessionId'),
     userId: action.userId
   });
 };
 
 const authLogout = (state, action) => {
   return updateObject(state, {
-    loggedIn: cookies.get('sessionId')
+    userId: null
   });
 }
 

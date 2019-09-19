@@ -131,7 +131,7 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.loggedIn !== undefined
+    isAuthenticated: state.userId !== null
   };
 };
 

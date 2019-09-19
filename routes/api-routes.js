@@ -28,10 +28,11 @@ module.exports = function(app) {
     const newUser = db.User.create({
       email: req.body.email,
       password: req.body.password,
-      company_name: req.body.company_namenode 
+      company_name: req.body.company_name
     }).then(function() {
       res.json(newUser);
     }).catch(function(err) {
+      console.log(err);
       res.status(500);
       res.json({error: err});
     });

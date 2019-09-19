@@ -175,3 +175,5 @@
 2019-09-18 14:05:09.111 PDT [15028] ERROR:  syntax error at or near "*" at character 9
 2019-09-18 14:05:09.111 PDT [15028] STATEMENT:   DELETE * FROM "CustomerActivities"
 2019-09-18 15:14:04.679 PDT [82000] LOG:  unexpected EOF on client connection with an open transaction
+2019-09-19 08:42:37.910 PDT [15028] ERROR:  unterminated quoted identifier at or near ""Users;" at character 16
+2019-09-19 08:42:37.910 PDT [15028] STATEMENT:   SELECT * FROM "Users;
