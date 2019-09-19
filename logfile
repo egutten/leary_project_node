@@ -177,3 +177,6 @@
 2019-09-18 15:14:04.679 PDT [82000] LOG:  unexpected EOF on client connection with an open transaction
 2019-09-19 08:42:37.910 PDT [15028] ERROR:  unterminated quoted identifier at or near ""Users;" at character 16
 2019-09-19 08:42:37.910 PDT [15028] STATEMENT:   SELECT * FROM "Users;
+2019-09-19 14:13:29.324 PDT [81102] ERROR:  insert or update on table "CustomerActivities" violates foreign key constraint "CustomerActivities_conversion_event_id_fkey"
+2019-09-19 14:13:29.324 PDT [81102] DETAIL:  Key (conversion_event_id)=(256) is not present in table "ConversionEvents".
+2019-09-19 14:13:29.324 PDT [81102] STATEMENT:  INSERT INTO "CustomerActivities" ("id","event","conversion_event_id","user_id","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;

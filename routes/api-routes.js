@@ -1,6 +1,6 @@
-var db = require("../models");
-var passport = require("../config/passport");
-var moment = require("moment");
+const db = require("../models");
+const passport = require("../config/passport");
+const moment = require("moment");
 
 const axios = require('axios');
 
@@ -11,9 +11,9 @@ module.exports = (app) => {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), (req, res) => {
-    var rawUserData = JSON.stringify(res.req.user);
-    var rawSessionData = JSON.stringify(res.req.session);
-    var data = {
+    const rawUserData = JSON.stringify(res.req.user);
+    const rawSessionData = JSON.stringify(res.req.session);
+    const data = {
       userData: JSON.parse(rawUserData),
       sessionData: JSON.parse(rawSessionData),
     }
@@ -59,90 +59,89 @@ module.exports = (app) => {
   //******************************************************************
   //Widget-flow
   //******************************************************************
-  
+
   //Create customer activities for views and conversions
-    app.post("/customer-activity", (req, res) => {
-      const createCustomer = db.Customer.create();
-      const customerIdPromise = createCustomer.then((response) => {
-        var rawData = JSON.stringify(response);
-        var data = JSON.parse(rawData);
-        return data.id;
+  app.post("/customer-activity", (req, res) => {
+    const activity = {
+      user_id: req.body.user_id,
+      event: req.body.event,
+      conversion_event_id: req.body.conversion_event_id,
+      customer_id: req.body.customer_id
+    };
+    
+    function createCustomer() {
+      return new Promise((resolve, reject) => {
+        db.Customer.create()
+        .then((response) => {
+          res.json(response.id);
+          resolve(response.id);
+        });
       });
-      const activity = {
-        user_id: req.body.user_id,
-        event: req.body.event,
-        conversion_event_id: req.body.conversion_event_id,
-        customer_id: req.body.customer_id
-      };
-      
-      if (!req.body.customer_id) {
-        customerIdPromise
-        .then((value) => {
-            return db.CustomerActivity.create({
-                user_id: activity.user_id,
-                customer_id: value,
-                event: activity.event
-            })
-          }).then((response) => {
-            var rawData = JSON.stringify(response);
-            var data = JSON.parse(rawData);
-            res.json(data.customer_id);
-          }).catch((err) => {
-            console.log(err);
-            res.status(500);
-            res.json({error: err});
-          });
-        } else {
-          db.CustomerActivity.create({
-            event: activity.event,
-            conversion_event_id: activity.conversion_event_id,
-            customer_id: activity.customer_id,
-            user_id: activity.user_id
-          }).then(() => {
-              res.json("done");
-          }).catch((err) => {
-            console.log(err);
-            res.status(500);
-            res.json({error: err});
-          });
-        }
-      })  
+    }   
+    
+    function trackActivity(response) {
+      db.CustomerActivity.create({
+        event: activity.event,
+        conversion_event_id: activity.conversion_event_id,
+        customer_id: activity.customer_id || response,
+        user_id: activity.user_id
+      })
+    }
+    
+    if (activity.event === "view") {
+      createCustomer()
+      .then((response) => {
+        trackActivity(response);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      });  
+    } else {
+      trackActivity();
+    }    
+  });  
   
   //Update customer data upon conversion
   app.post("/customer-update", (req, res) => {
-    const updateCustomer = db.Customer.update({
-        email: req.body.email,
-        company_name: req.body.company_name,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
-      },
-      {
-      where: {
-        id: req.body.customer_id
-        }
-      });
-    const customerDataPromise = updateCustomer.then(() => {
-      const email = req.body.email;
-      const emailParse = email.split("@");
-      const url = emailParse[1];
-      return { 
-         url: url,
-         customer_id: req.body.customer_id,
-       }
-    });
-    
-    customerDataPromise
-    .then((value) => {
-      db.Customer.update({
-        logo: value.url
-      },
-      {
+    function updateCustomerContact() {
+      return new Promise((resolve, reject) => {
+        db.Customer.update({
+          email: req.body.email,
+          company_name: req.body.company_name,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name
+        },
+        {
         where: {
-          id: value.customer_id
-        }
-      });
-    }).then(() => {
-        res.json("done");
+          id: req.body.customer_id
+          }
+        }).then(() => {
+          const email = req.body.email;
+          const emailParse = email.split("@");
+          const url = emailParse[1];
+          resolve({ 
+             url: url,
+             customer_id: req.body.customer_id
+           });
+         });
+       });
+     }  
+     
+     function updateCustomerLogo(response) {
+       db.Customer.update({
+         logo: response.url
+       },
+       {
+         where: {
+           id: response.customer_id
+         }
+       });
+     }
+
+    updateCustomerContact()
+    .then((response) => {
+      updateCustomerLogo(response);
     }).catch((err) => {
       console.log(err);
       res.status(500);
@@ -151,49 +150,61 @@ module.exports = (app) => {
   })    
   
   //Check for messages, render them, then record views
-  app.post("/messages", (req, res) => {
-    const checkMessages = db.CustomerActivity.findAll({
-      where: {
-        event: "conversion",
-        user_id: req.body.user_id
-      }
-    });
-    const getMessageNumber = checkMessages.then((response) => {
-      var rawData = JSON.stringify(response);
-      var data = JSON.parse(rawData);
-      return data.length;
-    });
-    const findMessages = db.CustomerActivity.findAll({
-        limit: 1,
-        where: {
-          event: "conversion",
-          user_id: req.body.user_id
-        },
-        include: [
-        {
-          model: db.ConversionEvent,
-          as: 'ConversionEvent'
-        },
-        { 
-          model: db.Customer,
-          as: 'Customer'
-        }],
-        order: [ ['createdAt', 'DESC'] ]
-    });
-    const sendMessageData = findMessages.then((activity) => {
-      var rawData = JSON.stringify(activity);
-      var data = JSON.parse(rawData);
-      var created = data[0].createdAt;
-      var createdAt = moment(created).valueOf();
-      var timestamp = moment(createdAt).fromNow();
-      return {
-        timestamp: timestamp,
-        logo: data[0].Customer.logo,
-        conversion_event: data[0].ConversionEvent.conversion_event,
-        conversion_event_id: data[0].ConversionEvent.id
-      }
-    });
-    const recordMessageView = sendMessageData.then((response) => {
+  app.post("/messages", (req, res) => {   
+    function getMessageNumber() {
+      return new Promise((resolve, reject) => {
+        db.CustomerActivity.findAll({
+          where: {
+            event: "conversion",
+            user_id: req.body.user_id
+          }
+        }).then((response) => {
+          const rawData = JSON.stringify(response);
+          const data = JSON.parse(rawData);
+          resolve(data.length);
+        });
+      })
+    } 
+    
+    function getMessageData() {
+      return new Promise((resolve, reject) => {
+        db.CustomerActivity.findAll({
+          limit: 1,
+          where: {
+            event: "conversion",
+            user_id: req.body.user_id
+          },
+          include: [
+          {
+            model: db.ConversionEvent,
+            as: 'ConversionEvent'
+          },
+          { 
+            model: db.Customer,
+            as: 'Customer'
+          }],
+          order: [ ['createdAt', 'DESC'] ]
+        }).then((activity) => {
+          const rawData = JSON.stringify(activity);
+          const data = JSON.parse(rawData);
+          const created = data[0].createdAt;
+          const createdAt = moment(created).valueOf();
+          const timestamp = moment(createdAt).fromNow();
+          resolve({
+            timestamp: timestamp,
+            logo: data[0].Customer.logo,
+            conversion_event: data[0].ConversionEvent.conversion_event,
+            conversion_event_id: data[0].ConversionEvent.id
+          })
+        }).catch((err) => {
+          console.log(err);
+          res.status(500);
+          res.json({error: err});
+        });    
+      })
+    } 
+
+    function recordMessageView(response) {
       db.CustomerActivity.update({
           props: response.logo,
           conversion_event_id: response.conversion_event_id
@@ -203,19 +214,19 @@ module.exports = (app) => {
           customer_id: req.body.customer_id,
           event: "view"
         }
-      });
-      return response;
-    });
+      })
+    } 
     
-    getMessageNumber
-    .then((value) => {
-      if (value > 0) {
-        recordMessageView
-        .then((value) => {
-          res.json(value);
-        })  
+    getMessageNumber()
+    .then((response) => {
+      if (response > 0) {
+        getMessageData()
+        .then((response) => {
+          res.json(response);
+          recordMessageView(response);
+        })
       } else {
-        console.log(value);
+        return
       }
     }).catch((err) => {
       console.log(err);
