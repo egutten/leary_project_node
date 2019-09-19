@@ -4,13 +4,13 @@ var moment = require("moment");
 
 const axios = require('axios');
 
-module.exports = function(app) {
+module.exports = (app) => {
 //***************************************************************
 //User flow
 //***************************************************************
 
 //Authentication
-  app.post("/login", passport.authenticate("local"), function(req, res) {
+  app.post("/login", passport.authenticate("local"), (req, res) => {
     var rawUserData = JSON.stringify(res.req.user);
     var rawSessionData = JSON.stringify(res.req.session);
     var data = {
@@ -24,33 +24,33 @@ module.exports = function(app) {
       });
   });
 
-  app.post("/signup", function(req, res) {
+  app.post("/signup", (req, res) => {
     const newUser = db.User.create({
       email: req.body.email,
       password: req.body.password,
       company_name: req.body.company_name
-    }).then(function() {
+    }).then(() => {
       res.json(newUser);
-    }).catch(function(err) {
+    }).catch((err) => {
       console.log(err);
       res.status(500);
       res.json({error: err});
     });
   });
 
-  app.get("/logout", function(req, res) {
+  app.get("/logout", (req, res) => {
     req.logout();
     res.json("done");
   });
   
 //User creates conversion events
-  app.post("/ce", function(req, res) {
+  app.post("/ce", (req, res) => {
     db.ConversionEvent.create({
       conversion_event: req.body.conversion_event,
       user_id: req.body.user_id
-    }).then(function() {
+    }).then(() => {
       res.json("done");
-    }).catch(function(err) {
+    }).catch((err) => {
       res.status(500);
       res.json({error: err});
     });
@@ -61,7 +61,7 @@ module.exports = function(app) {
   //******************************************************************
   
   //Create customer activities for views and conversions
-    app.post("/customer-activity", async function(req, res){
+    app.post("/customer-activity", (req, res) => {
       const createCustomer = db.Customer.create();
       const customerIdPromise = createCustomer.then((response) => {
         var rawData = JSON.stringify(response);
@@ -83,9 +83,11 @@ module.exports = function(app) {
                 customer_id: value,
                 event: activity.event
             })
-          }).then(function(response) {
-              res.json(response.dataValues.customer_id);
-          }).catch(function(err) {
+          }).then((response) => {
+            var rawData = JSON.stringify(response);
+            var data = JSON.parse(rawData);
+            res.json(data.customer_id);
+          }).catch((err) => {
             console.log(err);
             res.status(500);
             res.json({error: err});
@@ -96,9 +98,9 @@ module.exports = function(app) {
             conversion_event_id: activity.conversion_event_id,
             customer_id: activity.customer_id,
             user_id: activity.user_id
-          }).then(function() {
+          }).then(() => {
               res.json("done");
-          }).catch(function(err) {
+          }).catch((err) => {
             console.log(err);
             res.status(500);
             res.json({error: err});
@@ -107,7 +109,7 @@ module.exports = function(app) {
       })  
   
   //Update customer data upon conversion
-  app.post("/customer-update", async function(req, res){
+  app.post("/customer-update", (req, res) => {
     const updateCustomer = db.Customer.update({
         email: req.body.email,
         company_name: req.body.company_name,
@@ -139,9 +141,9 @@ module.exports = function(app) {
           id: value.customer_id
         }
       });
-    }).then(function() {
+    }).then(() => {
         res.json("done");
-    }).catch(function(err) {
+    }).catch((err) => {
       console.log(err);
       res.status(500);
       res.json({error: err});
@@ -149,7 +151,7 @@ module.exports = function(app) {
   })    
   
   //Check for messages, render them, then record views
-  app.post("/messages", async function(req, res){
+  app.post("/messages", (req, res) => {
     const checkMessages = db.CustomerActivity.findAll({
       where: {
         event: "conversion",
@@ -215,7 +217,7 @@ module.exports = function(app) {
       } else {
         console.log(value);
       }
-    }).catch(function(err) {
+    }).catch((err) => {
       console.log(err);
       res.status(500);
       res.json({error: err});

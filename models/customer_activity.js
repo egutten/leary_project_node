@@ -1,4 +1,4 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   
   var CustomerActivity = sequelize.define("CustomerActivity", {
     event: {

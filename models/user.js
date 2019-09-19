@@ -3,7 +3,7 @@ ConversionEvent = require("./conversion_events");
 CustomerActivity = require("./customer_activity");
 
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define("User", {
     email: {
       type: DataTypes.STRING,

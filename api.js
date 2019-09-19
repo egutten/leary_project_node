@@ -24,8 +24,8 @@ app.use(passport.session());
 require("./routes/api-routes.js")(app);
 
 //Server
-db.sequelize.sync().then(function(){
-  app.listen(8080, function() {
+db.sequelize.sync().then(() => {
+  app.listen(8080, () => {
     console.log("API listening on http://localhost:8080");
   });
 });
