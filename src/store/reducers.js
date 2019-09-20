@@ -2,19 +2,19 @@ import * as actionTypes from './actionTypes';
 import {updateObject} from '../shared/utility';
 
 const initialState = {
-  sessionId: null,
-  email: null,
+  userId: null
 };
 
 const authSuccess = (state, action) => {
   return updateObject(state, {
-    sessionId: action.sessionId,
-    email: action.email
+    userId: action.userId
   });
 };
 
 const authLogout = (state, action) => {
-  return updateObject(state, {sessionId: null});
+  return updateObject(state, {
+    userId: null
+  });
 }
 
 const reducer  = (state = initialState, action) => {

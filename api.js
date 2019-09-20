@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 // We need to use sessions to keep track of our user's login status
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true, cookie: {maxAge: 60000} }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -24,8 +24,8 @@ app.use(passport.session());
 require("./routes/api-routes.js")(app);
 
 //Server
-db.sequelize.sync().then(function(){
-  app.listen(8080, function() {
+db.sequelize.sync().then(() => {
+  app.listen(8080, () => {
     console.log("API listening on http://localhost:8080");
   });
 });

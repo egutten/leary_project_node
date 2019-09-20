@@ -101,7 +101,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.sessionId !== null
+    isAuthenticated: state.userId !== null
   };
 };
 

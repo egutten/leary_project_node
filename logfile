@@ -123,3 +123,60 @@
 2019-09-06 14:29:48.321 PDT [91305] ERROR:  duplicate key value violates unique constraint "Users_email_key"
 2019-09-06 14:29:48.321 PDT [91305] DETAIL:  Key (email)=(testy@test.com) already exists.
 2019-09-06 14:29:48.321 PDT [91305] STATEMENT:  INSERT INTO "Users" ("id","email","password","company_name","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;
+2019-09-17 14:23:05.412 PDT [42062] LOG:  listening on IPv6 address "::1", port 5432
+2019-09-17 14:23:05.412 PDT [42062] LOG:  listening on IPv6 address "fe80::1%lo0", port 5432
+2019-09-17 14:23:05.412 PDT [42062] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-09-17 14:23:05.414 PDT [42062] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-09-17 14:23:05.531 PDT [42063] LOG:  database system was interrupted; last known up at 2019-09-17 11:47:45 PDT
+2019-09-17 14:23:05.732 PDT [42063] LOG:  database system was not properly shut down; automatic recovery in progress
+2019-09-17 14:23:05.736 PDT [42063] LOG:  redo starts at 0/1FF66C8
+2019-09-17 14:23:05.739 PDT [42063] LOG:  invalid record length at 0/1FF8F38: wanted 24, got 0
+2019-09-17 14:23:05.739 PDT [42063] LOG:  redo done at 0/1FF8F00
+2019-09-17 14:23:05.739 PDT [42063] LOG:  last completed transaction was at log time 2019-09-17 12:33:22.345414-07
+2019-09-17 14:23:05.750 PDT [42062] LOG:  database system is ready to accept connections
+2019-09-17 14:41:29.877 PDT [54236] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:41:29.877 PDT [54236] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:42:47.487 PDT [55125] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:42:47.487 PDT [55125] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:43:21.762 PDT [55463] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:43:21.762 PDT [55463] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:43:24.250 PDT [55463] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:43:24.250 PDT [55463] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:43:35.989 PDT [55586] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:43:35.989 PDT [55586] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:45:14.238 PDT [56604] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:45:14.238 PDT [56604] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:45:28.604 PDT [56830] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:45:28.604 PDT [56830] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:46:15.543 PDT [57385] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:46:15.543 PDT [57385] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 14:46:27.276 PDT [57508] ERROR:  invalid input syntax for integer: "undefined"
+2019-09-17 14:46:27.276 PDT [57508] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"updatedAt"=$2 WHERE "customer_id" = $3 AND "event" = $4
+2019-09-17 18:18:26.613 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:27.289 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:27.289 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:27.961 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:27.968 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:28.598 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:28.602 PDT [42068] LOG:  could not open temporary statistics file "pg_stat_tmp/global.tmp": No space left on device
+2019-09-17 18:18:29.266 PDT [42068] LOG:  could not open tempor2019-09-17 21:39:11.128 PDT [7843] LOG:  listening on IPv6 address "::1", port 5432
+2019-09-17 21:39:11.129 PDT [7843] LOG:  listening on IPv6 address "fe80::1%lo0", port 5432
+2019-09-17 21:39:11.130 PDT [7843] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-09-17 21:39:11.130 PDT [7843] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-09-17 21:39:11.159 PDT [7844] LOG:  database system was shut down at 2019-09-17 21:38:38 PDT
+2019-09-17 21:39:11.163 PDT [7843] LOG:  database system is ready to accept connections
+2019-09-17 21:49:08.780 PDT [15028] ERROR:  relation "customers" does not exist at character 16
+2019-09-17 21:49:08.780 PDT [15028] STATEMENT:   SELECT * FROM CUSTOMERS;
+2019-09-18 10:29:33.570 PDT [15028] ERROR:  syntax error at or near "ELECT" at character 1
+2019-09-18 10:29:33.570 PDT [15028] STATEMENT:  ELECT * FROM "CustomerActivities"
+	  ORDER BY id;
+2019-09-18 13:45:35.744 PDT [30620] ERROR:  invalid input syntax for integer: "NaN"
+2019-09-18 13:45:35.744 PDT [30620] STATEMENT:  UPDATE "CustomerActivities" SET "props"=$1,"conversion_event_id"=$2,"updatedAt"=$3 WHERE "customer_id" = $4 AND "event" = $5
+2019-09-18 14:05:09.111 PDT [15028] ERROR:  syntax error at or near "*" at character 9
+2019-09-18 14:05:09.111 PDT [15028] STATEMENT:   DELETE * FROM "CustomerActivities"
+2019-09-18 15:14:04.679 PDT [82000] LOG:  unexpected EOF on client connection with an open transaction
+2019-09-19 08:42:37.910 PDT [15028] ERROR:  unterminated quoted identifier at or near ""Users;" at character 16
+2019-09-19 08:42:37.910 PDT [15028] STATEMENT:   SELECT * FROM "Users;
+2019-09-19 14:13:29.324 PDT [81102] ERROR:  insert or update on table "CustomerActivities" violates foreign key constraint "CustomerActivities_conversion_event_id_fkey"
+2019-09-19 14:13:29.324 PDT [81102] DETAIL:  Key (conversion_event_id)=(256) is not present in table "ConversionEvents".
+2019-09-19 14:13:29.324 PDT [81102] STATEMENT:  INSERT INTO "CustomerActivities" ("id","event","conversion_event_id","user_id","createdAt","updatedAt") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING *;

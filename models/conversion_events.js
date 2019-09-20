@@ -1,6 +1,6 @@
 CustomerActivity = require("./customer_activity");
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   
   var ConversionEvent = sequelize.define("ConversionEvent", {
     conversion_event: {
