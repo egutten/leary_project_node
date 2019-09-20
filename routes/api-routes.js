@@ -48,8 +48,10 @@ module.exports = (app) => {
     db.ConversionEvent.create({
       conversion_event: req.body.conversion_event,
       user_id: req.body.user_id
-    }).then(() => {
-      res.json("done");
+    }).then((response) => {
+      const rawData = JSON.stringify(response);
+      const data = JSON.parse(rawData);
+      res.json(data.id);
     }).catch((err) => {
       res.status(500);
       res.json({error: err});
