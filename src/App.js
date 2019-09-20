@@ -3,6 +3,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
+import UserPage from './containers/UserPage/UserPage';
 import Placeholder from './containers/Placeholder';
 import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig';
 import Snippet from './containers/Snippet/Snippet';
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path="/signup" component={SignUp}/>
           <Route path = "/convconfig" component={ConversionEventConfig} />
           <Route path = "/snippet" component={Snippet} />
+          <Route path = "/userpage" component={UserPage} />
           <Route path = "/" component={Placeholder} />
         </Switch>
       );

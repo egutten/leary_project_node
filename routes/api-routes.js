@@ -45,17 +45,44 @@ module.exports = (app) => {
   
 //User creates conversion events
   app.post("/ce", (req, res) => {
-    db.ConversionEvent.create({
-      conversion_event: req.body.conversion_event,
-      user_id: req.body.user_id
-    }).then((response) => {
-      const rawData = JSON.stringify(response);
-      const data = JSON.parse(rawData);
-      res.json(data.id);
+    function checkUserConversionEvents() {
+      return new Promise((resolve, reject) => {
+        db.ConversionEvent.findAll({
+          where: {
+            conversion_event: req.body.conversion_event,
+            user_id: req.body.user_id
+          }
+        }).then((response) => {
+          const rawData = JSON.stringify(response);
+          const data = JSON.parse(rawData);
+          resolve(data);
+        });
+      })   
+    }
+    
+    function createConversionEvent() {
+      db.ConversionEvent.create({
+        conversion_event: req.body.conversion_event,
+        user_id: req.body.user_id
+      }).then((response) => {
+        const rawData = JSON.stringify(response);
+        const data = JSON.parse(rawData);
+        res.json(data.id);
+      })
+    }
+    
+    checkUserConversionEvents()
+    .then((response) => {
+      if (!response.length > 0) {
+        createConversionEvent()
+      } else {
+        res.json(response[response.length-1].id);
+      }  
     }).catch((err) => {
+      console.log(err);
       res.status(500);
       res.json({error: err});
-    });
+    }); 
   });
   
   //******************************************************************
