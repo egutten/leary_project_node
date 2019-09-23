@@ -42,13 +42,3 @@ module.exports = (sequelize, DataTypes) => {
   
   return CustomerActivity;
 };
-
-// export const trackActivity = (response) => {
-//   console.log("HIT")
-//   db.CustomerActivity.create({
-//     event: activity.event,
-//     conversion_event_id: activity.conversion_event_id,
-//     customer_id: activity.customer_id || response,
-//     user_id: activity.user_id
-//   })
-// };
