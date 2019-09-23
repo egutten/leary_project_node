@@ -11,16 +11,10 @@ module.exports = (app) => {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), (req, res) => {
-    const rawUserData = JSON.stringify(res.req.user);
-    const rawSessionData = JSON.stringify(res.req.session);
-    const data = {
-      userData: JSON.parse(rawUserData),
-      sessionData: JSON.parse(rawSessionData),
-    }
     res.json({
-        userId: data.userData.id,
-        expiration: data.sessionData.cookie.expires,
-        email: data.userData.email
+        userId: res.req.user.dataValues.id,
+        expiration: res.req.session.cookie.expires,
+        email: res.req.user.dataValues.email
       });
   });
 
@@ -98,36 +92,17 @@ module.exports = (app) => {
       customer_id: req.body.customer_id
     };
     
-    function createCustomer() {
-      return new Promise((resolve, reject) => {
-        db.Customer.create()
-        .then((response) => {
-          res.json(response.id);
-          resolve(response.id);
-        });
-      });
-    }   
-    
-    function trackActivity(response) {
-      db.CustomerActivity.create({
-        event: activity.event,
-        conversion_event_id: activity.conversion_event_id,
-        customer_id: activity.customer_id || response,
-        user_id: activity.user_id
-      })
-    }
-    
     if (activity.event === "view") {
-      createCustomer()
+      db.Customer.createCustomer(res)
       .then((response) => {
-        trackActivity(response);
+        db.CustomerActivity.trackActivity(response, activity);
       }).catch((err) => {
         console.log(err);
         res.status(500);
         res.json({error: err});
       });  
     } else {
-      trackActivity();
+      db.CustomerActivity.trackActivity(null, activity);
     }    
   });  
   

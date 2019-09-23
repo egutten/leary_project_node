@@ -24,5 +24,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'customer_id'
     });
   };
+  Customer.createCustomer = function (res) {
+    return this.create()
+      .then((response) => {
+        res.json(response.id);
+        return(response.id);
+      })
+    
+  }
   return Customer;
 };

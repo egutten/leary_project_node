@@ -7,6 +7,8 @@ import axios from 'axios';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
 
+require('dotenv').config();
+
 class SignUp extends Component {
   state = {
     signUpForm: {
@@ -69,8 +71,9 @@ class SignUp extends Component {
   }
   
   submitHandler = (event) => {
+    console.log(process.env.REACT_APP_NODE_API);
     event.preventDefault();
-    axios.post("http://localhost:8080/signup", { // TODO: replace all "localhost" urls w/ a .env variable
+    axios.post(process.env.REACT_APP_NODE_API + "signup", { // TODO: replace all "localhost" urls w/ a .env variable
       email: this.state.signUpForm.email.value,
       password: this.state.signUpForm.password.value,
       company_name: this.state.signUpForm.company_name.value
