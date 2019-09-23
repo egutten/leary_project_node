@@ -4,6 +4,7 @@ import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
+import  { renderMessageSnippet, renderConversionSnippet } from '../../shared/helperfunctions';
 
 class UserPage extends Component {
   state = {
@@ -65,9 +66,11 @@ class UserPage extends Component {
         text={formElement.config.text} />
     ));
     
-    let messageSnippet = "<script>var s = document.createElement('script'); s.src = 'http://localhost:9000/widget.js'; s.id = '123456'; s.setAttribute('data-config', '{\"userId\": " + this.props.userId + ", \"position\": " + "\"" + this.props.position + "\"" + "}'); s.async = true; document.body.appendChild(s);</script>"
-    
-    let conversionSnippet = "<script>var s = document.createElement('script'); s.src = 'http://localhost:3030/conversion.js'; s.id = '123456'; s.setAttribute('data-config', '{\"email\": \"[CONFIGURE]\", \"first_name\": \"[CONFIGURE]\", \"last_name\": \"[CONFIGURE]\", \"company_name\": \"[CONFIGURE]\", \"conversion_event_id\": " + this.props.conversion_event_id + ", \"user_id\": " + this.props.userId + "}'); s.async = true; document.body.appendChild(s);</script>"
+    const props = {
+      userId: this.props.userId,
+      position: this.props.position,
+      conversion_event_id: this.props.conversion_event_id
+    }
     
     return (
       <div>
@@ -75,8 +78,8 @@ class UserPage extends Component {
         {form}
         <Button clicked={this.submitHandler}>Submit</ Button>
         <div>
-          <p>{messageSnippet}</p>
-          <p>{conversionSnippet}</p>
+          <p>{renderMessageSnippet(props)}</p>
+          <p>{renderConversionSnippet(props)}</p>
         </div>
       </div>
     );

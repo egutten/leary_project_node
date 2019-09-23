@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
-// import  { renderMessageSnippet, renderConversionSnippet } from './helperfunctions';
+import  { renderMessageSnippet, renderConversionSnippet } from '../../shared/helperfunctions';
 
 class Snippet extends Component {
   
@@ -11,19 +11,19 @@ class Snippet extends Component {
   
   render() {
     
-    // TODO: move snippet creation into own function (e.g. function that returns the string)
-    // TODO: move to another file as a helper function (since it's used in multiple places)
-    let messageSnippet = "<script>var s = document.createElement('script'); s.src = 'http://localhost:9000/widget.js'; s.id = '123456'; s.setAttribute('data-config', '{\"userId\": " + this.props.userId + ", \"position\": " + "\"" + this.props.position + "\"" + "}'); s.async = true; document.body.appendChild(s);</script>"
-    
-    let conversionSnippet = "<script>var s = document.createElement('script'); s.src = 'http://localhost:3030/conversion.js'; s.id = '123456'; s.setAttribute('data-config', '{\"email\": \"[CONFIGURE]\", \"first_name\": \"[CONFIGURE]\", \"last_name\": \"[CONFIGURE]\", \"company_name\": \"[CONFIGURE]\", \"conversion_event_id\": " + this.props.conversion_event_id + ", \"user_id\": " + this.props.userId + "}'); s.async = true; document.body.appendChild(s);</script>"
+    const props = {
+      userId: this.props.userId,
+      position: this.props.position,
+      conversion_event_id: this.props.conversion_event_id
+    }
     
     return (
       
       <div>
         <h4>Step 2: Insert Snippet Into Code</h4>
         <div>
-          <p>{messageSnippet}</p>
-          <p>{conversionSnippet}</p>
+          <p>{renderMessageSnippet(props)}</p>
+          <p>{renderConversionSnippet(props)}</p>
         </div>
         <Button clicked={this.submitHandler}>Next</ Button>
       </div>
