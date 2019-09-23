@@ -70,7 +70,7 @@ class SignUp extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:8080/signup", {
+    axios.post("http://localhost:8080/signup", { // TODO: replace all "localhost" urls w/ a .env variable
       email: this.state.signUpForm.email.value,
       password: this.state.signUpForm.password.value,
       company_name: this.state.signUpForm.company_name.value
@@ -112,7 +112,7 @@ class SignUp extends Component {
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
     
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated) { // TODO: remove?
       this.props.history.push("/convconfig");
     }
 

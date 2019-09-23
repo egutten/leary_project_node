@@ -12,8 +12,6 @@ import {PersistGate} from 'redux-persist/lib/integration/react';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
-
 const persistConfig = {
   key: 'root',
   storage: storage,
@@ -21,7 +19,7 @@ const persistConfig = {
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(persistedReducer, compose(applyMiddleware(thunk)));
 
 const persistor = persistStore(store);
 
