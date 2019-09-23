@@ -44,23 +44,23 @@ module.exports = (app) => {
   });
   
 //User creates conversion events
-  app.post("/ce", (req, res) => {
+  app.post("/ce", (req, res) => { // TODO: more "user friendly" route name
     function checkUserConversionEvents() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => { // TODO: Try removing Promise (db.conversionEvent.findAll likely already returns a Promise)
         db.ConversionEvent.findAll({
           where: {
             conversion_event: req.body.conversion_event,
             user_id: req.body.user_id
           }
         }).then((response) => {
-          const rawData = JSON.stringify(response);
+          const rawData = JSON.stringify(response); // TODO: Remove stringify -> parse to simplify
           const data = JSON.parse(rawData);
           resolve(data);
         });
       })   
     }
     
-    function createConversionEvent() {
+    function createConversionEvent() { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
       db.ConversionEvent.create({
         conversion_event: req.body.conversion_event,
         user_id: req.body.user_id
@@ -147,7 +147,7 @@ module.exports = (app) => {
           }
         }).then(() => {
           const email = req.body.email;
-          const emailParse = email.split("@");
+          const emailParse = email.split("@"); // TODO: turn into small function "getUrlFromEmail"
           const url = emailParse[1];
           resolve({ 
              url: url,
@@ -260,7 +260,7 @@ module.exports = (app) => {
           recordMessageView(response[0]);
         })
       } else {
-        return
+        return // TODO: Remove getMessageNumber() and handle the if/then check for results in the getMessageData.then above
       }
     }).catch((err) => {
       console.log(err);
