@@ -5,7 +5,7 @@ import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 
-class ConversionEventConfig extends Component {
+class UserPage extends Component {
   state = {
     configForm: {
       conversion_event: {
@@ -44,7 +44,6 @@ class ConversionEventConfig extends Component {
     event.preventDefault();
     this.props.getConversionId(this.state.configForm.conversion_event.value, this.props.userId);
     this.props.savePosition(document.querySelector('input[name="position"]:checked').value);
-    this.props.history.push('/snippet');
   };
   
   render() {
@@ -66,13 +65,19 @@ class ConversionEventConfig extends Component {
         text={formElement.config.text} />
     ));
     
+    let snippet1 = "<script>var s = document.createElement('script'); s.src = 'http://localhost:9000/widget.js'; s.id = '123456'; s.setAttribute('data-config', '{'userId':" + " " + this.props.userId + ", 'position':" + " " + "'" + this.props.position + "'" + "}'); s.async = true; document.body.appendChild(s);</script>"
+    
+    let snippet2 = "<script>var s = document.createElement('script'); s.src = 'http://localhost:3030/conversion.js'; s.id = '123456'; s.setAttribute('data-config', '{'email': [CONFIGURE], 'first_name': [CONFIGURE], 'last_name': [CONFIGURE], 'company_name': [CONFIGURE], 'conversion_event_id':" + " " + this.props.conversion_event_id + " 'user_id':" + " " + this.props.userId + "}'); s.async = true; document.body.appendChild(s);</script>"
+    
     return (
       <div>
-        <h4>Step 1: Configure Messages</h4>
-        <form>
-          {form}
-          <Button clicked={this.submitHandler}>Submit</ Button>
-        </form>
+        <h4>User Page</h4>
+        {form}
+        <Button clicked={this.submitHandler}>Submit</ Button>
+        <div>
+          <p>{snippet1}</p>
+          <p>{snippet2}</p>
+        </div>
       </div>
     );
   }
@@ -80,7 +85,9 @@ class ConversionEventConfig extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.userId
+    position: state.position,
+    userId: state.userId,
+    conversion_event_id: state.conversion_event_id
   };
 };
 
@@ -91,4 +98,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConversionEventConfig);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

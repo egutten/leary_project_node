@@ -41,3 +41,32 @@ export const auth = (email, password) => {
     });
   }
 }
+
+export const savePosition = (position) => {
+  return {
+    type: actionTypes.SAVE_POSITION,
+    position: position
+  }
+}
+
+export const conversionId = (id) => {
+  return {
+    type: actionTypes.CONVERSION_ID,
+    id: id
+  }
+}
+
+export const getConversionId = (conversion_event, userId) => {
+  return dispatch => {
+    axios.post("http://localhost:8080/ce", {
+      conversion_event: conversion_event,
+      user_id: userId
+    })
+    .then(response => {
+      dispatch(conversionId(response.data));
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+  }
+}
