@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 class Snippet extends Component {
   
   submitHandler = (event) => {
-    this.props.history.push('/userpage');
+    this.props.history.push('/conversions');
   };
   
   render() {

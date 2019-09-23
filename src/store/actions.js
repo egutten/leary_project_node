@@ -14,6 +14,13 @@ export const authLogout = () => {
   }
 }
 
+export const authFailure = () => {
+  return {
+    type: actionTypes.AUTH_FAILURE,
+    message: "Email or password incorrect"
+  }
+}
+
 export const logout = () => {
   return dispatch => {
     axios.get("http://localhost:8080/logout")
@@ -21,7 +28,7 @@ export const logout = () => {
       dispatch(authLogout());
     })
     .catch(err => {
-      console.log(err.message);
+      console.log(err);
     });
   }
 };
@@ -37,7 +44,11 @@ export const auth = (email, password) => {
       dispatch(authSuccess(response.data.userId));
     })
     .catch(err => {
-      console.log(err.message);
+      if(err.message === "Request failed with status code 401") {
+        dispatch(authFailure());
+      } else {
+        console.log(err);
+      }
     });
   }
 }
@@ -58,7 +69,7 @@ export const conversionId = (id) => {
 
 export const getConversionId = (conversion_event, userId) => {
   return dispatch => {
-    axios.post("http://localhost:8080/ce", {
+    axios.post("http://localhost:8080/create-update-conversion-events", {
       conversion_event: conversion_event,
       user_id: userId
     })

@@ -28,9 +28,9 @@ class App extends Component {
           <Route path = "/logout" component={Logout} />
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={SignUp}/>
-          <Route path = "/convconfig" component={ConversionEventConfig} />
+          <Route path = "/onboarding/conversions" component={ConversionEventConfig} />
           <Route path = "/snippet" component={Snippet} />
-          <Route path = "/userpage" component={UserPage} />
+          <Route path = "/conversions" component={UserPage} />
           <Route path = "/" component={Placeholder} />
         </Switch>
       );

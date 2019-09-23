@@ -31,14 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       as: 'User'
     });
   };  
-  CustomerActivity.trackActivity = function (response, data) {
-    return this.create({
-      event: data.event,
-      conversion_event_id: data.conversion_event_id,
-      customer_id: data.customer_id || response,
-      user_id: data.user_id
-    })
-  }
   
   return CustomerActivity;
 };

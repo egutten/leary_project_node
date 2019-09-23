@@ -62,7 +62,12 @@ class Login extends Component {
     
     let authRedirect = null;
     if (this.props.isAuthenticated) {
-      authRedirect = <Redirect to='/userpage' />
+      authRedirect = <Redirect to='/conversions' />
+    }
+    
+    let errorMessage = null;
+    if (this.props.errorMessage) {
+      errorMessage = this.props.errorMessage
     }
     
     const formElementsArray = [];
@@ -89,6 +94,7 @@ class Login extends Component {
     return (
       <div>
         {authRedirect}
+        {errorMessage}
         <h4>Login</h4>
         <form>
           {form}
@@ -101,7 +107,8 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.userId !== null
+    isAuthenticated: state.userId !== null,
+    errorMessage: state.error_message
   };
 };
 
