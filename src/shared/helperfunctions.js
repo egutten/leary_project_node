@@ -1,5 +1,3 @@
-//Snippet
-
 export const renderMessageSnippet = (props) => {
   return "<script>var s = document.createElement('script'); s.src = 'http://localhost:9000/widget.js'; s.id = '123456'; s.setAttribute('data-config', '{\"userId\": " + props.userId + ", \"position\": " + "\"" + props.position + "\"" + "}'); s.async = true; document.body.appendChild(s);</script>"
 };

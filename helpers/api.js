@@ -3,7 +3,7 @@ const moment = require("moment");
 const axios = require('axios');
 
  const fn = {
-   checkUserConversionEvents: function(data) {
+   checkUserConversionEvents: (data) => {
      return db.ConversionEvent.findAll({
        where: {
          conversion_event: data.conversion_event,
@@ -14,7 +14,7 @@ const axios = require('axios');
      });   
    },
    
-   createConversionEvent: function(data) { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
+   createConversionEvent: (data) => { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
      return db.ConversionEvent.create({
        conversion_event: data.conversion_event,
        user_id: data.user_id
@@ -23,14 +23,14 @@ const axios = require('axios');
      })
    },
   
-  createCustomer: function() {
+  createCustomer: () => {
     return db.Customer.create()
       .then((response) => {
         return response.id;
       })
   },
 
-  trackActivity: function(data) {
+  trackActivity: (data) => {
     return db.CustomerActivity.create({
       event: data.event,
       conversion_event_id: data.conversion_event_id,
@@ -39,7 +39,7 @@ const axios = require('axios');
     })
   },
   
-  updateCustomerContact: function(data) {
+  updateCustomerContact: (data) => {
     return db.Customer.update({
         email: data.email,
         company_name: data.company_name,
@@ -61,7 +61,7 @@ const axios = require('axios');
        });
     },
    
-   updateCustomerLogo: function(response) {
+   updateCustomerLogo: (response) => {
      db.Customer.update({
        logo: response.url
      },
@@ -72,7 +72,7 @@ const axios = require('axios');
      });
    },
    
-   getMessageNumber: function(user_id) {
+   getMessageNumber: (user_id) => {
      return db.CustomerActivity.findAll({
        where: {
          event: "conversion",
@@ -83,7 +83,7 @@ const axios = require('axios');
      });
    },
    
-   getMessageData: function(user_id) {
+   getMessageData: (user_id) => {
     return db.CustomerActivity.findAll({
        limit: 5,
        where: {
@@ -122,7 +122,7 @@ const axios = require('axios');
      });    
    },
    
-   recordMessageView: function(message, customer_id) {
+   recordMessageView: (message, customer_id) => {
      db.CustomerActivity.update({
          props: message.logo,
          conversion_event_id: message.conversion_event_id

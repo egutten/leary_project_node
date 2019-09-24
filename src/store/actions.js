@@ -23,7 +23,7 @@ export const authFailure = () => {
 
 export const logout = () => {
   return dispatch => {
-    axios.get("http://localhost:8080/logout")
+    axios.get(process.env.REACT_APP_NODE_API + "logout")
     .then(response => {
       dispatch(authLogout());
     })
@@ -39,7 +39,7 @@ export const auth = (email, password) => {
       email: email,
       password: password
     };
-    axios.post("http://localhost:8080/login", authData)
+    axios.post(process.env.REACT_APP_NODE_API + "login", authData)
     .then(response => {
       dispatch(authSuccess(response.data.userId));
     })
@@ -69,7 +69,7 @@ export const conversionId = (id) => {
 
 export const getConversionId = (conversion_event, userId) => {
   return dispatch => {
-    axios.post("http://localhost:8080/create-update-conversion-events", {
+    axios.post(process.env.REACT_APP_NODE_API + "create-update-conversion-events", {
       conversion_event: conversion_event,
       user_id: userId
     })
