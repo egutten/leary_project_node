@@ -7,6 +7,7 @@ import UserPage from './containers/UserPage/UserPage';
 import Placeholder from './containers/Placeholder';
 import OnboardingMessageConfig from './containers/OnboardingMessageConfig/OnboardingMessageConfig';
 import OnboardingMessageSnippet from './containers/OnboardingMessageSnippet/OnboardingMessageSnippet';
+import OnboardingConversionSnippet from './containers/OnboardingConversionSnippet/OnboardingConversionSnippet';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
 
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path="/signup" component={SignUp}/>
           <Route path = "/onboarding/conversions" component={OnboardingMessageConfig} />
           <Route path = "/onboarding/message-snippet" component={OnboardingMessageSnippet} />
+          <Route path = "/onboarding/conversion-snippet" component={OnboardingConversionSnippet} />
           <Route path = "/conversions" component={UserPage} />
           <Route path = "/" component={Placeholder} />
         </Switch>
