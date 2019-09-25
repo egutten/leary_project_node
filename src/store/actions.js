@@ -75,3 +75,17 @@ export const createUpdateConversion = (conversion_event, userId, position) => {
     });
   }
 }
+
+export const getConversions = (userId) => {
+  return dispatch => {
+    axios.post(process.env.REACT_APP_NODE_API + "admin/get-messages", {
+      user_id: userId
+    })
+    .then(messages => {
+      dispatch(message(messages.data));
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+  }
+}

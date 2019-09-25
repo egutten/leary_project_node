@@ -3,8 +3,6 @@ import {updateObject} from '../shared/utility';
 
 const initialState = {
   userId: null,
-  // position: "right",
-  // conversion_event_id: null,
   error_message: null,
   messages: []
 };

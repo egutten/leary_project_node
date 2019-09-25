@@ -44,10 +44,17 @@ class OnboardingMessageConfig extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
-    this.props.history.push('/snippet');
   };
   
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.messages.length !== 0) {
+      nextProps.history.push('/onboarding/message-snippet');
+    }
+    return nextProps;
+  }
+  
   render() {
+    
     const formElementsArray = [];
     for (let key in this.state.configForm) {
       formElementsArray.push({
@@ -81,7 +88,8 @@ class OnboardingMessageConfig extends Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.userId
+    userId: state.userId,
+    messages: state.messages
   };
 };
 

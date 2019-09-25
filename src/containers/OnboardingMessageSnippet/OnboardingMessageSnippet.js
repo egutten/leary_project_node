@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import  { renderMessageSnippet, renderConversionSnippet } from '../../shared/helperfunctions';
+import SnippetBox from '../../components/snippetBox/snippetBox';
 
-class Snippet extends Component {
-  
-  componentDidUpdate() {
-    console.log(this.props.messages);
-  }
+class OnboardingMessageSnippet extends Component {  
   
   submitHandler = (event) => {
     this.props.history.push('/conversions');
@@ -17,8 +14,8 @@ class Snippet extends Component {
     
     const props = {
       userId: this.props.userId,
-      position: this.props.position,
-      conversion_event_id: this.props.conversion_event_id
+      position: this.props.messages[0].position,
+      conversion_event_id: this.props.messages[0].id
     }
     
     return (
@@ -26,8 +23,7 @@ class Snippet extends Component {
       <div>
         <h4>Step 2: Insert Snippet Into Code</h4>
         <div>
-          <p>{renderMessageSnippet(props)}</p>
-          <p>{renderConversionSnippet(props)}</p>
+          <SnippetBox snippet={renderMessageSnippet(props)} />
         </div>
         <Button clicked={this.submitHandler}>Next</ Button>
       </div>
@@ -37,11 +33,9 @@ class Snippet extends Component {
 
 const mapStateToProps = state => {
   return {
-    position: state.position,
     userId: state.userId,
-    conversion_event_id: state.conversion_event_id,
     messages: state.messages
   };
 };
 
-export default connect(mapStateToProps)(Snippet);
+export default connect(mapStateToProps)(OnboardingMessageSnippet);
