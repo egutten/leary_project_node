@@ -43,8 +43,8 @@ class UserPage extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.getConversionId(this.state.configForm.conversion_event.value, this.props.userId);
-    this.props.savePosition(document.querySelector('input[name="position"]:checked').value);
+    // this.props.getConversionId(this.state.configForm.conversion_event.value, this.props.userId);
+    // this.props.savePosition(document.querySelector('input[name="position"]:checked').value);
   };
   
   render() {
@@ -96,8 +96,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    savePosition: (position) => dispatch(actions.savePosition(position)),
-    getConversionId: (conversion_event, userId) => dispatch(actions.getConversionId(conversion_event, userId))
+    // savePosition: (position) => dispatch(actions.savePosition(position)),
+    // getConversionId: (conversion_event, userId) => dispatch(actions.getConversionId(conversion_event, userId))
   };
 };
 

@@ -53,28 +53,22 @@ export const auth = (email, password) => {
   }
 }
 
-export const savePosition = (position) => {
+export const message = (conversionEvent) => {
   return {
-    type: actionTypes.SAVE_POSITION,
-    position: position
+    type: actionTypes.CONVERSION_EVENT,
+    conversion_event: conversionEvent
   }
 }
 
-export const conversionId = (id) => {
-  return {
-    type: actionTypes.CONVERSION_ID,
-    id: id
-  }
-}
-
-export const getConversionId = (conversion_event, userId) => {
+export const createUpdateConversion = (conversion_event, userId, position) => {
   return dispatch => {
-    axios.post(process.env.REACT_APP_NODE_API + "create-update-conversion-events", {
+    axios.post(process.env.REACT_APP_NODE_API + "admin/messages", {
       conversion_event: conversion_event,
-      user_id: userId
+      user_id: userId,
+      position: position
     })
-    .then(response => {
-      dispatch(conversionId(response.data));
+    .then(conversionEvent => {
+      dispatch(message(conversionEvent.data));
     })
     .catch(err => {
       console.log(err.message);

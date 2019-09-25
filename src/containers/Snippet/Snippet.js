@@ -5,6 +5,10 @@ import  { renderMessageSnippet, renderConversionSnippet } from '../../shared/hel
 
 class Snippet extends Component {
   
+  componentDidUpdate() {
+    console.log(this.props.messages);
+  }
+  
   submitHandler = (event) => {
     this.props.history.push('/conversions');
   };
@@ -35,7 +39,8 @@ const mapStateToProps = state => {
   return {
     position: state.position,
     userId: state.userId,
-    conversion_event_id: state.conversion_event_id
+    conversion_event_id: state.conversion_event_id,
+    messages: state.messages
   };
 };
 

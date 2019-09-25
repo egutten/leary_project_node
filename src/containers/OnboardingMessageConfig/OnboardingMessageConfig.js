@@ -4,8 +4,9 @@ import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
+import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
 
-class ConversionEventConfig extends Component {
+class OnboardingMessageConfig extends Component {
   state = {
     configForm: {
       conversion_event: {
@@ -42,8 +43,7 @@ class ConversionEventConfig extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.getConversionId(this.state.configForm.conversion_event.value, this.props.userId);
-    this.props.savePosition(document.querySelector('input[name="position"]:checked').value);
+    this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
     this.props.history.push('/snippet');
   };
   
@@ -69,6 +69,7 @@ class ConversionEventConfig extends Component {
     return (
       <div>
         <h4>Step 1: Configure Messages</h4>
+        <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
         <form>
           {form}
           <Button clicked={this.submitHandler}>Submit</ Button>
@@ -86,9 +87,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    savePosition: (position) => dispatch(actions.savePosition(position)),
-    getConversionId: (conversion_event, userId) => dispatch(actions.getConversionId(conversion_event, userId))
+    createUpdateConversion: (conversion_event, userId, position) => dispatch(actions.createUpdateConversion(conversion_event, userId, position))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConversionEventConfig);
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardingMessageConfig);

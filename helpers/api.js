@@ -3,24 +3,39 @@ const moment = require("moment");
 const axios = require('axios');
 
  const fn = {
-   checkUserConversionEvents: (data) => {
-     return db.ConversionEvent.findAll({
-       where: {
-         conversion_event: data.conversion_event,
-         user_id: data.user_id
-       }
-     }).then((response) => {
-       return response;
-     });   
-   },
+   // checkUserConversionEvents: (data) => {
+   //   return db.ConversionEvent.findAll({
+   //     where: {
+   //       conversion_event: data.conversion_event,
+   //       user_id: data.user_id
+   //     }
+   //   }).then((response) => {
+   //     return response;
+   //   });   
+   // },
    
-   createConversionEvent: (data) => { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
+   createConversionEvent: (data) => { 
      return db.ConversionEvent.create({
        conversion_event: data.conversion_event,
+       position: data.position,
        user_id: data.user_id
      }).then((response) => {
-       return response.dataValues.id;
+       return response.dataValues;
      })
+   },
+   
+   updateConversionEvent: (data) => {
+     return db.ConversionEvent.update({
+        conversion_event: data.conversion_event,
+        position: data.position
+      },
+      {
+        where: {
+          id: conversion_event_id
+        }
+      }).then((response) => {
+        return response.dataValues;
+      })
    },
   
   createCustomer: () => {

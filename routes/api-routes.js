@@ -38,28 +38,31 @@ module.exports = (app) => {
   });
   
 //User creates conversion events
-  app.post("/create-update-conversion-events", (req, res) => { // TODO: more "user friendly" route name
+  app.post("/admin/messages", (req, res) => { 
     const data = {
       conversion_event: req.body.conversion_event,
-      user_id: req.body.user_id
+      user_id: req.body.user_id,
+      conversion_event_id: req.body.conversion_event_id,
+      position: req.body.position
     }
     
-    fn.checkUserConversionEvents(data)
-    .then((response) => {
-      if (!response.length > 0) {
-        fn.createConversionEvent(data)
-        .then((conversion_event_id) => {
-          res.json(conversion_event_id);
-        });
-      } else {
-        res.json(response[0].dataValues.id);
-      }  
-    }).catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }); 
-  });
+    if (data.conversion_event_id) {
+      fn.updateConversionEvent(data)
+      .then((updatedConversionEvent) => {
+        console.log(updatedConversionEvent);
+        res.json(updatedConversionEvent);
+      });
+    } else {
+      fn.createConversionEvent(data)
+      .then((newConversionEvent) => {
+        res.json(newConversionEvent);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
+    }
+  });  
   
   //******************************************************************
   //Widget-flow
