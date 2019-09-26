@@ -50,7 +50,7 @@ module.exports = (app) => {
       fn.updateConversionEvent(data)
       .then((updatedConversionEvent) => {
         res.json(updatedConversionEvent);
-      });
+      })
     } else {
       fn.createConversionEvent(data)
       .then((newConversionEvent) => {

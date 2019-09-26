@@ -18,7 +18,10 @@ const axios = require('axios');
      return db.ConversionEvent.findAll({
        where: {
          user_id: user_id
-       }
+       },
+       order: [
+        ['updatedAt', 'DESC']
+       ]
      }).then((response) => {
        return response;
      });   

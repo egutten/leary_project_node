@@ -17,7 +17,7 @@ class Messages extends Component {
   };
   
   editHandler = (event, id) => {
-    this.props.history.push('/messages/' + id)
+    this.props.history.push('/messages/' + id);
   }
   
   snippetHandler = (event, id) => {
@@ -36,7 +36,6 @@ class Messages extends Component {
   };
   
   render() {
-    
     let messages = this.props.messages.map(message => (  
       <ConversionCard 
         key={message.id} 

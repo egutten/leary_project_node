@@ -26,13 +26,23 @@ const authFailure = (state, action) => {
 };
 
 const conversionEvent = (state, action) => {
-  return updateObject(state, {
-    messages: state.messages.concat(action.conversion_event)
-  });
+  if (state.messages.length > 0) {
+    var id = action.conversion_event.id
+    var index = state.messages.findIndex(item => item.id === id);
+    state.messages.splice(index, 1, action.conversion_event);
+    var newMessages = state.messages.slice();
+    return updateObject(state, {
+      messages: newMessages
+    });
+  } else {
+    return updateObject(state, {
+      messages: state.messages.concat(action.conversion_event)
+    });
+  }
+  
 };
 
 const allConversionEvents = (state, action) => {
-  console.log(action.conversion_events);
   return updateObject(state, {
     messages: action.conversion_events
   });
