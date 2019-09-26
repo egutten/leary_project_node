@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
 
-class CreateMessage extends Component {
+class EditMessage extends Component {
   state = {
     configForm: {
       conversion_event: {
@@ -32,7 +32,7 @@ class CreateMessage extends Component {
       }
     }  
   }
-  
+
   inputChangedHandler = (event, inputName) => {
     const updatedForm = updateObject(this.state.configForm, {
       [inputName]: updateObject(this.state.configForm[inputName], {
@@ -44,7 +44,7 @@ class CreateMessage extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value, this.props.match.params.id);
     this.props.history.push('/messages');
   };
   
@@ -71,7 +71,7 @@ class CreateMessage extends Component {
     
     return (
       <div>
-        <h4>Create New Message</h4>
+        <h4>Edit Message</h4>
         <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
         <form>
           {form}
@@ -91,8 +91,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createUpdateConversion: (conversion_event, userId, position) => dispatch(actions.createUpdateConversion(conversion_event, userId, position))
+    createUpdateConversion: (conversion_event, userId, position, conversion_event_id) => dispatch(actions.createUpdateConversion(conversion_event, userId, position, conversion_event_id))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateMessage);
+export default connect(mapStateToProps, mapDispatchToProps)(EditMessage);

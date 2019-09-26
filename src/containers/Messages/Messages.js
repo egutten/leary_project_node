@@ -6,7 +6,6 @@ import ConversionCard from '../../components/conversionCard/conversionCard';
 
 const moment = require("moment");
 
-
 class Messages extends Component { 
   
   state ={
@@ -14,9 +13,12 @@ class Messages extends Component {
   }
   
   createHandler = (event) => {
-    event.preventDefault();
     this.props.history.push('/create-message');
   };
+  
+  editHandler = (event, id) => {
+    this.props.history.push('/messages/' + id)
+  }
   
   snippetHandler = (event, id) => {
     this.props.messages.find((o, i) => {
@@ -34,14 +36,16 @@ class Messages extends Component {
   };
   
   render() {
-
+    
     let messages = this.props.messages.map(message => (  
       <ConversionCard 
         key={message.id} 
         conversionEvent={message.conversion_event} 
         position={message.position} 
-        timeStamp={moment(message.createdAt).format("LLL")} 
-        clicked={(event) => this.snippetHandler(event, message.id)} 
+        updated={moment(message.updatedAt).format("LLL")}
+        created={moment(message.createdAt).format("LLL")} 
+        seeSnippet={(event) => this.snippetHandler(event, message.id)} 
+        editMessage={(event) => this.editHandler(event, message.id)} 
         userId={this.props.userId} 
         conversionEventId={message.id}
         showSnippet={this.state.showSnippet === message.id} />
@@ -49,7 +53,7 @@ class Messages extends Component {
   
     return (
       <div>
-        <h4>Conversions</h4>
+        <h4>Messages</h4>
         {messages}
         <Button clicked={this.createHandler}>Add Message</ Button>
         <div>

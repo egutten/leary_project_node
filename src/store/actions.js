@@ -67,12 +67,13 @@ export const conversions = (conversionEvents) => {
   }
 }
 
-export const createUpdateConversion = (conversion_event, userId, position) => {
+export const createUpdateConversion = (conversion_event, userId, position, conversion_event_id) => {
   return dispatch => {
     axios.post(process.env.REACT_APP_NODE_API + "admin/messages", {
       conversion_event: conversion_event,
       user_id: userId,
-      position: position
+      position: position,
+      conversion_event_id: conversion_event_id
     })
     .then(conversionEvent => {
       dispatch(conversion(conversionEvent.data));

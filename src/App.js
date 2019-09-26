@@ -9,6 +9,7 @@ import OnboardingMessageConfig from './containers/OnboardingMessageConfig/Onboar
 import OnboardingMessageSnippet from './containers/OnboardingMessageSnippet/OnboardingMessageSnippet';
 import OnboardingConversionSnippet from './containers/OnboardingConversionSnippet/OnboardingConversionSnippet';
 import CreateMessage from './containers/CreateMessage/CreateMessage';
+import EditMessage from './containers/EditMessage/EditMessage';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
 
@@ -33,8 +34,9 @@ class App extends Component {
           <Route path = "/onboarding/conversions" component={OnboardingMessageConfig} />
           <Route path = "/onboarding/message-snippet" component={OnboardingMessageSnippet} />
           <Route path = "/onboarding/conversion-snippet" component={OnboardingConversionSnippet} />
-          <Route path = "/messages" component={Messages} />
+          <Route path = "/messages" exact component={Messages} />
           <Route path = "/create-message" component={CreateMessage} />
+          <Route path = "/messages/:id" component={EditMessage} />
           <Route path = "/" component={Placeholder} />
         </Switch>
       );

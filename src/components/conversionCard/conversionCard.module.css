@@ -1,11 +1,17 @@
+span {
+  margin: 0px 5px;
+  font-weight: normal;
+}
 .cardBoxReg, .cardBoxWide {
   border: 1px solid #a0a3a1;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0px 5px 10px 0px #eee;
-  justify-content: center;
+  justify-content: space-between;
   font-family: 'Graphik', sans-serif;
   margin: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .cardBoxReg {
@@ -18,8 +24,9 @@
 
 .eventText {
   font-weight: bold;
+  margin-bottom: 25px;
 }
 
-.positionText {
+.smallText {
   font-size: 12px;
 }

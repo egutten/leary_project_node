@@ -31,10 +31,11 @@ const axios = require('axios');
       },
       {
         where: {
-          id: conversion_event_id
-        }
+          id: data.conversion_event_id
+        },
+        returning: true
       }).then((response) => {
-        return response.dataValues;
+        return response[1][0].dataValues;
       })
    },
   

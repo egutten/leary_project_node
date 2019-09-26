@@ -32,6 +32,7 @@ const conversionEvent = (state, action) => {
 };
 
 const allConversionEvents = (state, action) => {
+  console.log(action.conversion_events);
   return updateObject(state, {
     messages: action.conversion_events
   });

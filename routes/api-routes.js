@@ -49,7 +49,6 @@ module.exports = (app) => {
     if (data.conversion_event_id) {
       fn.updateConversionEvent(data)
       .then((updatedConversionEvent) => {
-        console.log(updatedConversionEvent);
         res.json(updatedConversionEvent);
       });
     } else {
