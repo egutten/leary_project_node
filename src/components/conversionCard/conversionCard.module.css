@@ -1,11 +1,19 @@
-.cardBox {
-  width: 500px;
+.cardBoxReg, .cardBoxWide {
   border: 1px solid #a0a3a1;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0px 5px 10px 0px #eee;
   justify-content: center;
   font-family: 'Graphik', sans-serif;
+  margin: 20px;
+}
+
+.cardBoxReg {
+  width: 500px;
+}
+
+.cardBoxWide {
+  width: 625px;
 }
 
 .eventText {

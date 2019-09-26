@@ -9,7 +9,11 @@ const moment = require("moment");
 
 class Messages extends Component { 
   
-  submitHandler = (event) => {
+  state ={
+    showSnippet: 0
+  }
+  
+  createHandler = (event) => {
     event.preventDefault();
     this.props.history.push('/create-message');
   };
@@ -17,26 +21,37 @@ class Messages extends Component {
   snippetHandler = (event, id) => {
     this.props.messages.find((o, i) => {
       if (o.id === id) {
-        this.setState({showSnippet: true});
-      }
-    })
-  }
+        this.setState({showSnippet: id});
+      } 
+    });
+    if (this.state.showSnippet !== 0) {
+      this.setState({showSnippet: 0})
+    }
+  };
   
   componentDidMount() {
     this.props.getConversions(this.props.userId);
-  }
+  };
   
   render() {
 
-    let messages = this.props.messages.map(message => (      
-      <ConversionCard key={message.id} conversionEvent={message.conversion_event} position={message.position} timeStamp={moment(message.createdAt).format("LLL")} clicked={(event) => this.snippetHandler(event, message.id)} />
+    let messages = this.props.messages.map(message => (  
+      <ConversionCard 
+        key={message.id} 
+        conversionEvent={message.conversion_event} 
+        position={message.position} 
+        timeStamp={moment(message.createdAt).format("LLL")} 
+        clicked={(event) => this.snippetHandler(event, message.id)} 
+        userId={this.props.userId} 
+        conversionEventId={message.id}
+        showSnippet={this.state.showSnippet === message.id} />
     ));
   
     return (
       <div>
         <h4>Conversions</h4>
         {messages}
-        <Button clicked={this.submitHandler}>Add Message</ Button>
+        <Button clicked={this.createHandler}>Add Message</ Button>
         <div>
         </div>
       </div>

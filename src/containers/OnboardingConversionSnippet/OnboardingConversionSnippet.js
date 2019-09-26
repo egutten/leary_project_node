@@ -12,17 +12,12 @@ class OnboardingConversionSnippet extends Component {
   
   render() {
     
-    const props = {
-      userId: this.props.userId,
-      conversion_event_id: this.props.messages[0].id
-    }
-    
     return (
       
       <div>
         <h4>Step 2: Insert Snippet Into Code</h4>
         <div>
-          <SnippetBox snippet={renderConversionSnippet(props)} />
+          <SnippetBox snippet={renderConversionSnippet(this.props.userId, this.props.messages[0].id)} />
         </div>
         <Button clicked={this.submitHandler}>Next</ Button>
       </div>

@@ -5,7 +5,6 @@ import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
-import  { renderConversionSnippet } from '../../shared/helperfunctions';
 
 class CreateMessage extends Component {
   state = {
@@ -45,6 +44,7 @@ class CreateMessage extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    this.props.history.push('/messages');
   };
   
   render() {
