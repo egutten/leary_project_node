@@ -23,14 +23,48 @@ class EditMessage extends Component {
         elementType: 'radio',
         value: 'right',
         text: 'Right',
-        checked: true
+        checked: false
       },
       position_left: {
         elementType: 'radio',
         value: 'left',
-        text: 'Left'
+        text: 'Left',
+        checked: false
       }
     }  
+  }
+  
+  componentDidMount() {
+    const radio = document.querySelectorAll('input[name="position"]');
+    for(var i = 0; i < radio.length; i++) {
+      radio[i].addEventListener('click', () => {
+        const updatedForm = updateObject(this.state.configForm, {
+          position_right: updateObject(this.state.configForm.position_right, {
+            checked: !this.state.configForm.position_right.checked
+          }),
+          position_left: updateObject(this.state.configForm.position_left, {
+            checked: !this.state.configForm.position_left.checked
+          })
+        });
+        this.setState({configForm: updatedForm});  
+      });
+    }
+    
+    const messages = this.props.messages;
+    const id = Number(this.props.match.params.id);
+    const editMessage = messages.filter(message => message.id === id);
+    const updatedForm = updateObject(this.state.configForm, {
+      conversion_event: updateObject(this.state.configForm.conversion_event, {
+        value: editMessage[0].conversion_event
+      }),
+      position_right: updateObject(this.state.configForm.position_right, {
+        checked: editMessage[0].position === 'right' ? true : false
+      }),
+      position_left: updateObject(this.state.configForm.position_left, {
+        checked: editMessage[0].position === 'left' ? true : false
+      })
+    });
+    this.setState({configForm: updatedForm});
   }
 
   inputChangedHandler = (event, inputName) => {

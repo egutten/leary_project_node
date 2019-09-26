@@ -27,10 +27,10 @@ const authFailure = (state, action) => {
 
 const conversionEvent = (state, action) => {
   if (state.messages.length > 0) {
-    var id = action.conversion_event.id
-    var index = state.messages.findIndex(item => item.id === id);
+    const id = action.conversion_event.id;
+    const index = state.messages.findIndex(item => item.id === id);
     state.messages.splice(index, 1, action.conversion_event);
-    var newMessages = state.messages.slice();
+    const newMessages = state.messages.slice();
     return updateObject(state, {
       messages: newMessages
     });
