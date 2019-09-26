@@ -64,7 +64,7 @@ module.exports = (app) => {
     }
   });  
   
-  app.post("/admin/get-messages", (req, res) => {
+  app.post("/admin/all-messages", (req, res) => {
     const user_id = req.body.user_id
     
     fn.getConversions(user_id)
