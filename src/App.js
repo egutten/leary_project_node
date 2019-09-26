@@ -3,7 +3,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
-import UserPage from './containers/UserPage/UserPage';
+import Messages from './containers/Messages/Messages';
 import Placeholder from './containers/Placeholder';
 import OnboardingMessageConfig from './containers/OnboardingMessageConfig/OnboardingMessageConfig';
 import OnboardingMessageSnippet from './containers/OnboardingMessageSnippet/OnboardingMessageSnippet';
@@ -32,7 +32,7 @@ class App extends Component {
           <Route path = "/onboarding/conversions" component={OnboardingMessageConfig} />
           <Route path = "/onboarding/message-snippet" component={OnboardingMessageSnippet} />
           <Route path = "/onboarding/conversion-snippet" component={OnboardingConversionSnippet} />
-          <Route path = "/conversions" component={UserPage} />
+          <Route path = "/messages" component={Messages} />
           <Route path = "/" component={Placeholder} />
         </Switch>
       );

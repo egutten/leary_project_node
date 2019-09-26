@@ -3,16 +3,6 @@ const moment = require("moment");
 const axios = require('axios');
 
  const fn = {
-   // checkUserConversionEvents: (data) => {
-   //   return db.ConversionEvent.findAll({
-   //     where: {
-   //       conversion_event: data.conversion_event,
-   //       user_id: data.user_id
-   //     }
-   //   }).then((response) => {
-   //     return response;
-   //   });   
-   // },
    
    createConversionEvent: (data) => { 
      return db.ConversionEvent.create({
@@ -22,6 +12,16 @@ const axios = require('axios');
      }).then((response) => {
        return response.dataValues;
      })
+   },
+   
+   getConversions: (user_id) => {
+     return db.ConversionEvent.findAll({
+       where: {
+         user_id: user_id
+       }
+     }).then((response) => {
+       return response;
+     });   
    },
    
    updateConversionEvent: (data) => {

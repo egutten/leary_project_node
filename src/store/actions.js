@@ -53,10 +53,17 @@ export const auth = (email, password) => {
   }
 }
 
-export const message = (conversionEvent) => {
+export const conversion = (conversionEvent) => {
   return {
     type: actionTypes.CONVERSION_EVENT,
     conversion_event: conversionEvent
+  }
+}
+
+export const conversions = (conversionEvents) => {
+  return {
+    type: actionTypes.ALL_CONVERSION_EVENTS,
+    conversion_events: conversionEvents
   }
 }
 
@@ -68,7 +75,7 @@ export const createUpdateConversion = (conversion_event, userId, position) => {
       position: position
     })
     .then(conversionEvent => {
-      dispatch(message(conversionEvent.data));
+      dispatch(conversion(conversionEvent.data));
     })
     .catch(err => {
       console.log(err.message);
@@ -81,8 +88,8 @@ export const getConversions = (userId) => {
     axios.post(process.env.REACT_APP_NODE_API + "admin/get-messages", {
       user_id: userId
     })
-    .then(messages => {
-      dispatch(message(messages.data));
+    .then(conversionEvents => {
+      dispatch(conversions(conversionEvents.data));
     })
     .catch(err => {
       console.log(err.message);

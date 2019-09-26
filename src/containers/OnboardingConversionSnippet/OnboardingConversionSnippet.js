@@ -7,7 +7,7 @@ import SnippetBox from '../../components/snippetBox/snippetBox';
 class OnboardingConversionSnippet extends Component {  
   
   submitHandler = (event) => {
-    this.props.history.push('/onboarding/conversion-snippet');
+    this.props.history.push('/messages');
   };
   
   render() {
