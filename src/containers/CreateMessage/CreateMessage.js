@@ -28,9 +28,28 @@ class CreateMessage extends Component {
       position_left: {
         elementType: 'radio',
         value: 'left',
-        text: 'Left'
+        text: 'Left',
+        checked: false
       }
     }  
+  }
+  
+  componentDidMount() {
+    //functionality to allow selection of either radio button
+    const radio = document.querySelectorAll('input[name="position"]');
+    for(var i = 0; i < radio.length; i++) {
+      radio[i].addEventListener('click', () => {
+        const updatedForm = updateObject(this.state.configForm, {
+          position_right: updateObject(this.state.configForm.position_right, {
+            checked: !this.state.configForm.position_right.checked
+          }),
+          position_left: updateObject(this.state.configForm.position_left, {
+            checked: !this.state.configForm.position_left.checked
+          })
+        });
+        this.setState({configForm: updatedForm});  
+      });
+    }
   }
   
   inputChangedHandler = (event, inputName) => {

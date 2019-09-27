@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import {updateObject} from '../shared/utility';
+// import  { replaceUpdatedMessage } from '../shared/helperfunctions';
 
 const initialState = {
   userId: null,
@@ -26,6 +27,24 @@ const authFailure = (state, action) => {
 };
 
 const conversionEvent = (state, action) => {
+  // const messageData = {
+  //   conversion_event_id: action.conversion_event.id,
+  //   messages: state.messages,
+  //   conversion_event: action.conversion_event,
+  // }
+  // 
+  // if (state.messages.length > 0) {
+  //   replaceUpdatedMessage(messageData)
+  //   .then((newMessages) => {
+  //     return updateObject(state, {
+  //       messages: newMessages
+  //     });
+  //   })
+  // } else {
+  //   return updateObject(state, {
+  //     messages: state.messages.concat(action.conversion_event)
+  //   });
+  // }
   if (state.messages.length > 0) {
     const id = action.conversion_event.id;
     const index = state.messages.findIndex(item => item.id === id);
@@ -39,7 +58,6 @@ const conversionEvent = (state, action) => {
       messages: state.messages.concat(action.conversion_event)
     });
   }
-  
 };
 
 const allConversionEvents = (state, action) => {

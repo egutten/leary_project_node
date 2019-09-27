@@ -22,14 +22,34 @@ class OnboardingMessageConfig extends Component {
       position_right: {
         elementType: 'radio',
         value: 'right',
-        text: 'Right'
+        text: 'Right',
+        checked: true
       },
       position_left: {
         elementType: 'radio',
         value: 'left',
-        text: 'Left'
+        text: 'Left',
+        checked: false
       }
     }  
+  }
+  
+  componentDidMount() {
+    //functionality to allow selection of either radio button
+    const radio = document.querySelectorAll('input[name="position"]');
+    for(var i = 0; i < radio.length; i++) {
+      radio[i].addEventListener('click', () => {
+        const updatedForm = updateObject(this.state.configForm, {
+          position_right: updateObject(this.state.configForm.position_right, {
+            checked: !this.state.configForm.position_right.checked
+          }),
+          position_left: updateObject(this.state.configForm.position_left, {
+            checked: !this.state.configForm.position_left.checked
+          })
+        });
+        this.setState({configForm: updatedForm});  
+      });
+    }
   }
   
   inputChangedHandler = (event, inputName) => {
@@ -46,6 +66,7 @@ class OnboardingMessageConfig extends Component {
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
   };
   
+  //only allow routing to snippet page after state updates, so snippet is properly populated
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.messages.length !== 0) {
       nextProps.history.push('/onboarding/message-snippet');
