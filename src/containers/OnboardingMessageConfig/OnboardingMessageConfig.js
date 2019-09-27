@@ -91,7 +91,8 @@ class OnboardingMessageConfig extends Component {
         elementConfig={formElement.config.elementConfig}
         value={formElement.config.value}
         changed={(event) => this.inputChangedHandler(event, formElement.id)}
-        text={formElement.config.text} />
+        text={formElement.config.text}
+        checked={formElement.config.checked} />
     ));
     
     return (
