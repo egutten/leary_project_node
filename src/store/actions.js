@@ -86,9 +86,7 @@ export const createUpdateConversion = (conversion_event, userId, position, conve
 
 export const getConversions = (userId) => {
   return dispatch => {
-    axios.post(process.env.REACT_APP_NODE_API + "admin/all-messages", {
-      user_id: userId 
-    })
+    axios.get(process.env.REACT_APP_NODE_API + "admin/messages?userId=" + userId)
     .then(conversionEvents => {
       dispatch(conversions(conversionEvents.data));
     })

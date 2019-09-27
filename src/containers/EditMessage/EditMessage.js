@@ -5,6 +5,7 @@ import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
+import  { radioSwitchFunctionality } from '../../shared/helperfunctions';
 
 class EditMessage extends Component {
   state = {
@@ -35,20 +36,28 @@ class EditMessage extends Component {
   }
   
   componentDidMount() {
-    const radio = document.querySelectorAll('input[name="position"]');
-    for(var i = 0; i < radio.length; i++) {
-      radio[i].addEventListener('click', () => {
-        const updatedForm = updateObject(this.state.configForm, {
-          position_right: updateObject(this.state.configForm.position_right, {
-            checked: !this.state.configForm.position_right.checked
-          }),
-          position_left: updateObject(this.state.configForm.position_left, {
-            checked: !this.state.configForm.position_left.checked
-          })
-        });
-        this.setState({configForm: updatedForm});  
-      });
+    
+    const formData = {
+      configForm: this.state.configForm,
+      positionRight: this.state.positionRight,
+      positionLeft: this.state.positionLeft
     }
+    // const radio = document.querySelectorAll('input[name="position"]');
+    // for(var i = 0; i < radio.length; i++) {
+    //   radio[i].addEventListener('click', () => {
+    //     const updatedForm = updateObject(this.state.configForm, {
+    //       position_right: updateObject(this.state.configForm.position_right, {
+    //         checked: !this.state.configForm.position_right.checked
+    //       }),
+    //       position_left: updateObject(this.state.configForm.position_left, {
+    //         checked: !this.state.configForm.position_left.checked
+    //       })
+    //     });
+    //     this.setState({configForm: updatedForm});  
+    //   });
+    // }
+    
+    console.log(radioSwitchFunctionality(formData))
     
     const messages = this.props.messages;
     const id = Number(this.props.match.params.id);

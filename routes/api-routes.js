@@ -63,8 +63,8 @@ module.exports = (app) => {
     }
   });  
   
-  app.post("/admin/all-messages", (req, res) => {
-    const user_id = req.body.user_id
+  app.get("/admin/messages", (req, res) => {
+    const user_id = req.query.userId
     
     fn.getConversions(user_id)
     .then((conversions) => {
