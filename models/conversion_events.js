@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_id: {
         type: DataTypes.INTEGER
+      },
+      position: {
+        type: DataTypes.STRING
       }
     });  
     ConversionEvent.associate = (models) => {

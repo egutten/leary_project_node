@@ -10,3 +10,5 @@
 - `$npm start` 
 
 - App starts on: http://localhost:3000/
+
+### Created using the template: https://github.com/Malldoror/react-postgres-boilerplate

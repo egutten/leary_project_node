@@ -42,13 +42,14 @@ const input = (props) => {
             className="position"
             value={props.value}
             onChange={props.changed}
+            checked={props.checked}
           />
         <span>{props.text}</span>
        </div>
         break;
       default:
         inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value}
-        onChange={props.changed}/>
+        onChange={props.changed} checked={props.checked}/>
     }
   
     return (

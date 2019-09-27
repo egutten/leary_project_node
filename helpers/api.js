@@ -3,24 +3,43 @@ const moment = require("moment");
 const axios = require('axios');
 
  const fn = {
-   checkUserConversionEvents: (data) => {
+   
+   createConversionEvent: (data) => { 
+     return db.ConversionEvent.create({
+       conversion_event: data.conversion_event,
+       position: data.position,
+       user_id: data.user_id
+     }).then((response) => {
+       return response.dataValues;
+     })
+   },
+   
+   getConversions: (user_id) => {
      return db.ConversionEvent.findAll({
        where: {
-         conversion_event: data.conversion_event,
-         user_id: data.user_id
-       }
+         user_id: user_id
+       },
+       order: [
+        ['updatedAt', 'ASC']
+       ]
      }).then((response) => {
        return response;
      });   
    },
    
-   createConversionEvent: (data) => { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
-     return db.ConversionEvent.create({
-       conversion_event: data.conversion_event,
-       user_id: data.user_id
-     }).then((response) => {
-       return response.dataValues.id;
-     })
+   updateConversionEvent: (data) => {
+     return db.ConversionEvent.update({
+        conversion_event: data.conversion_event,
+        position: data.position
+      },
+      {
+        where: {
+          id: data.conversion_event_id
+        },
+        returning: true
+      }).then((response) => {
+        return response[1][0].dataValues;
+      })
    },
   
   createCustomer: () => {
@@ -52,7 +71,7 @@ const axios = require('axios');
         }
       }).then(() => {
         const email = data.email;
-        const emailParse = email.split("@"); // TODO: turn into small function "getUrlFromEmail"
+        const emailParse = email.split("@"); 
         const url = emailParse[1];
         return ({ 
            url: url,
@@ -110,7 +129,8 @@ const axios = require('axios');
            timestamp: timestamp,
            logo: activities[i].Customer.logo,
            conversion_event: activities[i].ConversionEvent.conversion_event,
-           conversion_event_id: activities[i].ConversionEvent.id
+           conversion_event_id: activities[i].ConversionEvent.id,
+           position: activities[i].ConversionEvent.position
          }
          messages.push(messageData);
        }

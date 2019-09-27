@@ -7,7 +7,7 @@ const Navbar = (props) => (
     {props.isAuthenticated ? 
       <React.Fragment>
         <li><NavLink to="/logout">Logout</ NavLink></li>
-        <li><NavLink to="/userpage">User Page</ NavLink></li>
+        <li><NavLink to="/messages">Messages</ NavLink></li>
         <li><NavLink to="/">Homepage</ NavLink></li> 
       </React.Fragment>
         : 

@@ -4,9 +4,9 @@ import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
-import  { renderMessageSnippet, renderConversionSnippet } from '../../shared/helperfunctions';
+import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
 
-class UserPage extends Component {
+class CreateMessage extends Component {
   state = {
     configForm: {
       conversion_event: {
@@ -22,14 +22,34 @@ class UserPage extends Component {
       position_right: {
         elementType: 'radio',
         value: 'right',
-        text: 'Right'
+        text: 'Right',
+        checked: true
       },
       position_left: {
         elementType: 'radio',
         value: 'left',
-        text: 'Left'
+        text: 'Left',
+        checked: false
       }
     }  
+  }
+  
+  componentDidMount() {
+    //functionality to allow selection of either radio button
+    const radio = document.querySelectorAll('input[name="position"]');
+    for(var i = 0; i < radio.length; i++) {
+      radio[i].addEventListener('click', () => {
+        const updatedForm = updateObject(this.state.configForm, {
+          position_right: updateObject(this.state.configForm.position_right, {
+            checked: !this.state.configForm.position_right.checked
+          }),
+          position_left: updateObject(this.state.configForm.position_left, {
+            checked: !this.state.configForm.position_left.checked
+          })
+        });
+        this.setState({configForm: updatedForm});  
+      });
+    }
   }
   
   inputChangedHandler = (event, inputName) => {
@@ -43,11 +63,12 @@ class UserPage extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.getConversionId(this.state.configForm.conversion_event.value, this.props.userId);
-    this.props.savePosition(document.querySelector('input[name="position"]:checked').value);
+    this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    this.props.history.push('/messages');
   };
   
   render() {
+    
     const formElementsArray = [];
     for (let key in this.state.configForm) {
       formElementsArray.push({
@@ -63,24 +84,18 @@ class UserPage extends Component {
         elementConfig={formElement.config.elementConfig}
         value={formElement.config.value}
         changed={(event) => this.inputChangedHandler(event, formElement.id)}
-        text={formElement.config.text} />
+        text={formElement.config.text}
+        checked={formElement.config.checked} />
     ));
-    
-    const props = {
-      userId: this.props.userId,
-      position: this.props.position,
-      conversion_event_id: this.props.conversion_event_id
-    }
     
     return (
       <div>
-        <h4>User Page</h4>
-        {form}
-        <Button clicked={this.submitHandler}>Submit</ Button>
-        <div>
-          <p>{renderMessageSnippet(props)}</p>
-          <p>{renderConversionSnippet(props)}</p>
-        </div>
+        <h4>Create New Message</h4>
+        <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
+        <form>
+          {form}
+          <Button clicked={this.submitHandler}>Save</ Button>
+        </form>
       </div>
     );
   }
@@ -88,17 +103,15 @@ class UserPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    position: state.position,
     userId: state.userId,
-    conversion_event_id: state.conversion_event_id
+    messages: state.messages
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    savePosition: (position) => dispatch(actions.savePosition(position)),
-    getConversionId: (conversion_event, userId) => dispatch(actions.getConversionId(conversion_event, userId))
+    createUpdateConversion: (conversion_event, userId, position) => dispatch(actions.createUpdateConversion(conversion_event, userId, position))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateMessage);

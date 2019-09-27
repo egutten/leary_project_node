@@ -122,10 +122,6 @@ class SignUp extends Component {
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
-    
-    if (this.props.isAuthenticated) { // TODO: remove?
-      this.props.history.push("/convconfig");
-    }
 
     return (
       <div>

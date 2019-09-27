@@ -37,28 +37,40 @@ module.exports = (app) => {
     res.json("done");
   });
   
-//User creates conversion events
-  app.post("/create-update-conversion-events", (req, res) => { // TODO: more "user friendly" route name
+//User creates or updates conversion events
+  app.post("/admin/messages", (req, res) => { 
     const data = {
       conversion_event: req.body.conversion_event,
-      user_id: req.body.user_id
+      user_id: req.body.user_id,
+      conversion_event_id: req.body.conversion_event_id,
+      position: req.body.position
     }
     
-    fn.checkUserConversionEvents(data)
-    .then((response) => {
-      if (!response.length > 0) {
-        fn.createConversionEvent(data)
-        .then((conversion_event_id) => {
-          res.json(conversion_event_id);
-        });
-      } else {
-        res.json(response[0].dataValues.id);
-      }  
-    }).catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
-    }); 
+    if (data.conversion_event_id) {
+      fn.updateConversionEvent(data)
+      .then((updatedConversionEvent) => {
+        res.json(updatedConversionEvent);
+      })
+    } else {
+      fn.createConversionEvent(data)
+      .then((newConversionEvent) => {
+        res.json(newConversionEvent);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
+    }
+  });  
+  
+//retrieves all conversion events to display to the user
+  app.get("/admin/messages", (req, res) => {
+    const user_id = req.query.userId
+    
+    fn.getConversions(user_id)
+    .then((conversions) => {
+      res.json(conversions);
+    })
   });
   
   //******************************************************************
@@ -126,7 +138,7 @@ module.exports = (app) => {
           fn.recordMessageView(messages[0], data.customer_id);
         })
       } else {
-        return // TODO: Remove getMessageNumber() and handle the if/then check for results in the getMessageData.then above
+        return 
       }
     }).catch((err) => {
       console.log(err);

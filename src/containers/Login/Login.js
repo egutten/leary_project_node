@@ -62,7 +62,7 @@ class Login extends Component {
     
     let authRedirect = null;
     if (this.props.isAuthenticated) {
-      authRedirect = <Redirect to='/conversions' />
+      authRedirect = <Redirect to='/messages' />
     }
     
     let errorMessage = null;
