@@ -12,6 +12,7 @@ import CreateMessage from './containers/CreateMessage/CreateMessage';
 import EditMessage from './containers/EditMessage/EditMessage';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
+import Container from './hoc/Container/Container';
 
 class App extends Component {
   
@@ -45,7 +46,9 @@ class App extends Component {
     return (
       <React.Fragment> 
         <Navbar isAuthenticated={this.props.isAuthenticated}/>
-        {routes}
+        <Container>
+          {routes}
+        </Container>
       </React.Fragment>   
     );
   }

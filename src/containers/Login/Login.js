@@ -12,8 +12,7 @@ class Login extends Component {
       email: {
         elementType: 'input',
         elementConfig: {
-          type: 'email',
-          placeholder: 'Email'
+          type: 'email'
         },
         value: '',
         validation: {
@@ -27,8 +26,7 @@ class Login extends Component {
       password: {
         elementType: 'input',
         elementConfig: {
-          type: 'password',
-          placeholder: 'Password'
+          type: 'password'
         },
         value: '',
         validation: {
@@ -95,10 +93,10 @@ class Login extends Component {
       <div>
         {authRedirect}
         {errorMessage}
-        <h4>Login</h4>
+        <h2>Login</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>Submit</ Button>
+          <Button clicked={this.submitHandler}>LOGIN</ Button>
         </form>
       </div>
     );

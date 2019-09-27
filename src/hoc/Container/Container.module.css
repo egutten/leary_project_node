@@ -1,0 +1,23 @@
+body {
+  background-color: #ebebeb;
+  margin: 0px;
+}
+
+h2 {
+  color: #710DE6;
+  font-weight: normal;
+  font-size: 40px;
+}
+
+.Container {
+  width: 800px;
+  height: 100vh;
+  margin: 0 auto;
+  font-family: 'Graphik',sans-serif;
+  background-color: white;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

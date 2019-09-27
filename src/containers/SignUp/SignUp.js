@@ -15,8 +15,7 @@ class SignUp extends Component {
       email: {
         elementType: 'input',
         elementConfig: {
-          type: 'email',
-          placeholder: 'Email'
+          type: 'email'
         },
         value: '',
         validation: {
@@ -30,8 +29,7 @@ class SignUp extends Component {
       password: {
         elementType: 'input',
         elementConfig: {
-          type: 'password',
-          placeholder: 'Password'
+          type: 'password'
         },
         value: '',
         validation: {
@@ -45,8 +43,7 @@ class SignUp extends Component {
       company_name: {
         elementType: 'input',
         elementConfig: {
-          type: 'text',
-          placeholder: 'Company Name'
+          type: 'text'
         },
         value: '',
         validation: {
@@ -127,10 +124,10 @@ class SignUp extends Component {
       <div>
         {authRedirect}
         {errorMessage}
-        <h4>Sign Up</h4>
+        <h2>Sign Up</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>Submit</ Button>
+          <Button clicked={this.submitHandler}>SIGN UP</ Button>
         </form>
       </div>
     );
