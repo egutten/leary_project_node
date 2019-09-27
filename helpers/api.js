@@ -71,7 +71,7 @@ const axios = require('axios');
         }
       }).then(() => {
         const email = data.email;
-        const emailParse = email.split("@"); // TODO: turn into small function "getUrlFromEmail"
+        const emailParse = email.split("@"); 
         const url = emailParse[1];
         return ({ 
            url: url,
@@ -129,7 +129,8 @@ const axios = require('axios');
            timestamp: timestamp,
            logo: activities[i].Customer.logo,
            conversion_event: activities[i].ConversionEvent.conversion_event,
-           conversion_event_id: activities[i].ConversionEvent.id
+           conversion_event_id: activities[i].ConversionEvent.id,
+           position: activities[i].ConversionEvent.position
          }
          messages.push(messageData);
        }

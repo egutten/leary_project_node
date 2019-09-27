@@ -37,7 +37,7 @@ module.exports = (app) => {
     res.json("done");
   });
   
-//User creates conversion events
+//User creates or updates conversion events
   app.post("/admin/messages", (req, res) => { 
     const data = {
       conversion_event: req.body.conversion_event,
@@ -63,6 +63,7 @@ module.exports = (app) => {
     }
   });  
   
+//retrieves all conversion events to display to the user
   app.get("/admin/messages", (req, res) => {
     const user_id = req.query.userId
     
@@ -137,7 +138,7 @@ module.exports = (app) => {
           fn.recordMessageView(messages[0], data.customer_id);
         })
       } else {
-        return // TODO: Remove getMessageNumber() and handle the if/then check for results in the getMessageData.then above
+        return 
       }
     }).catch((err) => {
       console.log(err);
