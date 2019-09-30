@@ -40,7 +40,6 @@ class EditMessage extends Component {
     const messages = this.props.messages;
     const id = Number(this.props.match.params.id);
     const editMessage = messages.filter(message => message.id === id);
-    console.log(editMessage[0].position === 'right');
     const updatedForm = updateObject(this.state.configForm, {
       conversion_event: updateObject(this.state.configForm.conversion_event, {
         value: editMessage[0].conversion_event
@@ -119,9 +118,9 @@ class EditMessage extends Component {
       <Radio 
         key={radioButton.id}
         value={radioButton.config.value} 
-        text={radioButton.config.text} 
         checked={radioButton.config.checked} 
-        clicked={(event) => this.radioHandler(event, radioButton.id)}
+        changed={(event) => this.radioHandler(event, radioButton.id)}
+        text={radioButton.config.text}
       /> 
     ));
     

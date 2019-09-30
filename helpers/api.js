@@ -20,7 +20,7 @@ const axios = require('axios');
          user_id: user_id
        },
        order: [
-        ['updatedAt', 'ASC']
+        ['updatedAt', 'DESC']
        ]
      }).then((response) => {
        return response;

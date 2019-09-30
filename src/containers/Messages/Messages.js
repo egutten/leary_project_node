@@ -36,6 +36,7 @@ class Messages extends Component {
   };
   
   render() {
+
     let messages = this.props.messages.map(message => (  
       <ConversionCard 
         key={message.id} 

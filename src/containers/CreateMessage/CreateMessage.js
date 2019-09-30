@@ -97,7 +97,7 @@ class CreateMessage extends Component {
         value={radioButton.config.value} 
         text={radioButton.config.text} 
         checked={radioButton.config.checked} 
-        clicked={(event) => this.radioHandler(event, radioButton.id)}
+        changed={(event) => this.radioHandler(event, radioButton.id)}
       /> 
     ));
     
