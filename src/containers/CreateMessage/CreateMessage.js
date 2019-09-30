@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Input from '../../components/Input/Input';
 import {updateObject} from '../../shared/utility';
 import Button from '../../components/Button/Button';
+import Radio from '../../components/Radio/Radio';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
@@ -18,38 +19,32 @@ class CreateMessage extends Component {
           ]
         },
         value: 'Just signed-up for a trial'
-      },
+      }
+    },
+    radio: {
       position_right: {
-        elementType: 'radio',
         value: 'right',
         text: 'Right',
         checked: true
       },
       position_left: {
-        elementType: 'radio',
         value: 'left',
         text: 'Left',
         checked: false
-      }
-    }  
+      }  
+    }   
   }
   
-  componentDidMount() {
-    //functionality to allow selection of either radio button
-    const radio = document.querySelectorAll('input[name="position"]');
-    for(var i = 0; i < radio.length; i++) {
-      radio[i].addEventListener('click', () => {
-        const updatedForm = updateObject(this.state.configForm, {
-          position_right: updateObject(this.state.configForm.position_right, {
-            checked: !this.state.configForm.position_right.checked
-          }),
-          position_left: updateObject(this.state.configForm.position_left, {
-            checked: !this.state.configForm.position_left.checked
-          })
-        });
-        this.setState({configForm: updatedForm});  
-      });
-    }
+  radioHandler = () => {
+    const updatedRadio = updateObject(this.state.radio, {
+      position_right: updateObject(this.state.radio.position_right, {
+        checked: !this.state.radio.position_right.checked
+      }),
+      position_left: updateObject(this.state.radio.position_left, {
+        checked: !this.state.radio.position_left.checked
+      })
+    });
+    this.setState({radio: updatedRadio});
   }
   
   inputChangedHandler = (event, inputName) => {
@@ -88,12 +83,31 @@ class CreateMessage extends Component {
         checked={formElement.config.checked} />
     ));
     
+    const radioArray = [];
+    for (let key in this.state.radio) {
+      radioArray.push({
+        id: key,
+        config: this.state.radio[key]
+      });
+    }
+    
+    let radio = radioArray.map(radioButton => (
+      <Radio 
+        key={radioButton.id}
+        value={radioButton.config.value} 
+        text={radioButton.config.text} 
+        checked={radioButton.config.checked} 
+        clicked={(event) => this.radioHandler(event, radioButton.id)}
+      /> 
+    ));
+    
     return (
       <div>
         <h4>Create New Message</h4>
         <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
         <form>
           {form}
+          {radio}
           <Button clicked={this.submitHandler}>Save</ Button>
         </form>
       </div>
