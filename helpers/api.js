@@ -135,11 +135,7 @@ const axios = require('axios');
          messages.push(messageData);
        }
        return messages;
-     }).catch((err) => {
-       console.log(err);
-       res.status(500);
-       res.json({error: err});
-     });    
+     })  
    },
    
    recordMessageView: (message, customer_id) => {

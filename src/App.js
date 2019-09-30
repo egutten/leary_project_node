@@ -35,7 +35,7 @@ class App extends Component {
           <Route path = "/onboarding/message-snippet" component={OnboardingMessageSnippet} />
           <Route path = "/onboarding/conversion-snippet" component={OnboardingConversionSnippet} />
           <Route path = "/messages" exact component={Messages} />
-          <Route path = "/create-message" component={CreateMessage} />
+          <Route path = "/messages/new" component={CreateMessage} />
           <Route path = "/messages/:id" component={EditMessage} />
           <Route path = "/" component={Placeholder} />
         </Switch>

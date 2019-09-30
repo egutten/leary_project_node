@@ -50,7 +50,11 @@ module.exports = (app) => {
       fn.updateConversionEvent(data)
       .then((updatedConversionEvent) => {
         res.json(updatedConversionEvent);
-      })
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
     } else {
       fn.createConversionEvent(data)
       .then((newConversionEvent) => {
@@ -70,7 +74,11 @@ module.exports = (app) => {
     fn.getConversions(user_id)
     .then((conversions) => {
       res.json(conversions);
-    })
+    }).catch((err) => {
+      console.log(err);
+      res.status(500);
+      res.json({error: err});
+    }); 
   });
   
   //******************************************************************
@@ -98,7 +106,7 @@ module.exports = (app) => {
         res.json({error: err});
       });  
     } else {
-      fn.trackActivity(activity);
+      fn.trackActivity(activity)
     }    
   });  
   
@@ -136,7 +144,11 @@ module.exports = (app) => {
         .then((messages) => {
           res.json(messages[0]);
           fn.recordMessageView(messages[0], data.customer_id);
-        })
+        }).catch((err) => {
+          console.log(err);
+          res.status(500);
+          res.json({error: err});
+        }); 
       } else {
         return 
       }

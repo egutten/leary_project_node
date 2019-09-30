@@ -15,8 +15,12 @@ const conversionCard = (props) => (
         <p className={classes.smallText}>Updated: {props.updated}</p>
         <p className={classes.smallText}>Created: {props.created}</p>
         <Button clicked={props.seeSnippet}>See Snippet</Button>
-        {props.showSnippet ? <SnippetBox snippet={renderConversionSnippet(props.userId, props.conversionEventId)}/> : null} 
-        {props.showSnippet ? <SnippetBox snippet={renderMessageSnippet(props.userId, props.position)}/> : null} 
+        {props.showSnippet ? 
+          <React.Fragment>
+            <SnippetBox snippet={renderMessageSnippet(props.userId, props.position)}/>
+            <SnippetBox snippet={renderConversionSnippet(props.userId, props.conversionEventId)}/> 
+          </React.Fragment>
+          : null} 
       </div>
       <Button clicked={props.editMessage}>Edit Message</Button>
     </div>
