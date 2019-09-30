@@ -7,6 +7,8 @@ import axios from 'axios';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
 
+require('dotenv').config();
+
 class SignUp extends Component {
   state = {
     signUpForm: {
@@ -55,6 +57,7 @@ class SignUp extends Component {
         label: 'Company Name'
       }
     },
+    errorMessage: null
   }
   
   inputChangedHandler = (event, inputName) => {
@@ -70,17 +73,20 @@ class SignUp extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:8080/signup", { // TODO: replace all "localhost" urls w/ a .env variable
+    axios.post(process.env.REACT_APP_NODE_API + "signup", { 
       email: this.state.signUpForm.email.value,
       password: this.state.signUpForm.password.value,
       company_name: this.state.signUpForm.company_name.value
     })
     .then(response => {
-      console.log(response);
-      this.props.onAuth(this.state.signUpForm.email.value, this.state.signUpForm.password.value);
+      if (response.data === "email must be unique") {
+        this.setState({errorMessage: "A user has already registered with that email address. Please choose another."})
+      } else {
+        this.props.onAuth(this.state.signUpForm.email.value, this.state.signUpForm.password.value);
+      }
     })
     .catch(err => {
-      console.log(err.message);
+      console.log(err);
     });
   };
   
@@ -88,7 +94,12 @@ class SignUp extends Component {
     
     let authRedirect = null;
     if (this.props.isAuthenticated) {
-      authRedirect = <Redirect to='/convconfig' />
+      authRedirect = <Redirect to='/onboarding/conversions' />
+    }
+    
+    let errorMessage = null;
+    if (this.state.errorMessage) {
+      errorMessage = this.state.errorMessage;
     }
     
     const formElementsArray = [];
@@ -111,14 +122,11 @@ class SignUp extends Component {
         touched={formElement.config.touched}
         changed={(event) => this.inputChangedHandler(event, formElement.id)} />
     ));
-    
-    if (this.props.isAuthenticated) { // TODO: remove?
-      this.props.history.push("/convconfig");
-    }
 
     return (
       <div>
         {authRedirect}
+        {errorMessage}
         <h4>Sign Up</h4>
         <form>
           {form}

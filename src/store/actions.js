@@ -14,14 +14,21 @@ export const authLogout = () => {
   }
 }
 
+export const authFailure = () => {
+  return {
+    type: actionTypes.AUTH_FAILURE,
+    message: "Email or password incorrect"
+  }
+}
+
 export const logout = () => {
   return dispatch => {
-    axios.get("http://localhost:8080/logout")
+    axios.get(process.env.REACT_APP_NODE_API + "logout")
     .then(response => {
       dispatch(authLogout());
     })
     .catch(err => {
-      console.log(err.message);
+      console.log(err);
     });
   }
 };
@@ -32,9 +39,44 @@ export const auth = (email, password) => {
       email: email,
       password: password
     };
-    axios.post("http://localhost:8080/login", authData)
+    axios.post(process.env.REACT_APP_NODE_API + "login", authData)
     .then(response => {
       dispatch(authSuccess(response.data.userId));
+    })
+    .catch(err => {
+      if(err.message === "Request failed with status code 401") {
+        dispatch(authFailure());
+      } else {
+        console.log(err);
+      }
+    });
+  }
+}
+
+export const conversion = (conversionEvent) => {
+  return {
+    type: actionTypes.CONVERSION_EVENT,
+    conversion_event: conversionEvent
+  }
+}
+
+export const conversions = (conversionEvents) => {
+  return {
+    type: actionTypes.ALL_CONVERSION_EVENTS,
+    conversion_events: conversionEvents
+  }
+}
+
+export const createUpdateConversion = (conversion_event, userId, position, conversion_event_id) => {
+  return dispatch => {
+    axios.post(process.env.REACT_APP_NODE_API + "admin/messages", {
+      conversion_event: conversion_event,
+      user_id: userId,
+      position: position,
+      conversion_event_id: conversion_event_id
+    })
+    .then(conversionEvent => {
+      dispatch(conversion(conversionEvent.data));
     })
     .catch(err => {
       console.log(err.message);
@@ -42,28 +84,11 @@ export const auth = (email, password) => {
   }
 }
 
-export const savePosition = (position) => {
-  return {
-    type: actionTypes.SAVE_POSITION,
-    position: position
-  }
-}
-
-export const conversionId = (id) => {
-  return {
-    type: actionTypes.CONVERSION_ID,
-    id: id
-  }
-}
-
-export const getConversionId = (conversion_event, userId) => {
+export const getConversions = (userId) => {
   return dispatch => {
-    axios.post("http://localhost:8080/ce", {
-      conversion_event: conversion_event,
-      user_id: userId
-    })
-    .then(response => {
-      dispatch(conversionId(response.data));
+    axios.get(process.env.REACT_APP_NODE_API + "admin/messages?userId=" + userId)
+    .then(conversionEvents => {
+      dispatch(conversions(conversionEvents.data));
     })
     .catch(err => {
       console.log(err.message);

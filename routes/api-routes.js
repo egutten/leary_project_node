@@ -1,6 +1,7 @@
 const db = require("../models");
 const passport = require("../config/passport");
 const moment = require("moment");
+const fn = require("../helpers/api");
 
 const axios = require('axios');
 
@@ -11,17 +12,11 @@ module.exports = (app) => {
 
 //Authentication
   app.post("/login", passport.authenticate("local"), (req, res) => {
-    const rawUserData = JSON.stringify(res.req.user);
-    const rawSessionData = JSON.stringify(res.req.session);
-    const data = {
-      userData: JSON.parse(rawUserData),
-      sessionData: JSON.parse(rawSessionData),
-    }
     res.json({
-        userId: data.userData.id,
-        expiration: data.sessionData.cookie.expires,
-        email: data.userData.email
-      });
+        userId: res.req.user.dataValues.id,
+        expiration: res.req.session.cookie.expires,
+        email: res.req.user.dataValues.email
+    })
   });
 
   app.post("/signup", (req, res) => {
@@ -32,9 +27,8 @@ module.exports = (app) => {
     }).then(() => {
       res.json(newUser);
     }).catch((err) => {
-      console.log(err);
-      res.status(500);
-      res.json({error: err});
+      console.log(err.errors[0].message);
+      res.json(err.errors[0].message);
     });
   });
 
@@ -43,41 +37,43 @@ module.exports = (app) => {
     res.json("done");
   });
   
-//User creates conversion events
-  app.post("/ce", (req, res) => { // TODO: more "user friendly" route name
-    function checkUserConversionEvents() {
-      return new Promise((resolve, reject) => { // TODO: Try removing Promise (db.conversionEvent.findAll likely already returns a Promise)
-        db.ConversionEvent.findAll({
-          where: {
-            conversion_event: req.body.conversion_event,
-            user_id: req.body.user_id
-          }
-        }).then((response) => {
-          const rawData = JSON.stringify(response); // TODO: Remove stringify -> parse to simplify
-          const data = JSON.parse(rawData);
-          resolve(data);
-        });
-      })   
+//User creates or updates conversion events
+  app.post("/admin/messages", (req, res) => { 
+    const data = {
+      conversion_event: req.body.conversion_event,
+      user_id: req.body.user_id,
+      conversion_event_id: req.body.conversion_event_id,
+      position: req.body.position
     }
     
-    function createConversionEvent() { // TODO: Try to implement as an upsert (https://stackoverflow.com/questions/29063232/sequelize-upsert)
-      db.ConversionEvent.create({
-        conversion_event: req.body.conversion_event,
-        user_id: req.body.user_id
-      }).then((response) => {
-        const rawData = JSON.stringify(response);
-        const data = JSON.parse(rawData);
-        res.json(data.id);
-      })
+    if (data.conversion_event_id) {
+      fn.updateConversionEvent(data)
+      .then((updatedConversionEvent) => {
+        res.json(updatedConversionEvent);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
+    } else {
+      fn.createConversionEvent(data)
+      .then((newConversionEvent) => {
+        res.json(newConversionEvent);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
     }
+  });  
+  
+//retrieves all conversion events to display to the user
+  app.get("/admin/messages", (req, res) => {
+    const user_id = req.query.userId
     
-    checkUserConversionEvents()
-    .then((response) => {
-      if (!response.length > 0) {
-        createConversionEvent()
-      } else {
-        res.json(response[response.length-1].id);
-      }  
+    fn.getConversions(user_id)
+    .then((conversions) => {
+      res.json(conversions);
     }).catch((err) => {
       console.log(err);
       res.status(500);
@@ -98,79 +94,35 @@ module.exports = (app) => {
       customer_id: req.body.customer_id
     };
     
-    function createCustomer() {
-      return new Promise((resolve, reject) => {
-        db.Customer.create()
-        .then((response) => {
-          res.json(response.id);
-          resolve(response.id);
-        });
-      });
-    }   
-    
-    function trackActivity(response) {
-      db.CustomerActivity.create({
-        event: activity.event,
-        conversion_event_id: activity.conversion_event_id,
-        customer_id: activity.customer_id || response,
-        user_id: activity.user_id
-      })
-    }
-    
     if (activity.event === "view") {
-      createCustomer()
-      .then((response) => {
-        trackActivity(response);
+      fn.createCustomer()
+      .then((customer_id) => {
+        activity.customer_id = customer_id;
+        fn.trackActivity(activity);
+        res.json(customer_id);
       }).catch((err) => {
         console.log(err);
         res.status(500);
         res.json({error: err});
       });  
     } else {
-      trackActivity();
+      fn.trackActivity(activity)
     }    
   });  
   
   //Update customer data upon conversion
   app.post("/customer-update", (req, res) => {
-    function updateCustomerContact() {
-      return new Promise((resolve, reject) => {
-        db.Customer.update({
-          email: req.body.email,
-          company_name: req.body.company_name,
-          first_name: req.body.first_name,
-          last_name: req.body.last_name
-        },
-        {
-        where: {
-          id: req.body.customer_id
-          }
-        }).then(() => {
-          const email = req.body.email;
-          const emailParse = email.split("@"); // TODO: turn into small function "getUrlFromEmail"
-          const url = emailParse[1];
-          resolve({ 
-             url: url,
-             customer_id: req.body.customer_id
-           });
-         });
-       });
-     }  
+    const customerData = {
+      email: req.body.email,
+      company_name: req.body.company_name,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      customer_id: req.body.customer_id
+    }
      
-     function updateCustomerLogo(response) {
-       db.Customer.update({
-         logo: response.url
-       },
-       {
-         where: {
-           id: response.customer_id
-         }
-       });
-     }
-
-    updateCustomerContact()
+    fn.updateCustomerContact(customerData)
     .then((response) => {
-      updateCustomerLogo(response);
+      fn.updateCustomerLogo(response);
     }).catch((err) => {
       console.log(err);
       res.status(500);
@@ -179,88 +131,26 @@ module.exports = (app) => {
   })    
   
   //Check for messages, render them, then record views
-  app.post("/messages", (req, res) => {   
-    function getMessageNumber() {
-      return new Promise((resolve, reject) => {
-        db.CustomerActivity.findAll({
-          where: {
-            event: "conversion",
-            user_id: req.body.user_id
-          }
-        }).then((response) => {
-          const rawData = JSON.stringify(response);
-          const data = JSON.parse(rawData);
-          resolve(data.length);
-        });
-      })
-    } 
+  app.post("/messages", (req, res) => { 
+    data = {
+      user_id: req.body.user_id,
+      customer_id: req.body.customer_id
+    }  
     
-    function getMessageData() {
-      return new Promise((resolve, reject) => {
-        db.CustomerActivity.findAll({
-          limit: 5,
-          where: {
-            event: "conversion",
-            user_id: req.body.user_id
-          },
-          include: [
-          {
-            model: db.ConversionEvent,
-            as: 'ConversionEvent'
-          },
-          { 
-            model: db.Customer,
-            as: 'Customer'
-          }],
-          order: [ ['createdAt', 'DESC'] ]
-        }).then((activities) => {
-          const messages = [];
-          for (i = 0; i < activities.length; i++) {
-            const rawData = JSON.stringify(activities[i]);
-            const data = JSON.parse(rawData);
-            const created = data.createdAt;
-            const createdAt = moment(created).valueOf();
-            const timestamp = moment(createdAt).fromNow();
-            const messageData = {
-              timestamp: timestamp,
-              logo: data.Customer.logo,
-              conversion_event: data.ConversionEvent.conversion_event,
-              conversion_event_id: data.ConversionEvent.id
-            }
-            messages.push(messageData);
-          }
-          resolve(messages);
+    fn.getMessageNumber(data.user_id)
+    .then((response) => {
+      if (response > 0) {
+        fn.getMessageData(data.user_id)
+        .then((messages) => {
+          res.json(messages[0]);
+          fn.recordMessageView(messages[0], data.customer_id);
         }).catch((err) => {
           console.log(err);
           res.status(500);
           res.json({error: err});
-        });    
-      })
-    } 
-
-    function recordMessageView(response) {
-      db.CustomerActivity.update({
-          props: response.logo,
-          conversion_event_id: response.conversion_event_id
-        },
-        {
-        where: {
-          customer_id: req.body.customer_id,
-          event: "view"
-        }
-      })
-    } 
-    
-    getMessageNumber()
-    .then((response) => {
-      if (response > 0) {
-        getMessageData()
-        .then((response) => {
-          res.json(response[0]);
-          recordMessageView(response[0]);
-        })
+        }); 
       } else {
-        return // TODO: Remove getMessageNumber() and handle the if/then check for results in the getMessageData.then above
+        return 
       }
     }).catch((err) => {
       console.log(err);

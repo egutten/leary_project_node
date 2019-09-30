@@ -3,10 +3,13 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
-import UserPage from './containers/UserPage/UserPage';
+import Messages from './containers/Messages/Messages';
 import Placeholder from './containers/Placeholder';
-import ConversionEventConfig from './containers/ConversionEventConfig/ConversionEventConfig';
-import Snippet from './containers/Snippet/Snippet';
+import OnboardingMessageConfig from './containers/OnboardingMessageConfig/OnboardingMessageConfig';
+import OnboardingMessageSnippet from './containers/OnboardingMessageSnippet/OnboardingMessageSnippet';
+import OnboardingConversionSnippet from './containers/OnboardingConversionSnippet/OnboardingConversionSnippet';
+import CreateMessage from './containers/CreateMessage/CreateMessage';
+import EditMessage from './containers/EditMessage/EditMessage';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
 
@@ -28,9 +31,12 @@ class App extends Component {
           <Route path = "/logout" component={Logout} />
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={SignUp}/>
-          <Route path = "/convconfig" component={ConversionEventConfig} />
-          <Route path = "/snippet" component={Snippet} />
-          <Route path = "/userpage" component={UserPage} />
+          <Route path = "/onboarding/conversions" component={OnboardingMessageConfig} />
+          <Route path = "/onboarding/message-snippet" component={OnboardingMessageSnippet} />
+          <Route path = "/onboarding/conversion-snippet" component={OnboardingConversionSnippet} />
+          <Route path = "/messages" exact component={Messages} />
+          <Route path = "/messages/new" component={CreateMessage} />
+          <Route path = "/messages/:id" component={EditMessage} />
           <Route path = "/" component={Placeholder} />
         </Switch>
       );
