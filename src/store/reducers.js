@@ -15,7 +15,8 @@ const authSuccess = (state, action) => {
 
 const authLogout = (state, action) => {
   return updateObject(state, {
-    userId: null
+    userId: null,
+    messages: []
   });
 };
 

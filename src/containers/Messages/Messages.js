@@ -13,7 +13,7 @@ class Messages extends Component {
   }
   
   createHandler = (event) => {
-    this.props.history.push('/create-message');
+    this.props.history.push('/messages/new');
   };
   
   editHandler = (event, id) => {
@@ -36,6 +36,7 @@ class Messages extends Component {
   };
   
   render() {
+
     let messages = this.props.messages.map(message => (  
       <ConversionCard 
         key={message.id} 

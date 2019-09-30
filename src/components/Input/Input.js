@@ -33,20 +33,6 @@ const input = (props) => {
           </select>
         );
        break;  
-      case ('radio'):
-        inputElement = 
-        <div>
-          <input 
-            name="position"
-            type={props.elementType}
-            className="position"
-            value={props.value}
-            onChange={props.changed}
-            checked={props.checked}
-          />
-        <span>{props.text}</span>
-       </div>
-        break;
       default:
         inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value}
         onChange={props.changed} checked={props.checked}/>
