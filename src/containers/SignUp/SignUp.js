@@ -128,7 +128,7 @@ class SignUp extends Component {
         <h2>Sign Up</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>SIGN UP</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>SIGN UP</ Button>
         </form>
       </div>
     );

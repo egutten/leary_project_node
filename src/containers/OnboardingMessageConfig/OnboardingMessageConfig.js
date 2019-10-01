@@ -16,7 +16,7 @@ class OnboardingMessageConfig extends Component {
         elementConfig: {
           options: [
           {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
-          {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
+          {value: 'Just scheduled a demo', displayValue: 'Just scheduled a demo'}
           ]
         },
         value: 'Just signed-up for a trial'
@@ -121,7 +121,9 @@ class OnboardingMessageConfig extends Component {
             </div>
           </form>
         </div>
-        <Button clicked={this.submitHandler}>Next</ Button>
+        <div className={classes.btnAlignNext}>
+          <Button btnType="Nav" clicked={this.submitHandler}>Next</ Button>
+        </div>
       </div>
     );
   }

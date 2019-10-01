@@ -6,7 +6,6 @@ import Button from '../../components/Button/Button';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
 import classes from '../../hoc/Container/Container.module.css';
-import Navbar from '../../components/Navbar/Navbar';
 
 class Login extends Component {
   state = {
@@ -98,7 +97,7 @@ class Login extends Component {
         <h2>Login</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>LOGIN</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>LOGIN</ Button>
         </form>
       </div>
     );

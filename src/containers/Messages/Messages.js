@@ -3,6 +3,7 @@ import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import ConversionCard from '../../components/conversionCard/conversionCard';
+import classes from '../../hoc/Container/Container.module.css';
 
 const moment = require("moment");
 
@@ -52,10 +53,14 @@ class Messages extends Component {
     ));
   
     return (
-      <div>
+      <div className={classes.formContainerWide}>
         <h2>Messages</h2>
         {messages}
-        <Button clicked={this.createHandler}>Add Message</ Button>
+        <div className={classes.addMessage}>
+          <Button btnType="Add" clicked={this.createHandler}>+</ Button>
+          <p>Add Message</p>
+        </div>
+        
         <div>
         </div>
       </div>
