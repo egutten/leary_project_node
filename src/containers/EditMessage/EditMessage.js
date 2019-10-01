@@ -16,7 +16,7 @@ class EditMessage extends Component {
         elementConfig: {
           options: [
           {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
-          {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
+          {value: 'Just scheduled a demo', displayValue: 'Just scheduled a demo'}
           ]
         },
         value: 'Just signed-up for a trial'
@@ -36,7 +36,7 @@ class EditMessage extends Component {
     }  
   }  
   
-  componentDidMount() { 
+  componentDidMount() {
     if (this.props.messages.length === 0) {
       this.props.getConversions(this.props.userId);
     }
@@ -46,13 +46,11 @@ class EditMessage extends Component {
       const messages = this.props.messages;
       const id = Number(this.props.match.params.id);
       const editMessage = messages.filter(message => message.id === id);
-      console.log(editMessage[0].conversion_event);
       const updatedForm = updateObject(this.state.configForm, {
         conversion_event: updateObject(this.state.configForm.conversion_event, {
           value: editMessage[0].conversion_event
         })
       });
-      console.log(this.state.configForm.conversion_event.value);
       const updatedRadio = updateObject(this.state.radio, {
         position_right: updateObject(this.state.radio.position_right, {
           checked: editMessage[0].position === 'right' ? true : false
@@ -99,7 +97,7 @@ class EditMessage extends Component {
     let form = null;
     let radio = null;
     
-    if (this.props.messages.length > 0) {      
+    if (this.props.messages.length > 0) { 
       const formElementsArray = [];
       for (let key in this.state.configForm) {
         formElementsArray.push({
@@ -149,8 +147,8 @@ class EditMessage extends Component {
               {radio}
             </div>
           </form>
-        </div>
-        <Button clicked={this.submitHandler}>Save</ Button>  
+          <Button btnType="Nav" clicked={this.submitHandler}>Save</ Button> 
+        </div> 
       </div>
     );
   }
