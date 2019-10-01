@@ -84,6 +84,7 @@ class EditMessage extends Component {
         value: event.target.value
       })
     });
+    console.log(updatedForm);
     this.setState({configForm: updatedForm});
   };  
   

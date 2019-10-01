@@ -13,8 +13,23 @@ import EditMessage from './containers/EditMessage/EditMessage';
 import Navbar from './components/Navbar/Navbar';
 import {connect} from 'react-redux';
 import Container from './hoc/Container/Container';
+import {withRouter} from 'react-router';
 
 class App extends Component {
+  
+  state = {
+    path: this.props.history.location.pathname
+  }
+  
+  componentDidMount() {
+    this.unlisten = this.props.history.listen((location, action) => {
+      this.setState({path: location.pathname});
+    });
+  }
+  
+  componentWillUnmount() {
+    this.unlisten();
+  }
   
   render() {
     
@@ -43,9 +58,14 @@ class App extends Component {
       );
     }
     
+    let navbar = <Navbar isAuthenticated={this.props.isAuthenticated}/>
+    if (this.state.path === '/onboarding/conversions' || this.state.path === '/onboarding/message-snippet' || this.state.path === '/onboarding/conversion-snippet') {
+      navbar = null
+    }
+    
     return (
       <React.Fragment> 
-        <Navbar isAuthenticated={this.props.isAuthenticated}/>
+        {navbar}
         <Container>
           {routes}
         </Container>
@@ -60,4 +80,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
