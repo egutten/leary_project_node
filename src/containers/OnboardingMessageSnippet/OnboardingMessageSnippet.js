@@ -15,7 +15,7 @@ class OnboardingMessageSnippet extends Component {
     return (
       
       <div>
-        <h4>Step 2: Insert Snippet Into Code</h4>
+        <h2>Step 2: Insert Snippet Into Code</h2>
         <div>
           <SnippetBox snippet={renderMessageSnippet(this.props.userId, this.props.messages[0].position)} />
         </div>

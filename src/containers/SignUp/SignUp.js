@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button';
 import axios from 'axios';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
+import classes from '../../hoc/Container/Container.module.css';
 
 require('dotenv').config();
 
@@ -121,7 +122,7 @@ class SignUp extends Component {
     ));
 
     return (
-      <div>
+      <div className={classes.formContainer}>
         {authRedirect}
         {errorMessage}
         <h2>Sign Up</h2>

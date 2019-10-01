@@ -5,6 +5,7 @@ import classes from './Navbar.module.css';
 
 const Navbar = (props) => (
   <div className={classes.Navbar}>
+    <img src={require("./img/lamp.png")}></img>
     <ul>
       {props.isAuthenticated ? 
         <React.Fragment>

@@ -6,6 +6,7 @@ import Radio from '../../components/Radio/Radio';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
+import classes from '../../hoc/Container/Container.module.css';
 
 class OnboardingMessageConfig extends Component {
   state = {
@@ -109,13 +110,18 @@ class OnboardingMessageConfig extends Component {
     
     return (
       <div>
-        <h4>Step 1: Configure Messages</h4>
-        <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
-        <form>
-          {form}
-          {radio}
-          <Button clicked={this.submitHandler}>Submit</ Button>
-        </form>
+        <h2>Step 1: Configure Messages</h2>
+        <div className={classes.centerContainer}>
+          <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
+          <form>
+            {form}
+            <div className={classes.radioContainer}>
+              <p>Message position:</p>
+              {radio}
+            </div>
+          </form>
+        </div>
+        <Button clicked={this.submitHandler}>Next</ Button>
       </div>
     );
   }

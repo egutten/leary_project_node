@@ -5,6 +5,8 @@ import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
+import classes from '../../hoc/Container/Container.module.css';
+import Navbar from '../../components/Navbar/Navbar';
 
 class Login extends Component {
   state = {
@@ -90,7 +92,7 @@ class Login extends Component {
     ));
     
     return (
-      <div>
+      <div className={classes.formContainer}>
         {authRedirect}
         {errorMessage}
         <h2>Login</h2>

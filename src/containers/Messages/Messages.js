@@ -53,7 +53,7 @@ class Messages extends Component {
   
     return (
       <div>
-        <h4>Messages</h4>
+        <h2>Messages</h2>
         {messages}
         <Button clicked={this.createHandler}>Add Message</ Button>
         <div>
