@@ -11,25 +11,12 @@ import OnboardingConversionSnippet from './containers/OnboardingConversionSnippe
 import CreateMessage from './containers/CreateMessage/CreateMessage';
 import EditMessage from './containers/EditMessage/EditMessage';
 import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
 import {connect} from 'react-redux';
 import Container from './hoc/Container/Container';
 import {withRouter} from 'react-router';
 
 class App extends Component {
-  
-  state = {
-    path: this.props.history.location.pathname
-  }
-  
-  componentDidMount() {
-    this.unlisten = this.props.history.listen((location, action) => {
-      this.setState({path: location.pathname});
-    });
-  }
-  
-  componentWillUnmount() {
-    this.unlisten();
-  }
   
   render() {
     
@@ -58,17 +45,13 @@ class App extends Component {
       );
     }
     
-    let navbar = <Navbar isAuthenticated={this.props.isAuthenticated}/>
-    if (this.state.path === '/onboarding/conversions' || this.state.path === '/onboarding/message-snippet' || this.state.path === '/onboarding/conversion-snippet') {
-      navbar = null
-    }
-    
     return (
       <React.Fragment> 
-        {navbar}
+        <Navbar isAuthenticated={this.props.isAuthenticated}/>
         <Container>
           {routes}
         </Container>
+        <Footer/>
       </React.Fragment>   
     );
   }

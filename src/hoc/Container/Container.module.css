@@ -23,7 +23,7 @@ h2 {
 
 .Container {
   width: 70%;
-  min-height: 100vh;
+  min-height: 85.5vh;
   margin: 0 auto;
   background-color: white;
   padding: 40px;
@@ -75,6 +75,7 @@ h2 {
   .Container {
     width: 100%;
     padding: 20px;
+    min-height: 83.4vh;
   }
   
   h2 {

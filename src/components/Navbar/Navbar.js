@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import classes from './Navbar.module.css';
 
 
-const Navbar = (props) => (
+const navbar = (props) => (
   <div className={classes.Navbar}>
     <div className={classes.Container}>
       <NavLink to="/">
@@ -29,4 +29,4 @@ const Navbar = (props) => (
 );
 
 
-export default Navbar;
+export default navbar;
