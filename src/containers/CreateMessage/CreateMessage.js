@@ -16,7 +16,7 @@ class CreateMessage extends Component {
         elementConfig: {
           options: [
           {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
-          {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
+          {value: 'Just scheduled a demo', displayValue: 'Just scheduled a demo'}
           ]
         },
         value: 'Just signed-up for a trial'

@@ -1,4 +1,4 @@
-export const renderMessageSnippet = (userId, position, conversion_event_id) => {
+export const renderMessageSnippet = (userId, conversion_event_id) => {
   return "<!-- Leery Message Snippet --><script>var s = document.createElement('script'); s.src = 'http://localhost:9000/widget.js'; s.id = '123456'; s.setAttribute('data-config', '{\"userId\": " + userId + "}'); s.async = true; document.body.appendChild(s);</script>"
 };
 
