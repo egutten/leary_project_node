@@ -1,15 +1,26 @@
-.snippetBox {
+.snippetBoxSmall, .snippetBoxMed, .snippetBoxLarge {
   width: 95%;
   max-width: 600px;
-  height: 35px;
   border: 1px solid #a0a3a1;
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0px 5px 10px 0px #eee;
+  margin: 10px 0px;
   justify-content: center;
+}
+
+.snippetBoxSmall {
   overflow-x: scroll;
   white-space: nowrap;
-  margin: 10px 0px;
+  height: 35px;
+}
+
+.snippetBoxLarge {
+  height: 150px;
+}
+
+.snippetBoxMed {
+  height: 100px;
 }
 
 .snippetText {

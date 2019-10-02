@@ -25,7 +25,7 @@ class OnboardingConversionSnippet extends Component {
   render() {  
     let snippetBox = null;
     if (this.props.messages.length > 0) {
-      snippetBox = <SnippetBox snippet={renderConversionSnippet(this.props.userId, this.props.messages[0].id)} />
+      snippetBox = <SnippetBox boxSize="snippetBoxLarge" snippet={renderConversionSnippet(this.props.userId, this.props.messages[0].id)} />
     }
     
     return (

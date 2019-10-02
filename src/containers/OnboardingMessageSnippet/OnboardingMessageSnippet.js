@@ -26,7 +26,7 @@ class OnboardingMessageSnippet extends Component {
   render() {
     let snippetBox = null;
     if (this.props.messages.length > 0) {
-      snippetBox = <SnippetBox snippet={renderMessageSnippet(this.props.userId, this.props.messages[0].position)} />
+      snippetBox = <SnippetBox boxSize="snippetBoxMed" snippet={renderMessageSnippet(this.props.userId, this.props.messages[0].position)} />
     }
     
     return (

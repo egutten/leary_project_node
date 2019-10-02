@@ -20,8 +20,8 @@ const conversionCard = (props) => (
     <Button btnType="seeSnippet" clicked={props.seeSnippet}>See Snippet</Button>
     {props.showSnippet ? 
       <React.Fragment>
-        <SnippetBox snippet={renderMessageSnippet(props.userId, props.position)}/>
-        <SnippetBox snippet={renderConversionSnippet(props.userId, props.conversionEventId)}/> 
+        <SnippetBox boxSize="snippetBoxSmall" snippet={renderMessageSnippet(props.userId, props.position)}/>
+        <SnippetBox boxSize="snippetBoxSmall" snippet={renderConversionSnippet(props.userId, props.conversionEventId)}/> 
       </React.Fragment>
       : null} 
   </div>    
