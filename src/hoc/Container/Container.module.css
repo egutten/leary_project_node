@@ -73,6 +73,16 @@ h2 {
 
 @media (max-width: 650px) {
   .Container {
-    width: 100%
+    width: 100%;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-block-end: 20px;
+    margin-block-start: 0px;
+    padding: 0px 20px;
+  }
+  .formContainerWide {
+    width: 100%;
   }
 }

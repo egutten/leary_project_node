@@ -60,15 +60,8 @@ class OnboardingMessageConfig extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    this.props.history.push('/onboarding/message-snippet');
   };
-  
-  //only allow routing to snippet page after state updates, so snippet is properly populated
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.messages.length !== 0) {
-      nextProps.history.push('/onboarding/message-snippet');
-    }
-    return nextProps;
-  }
   
   render() {
     

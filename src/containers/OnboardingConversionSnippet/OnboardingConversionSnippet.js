@@ -19,7 +19,7 @@ class OnboardingConversionSnippet extends Component {
   };
   
   backHandler = (event) => {
-    this.props.history.push('/onboarding/conversions');
+    this.props.history.push('/onboarding/message-snippet');
   };
   
   render() {  
@@ -32,9 +32,9 @@ class OnboardingConversionSnippet extends Component {
       <div className={classes.formContainerWide}>
         <h2>Step 3: Insert Conversion Snippet</h2>
         <p>Copy the snippet below and paste it in the body of the page that appears after a conversion takes place.</p>
-        <p><u>Remember</u>: This snippet will also be available on your Messages page.</p>
+        <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
         <p><strong><u>THIS SNIPPET REQUIRES CONFIGURATION!</u></strong></p>
-        <p><strong>Replace [CONFIGURE] with references to your database where a customer's information is stored after a conversion.</strong></p>
+        <p><strong>Replace [CONFIGURE] with your customer conversion database references.</strong></p>
         <div className={classes.snippetBuffer}>
           {snippetBox}
         </div>

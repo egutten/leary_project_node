@@ -18,11 +18,6 @@ class OnboardingMessageSnippet extends Component {
     this.props.history.push('/onboarding/conversion-snippet');
   };
   
-  backHandler = (event) => {
-    console.log(this.props.history);
-    this.props.history.push('/onboarding/conversions');
-  };
-  
   render() {
     let snippetBox = null;
     if (this.props.messages.length > 0) {
@@ -33,12 +28,11 @@ class OnboardingMessageSnippet extends Component {
       <div className={classes.formContainerWide}>
         <h2>Step 2: Insert Message Snippet</h2>
         <p>Copy the snippet below and paste it in the body of the page on which you would like to see the message appear.</p>
-        <p><u>Remember</u>: This snippet will also be available on your Messages page.</p>
+        <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
         <div className={classes.snippetBuffer}>
           {snippetBox}
         </div>
-        <div className={classes.btnAlign}>
-          <Button btnType="Nav" clicked={this.backHandler}>Back</ Button>
+        <div className={classes.btnAlignRight}>
           <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
         </div>
       </div>

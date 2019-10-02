@@ -9,6 +9,10 @@
   justify-content: center;
 }
 
+.snippetBoxMed, .snippetBoxLarge {
+  overflow-y: scroll;
+}
+
 .snippetBoxSmall {
   overflow-x: scroll;
   white-space: nowrap;

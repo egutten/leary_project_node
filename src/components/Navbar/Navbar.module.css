@@ -30,6 +30,7 @@ ul {
   list-style: none;
   display: flex;
   line-height: 100%;
+  padding-inline-start: 0px;
 }
 
 li {
@@ -45,6 +46,18 @@ li a:hover {
   color: #fcd303;
 }
 
-img {
-  height: 80px;
+.shortLogo {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .fullLogo {
+    display: none;
+  }
+  .shortLogo {
+    display: block;
+  }
+  li {
+    margin: 0px 10px;
+  }
 }

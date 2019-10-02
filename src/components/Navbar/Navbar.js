@@ -7,7 +7,8 @@ const Navbar = (props) => (
   <div className={classes.Navbar}>
     <div className={classes.Container}>
       <NavLink to="/">
-        <img alt="leery-lamp" src={require("./img/lamp_2.png")}></img>
+        <img className={classes.fullLogo} alt="leery-lamp" src={require("./img/lamp_2.png")}></img>
+        <img className={classes.shortLogo} alt="leery-lamp" src={require("./img/lamp_only.png")}></img>
       </NavLink>
       <ul>
         {props.isAuthenticated ? 
