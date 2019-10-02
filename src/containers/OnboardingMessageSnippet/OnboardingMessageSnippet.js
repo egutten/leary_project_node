@@ -25,17 +25,20 @@ class OnboardingMessageSnippet extends Component {
     }
     
     return (
-      <div className={classes.formContainerWide}>
-        <h2>Step 2: Insert Message Snippet</h2>
-        <p>Copy the snippet below and paste it in the body of the page on which you would like to see the message appear.</p>
-        <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
-        <div className={classes.snippetBuffer}>
-          {snippetBox}
+      <React.Fragment>
+        <div className={classes.formContainerWide}>
+          <h2>Step 2: Insert Message Snippet</h2>
+          <p>Copy the snippet below and paste it in the body of the page on which you would like to see the message appear.</p>
+          <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
+          <div className={classes.snippetBuffer}>
+            {snippetBox}
+          </div>
+          <div className={classes.btnAlignRight}>
+            <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
+          </div>
         </div>
-        <div className={classes.btnAlignRight}>
-          <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
-        </div>
-      </div>
+        <div className={classes.blankNav}></div>
+      </React.Fragment>
     );
   }
 }

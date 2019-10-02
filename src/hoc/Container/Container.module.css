@@ -71,6 +71,11 @@ h2 {
   margin: 40px 0px;
 }
 
+.blankNav {
+  height: 340px;
+  background: white;
+}
+
 @media (max-width: 650px) {
   .Container {
     width: 100%;

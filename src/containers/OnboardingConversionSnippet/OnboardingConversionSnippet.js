@@ -29,20 +29,23 @@ class OnboardingConversionSnippet extends Component {
     }
     
     return (
-      <div className={classes.formContainerWide}>
-        <h2>Step 3: Insert Conversion Snippet</h2>
-        <p>Copy the snippet below and paste it in the body of the page that appears after a conversion takes place.</p>
-        <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
-        <p><strong><u>THIS SNIPPET REQUIRES CONFIGURATION!</u></strong></p>
-        <p><strong>Replace [CONFIGURE] with your customer conversion database references.</strong></p>
-        <div className={classes.snippetBuffer}>
-          {snippetBox}
+      <React.Fragment>
+        <div className={classes.formContainerWide}>
+          <h2>Step 3: Insert Conversion Snippet</h2>
+          <p>Copy the snippet below and paste it in the body of the page that appears after a conversion takes place.</p>
+          <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
+          <p><strong><u>THIS SNIPPET REQUIRES CONFIGURATION!</u></strong></p>
+          <p><strong>Replace [CONFIGURE] with your customer conversion database references.</strong></p>
+          <div className={classes.snippetBuffer}>
+            {snippetBox}
+          </div>
+          <div className={classes.btnAlign}>
+            <Button btnType="Nav" clicked={this.backHandler}>Back</ Button>
+            <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
+          </div>
         </div>
-        <div className={classes.btnAlign}>
-          <Button btnType="Nav" clicked={this.backHandler}>Back</ Button>
-          <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
-        </div>
-      </div>
+        <div className={classes.blankNav}></div>
+      </React.Fragment>
     );
   }
 }

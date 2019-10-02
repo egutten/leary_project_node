@@ -102,22 +102,25 @@ class OnboardingMessageConfig extends Component {
     ));
     
     return (
-      <div>
-        <h2>Step 1: Configure Messages</h2>
-        <div className={classes.centerContainer}>
-          <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
-          <form>
-            {form}
-            <div className={classes.radioContainer}>
-              <p>Message position:</p>
-              {radio}
-            </div>
-          </form>
+      <React.Fragment>
+        <div>
+          <h2>Step 1: Configure Messages</h2>
+          <div className={classes.centerContainer}>
+            <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
+            <form>
+              {form}
+              <div className={classes.radioContainer}>
+                <p>Message position:</p>
+                {radio}
+              </div>
+            </form>
+          </div>
+          <div className={classes.btnAlignRight}>
+            <Button btnType="Nav" clicked={this.submitHandler}>Next</ Button>
+          </div>
         </div>
-        <div className={classes.btnAlignRight}>
-          <Button btnType="Nav" clicked={this.submitHandler}>Next</ Button>
-        </div>
-      </div>
+        <div className={classes.blankNav}></div>
+      </React.Fragment>
     );
   }
 }
