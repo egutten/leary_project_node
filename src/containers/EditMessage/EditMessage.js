@@ -46,6 +46,7 @@ class EditMessage extends Component {
       const messages = this.props.messages;
       const id = Number(this.props.match.params.id);
       const editMessage = messages.filter(message => message.id === id);
+      console.log(editMessage);
       const updatedForm = updateObject(this.state.configForm, {
         conversion_event: updateObject(this.state.configForm.conversion_event, {
           value: editMessage[0].conversion_event

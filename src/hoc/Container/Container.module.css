@@ -12,7 +12,7 @@ h2 {
   font-size: 40px;
 }
 
-.Container, .centerContainer, .radioContainer, .btnAlignNext, .btnAlign, .addMessage {
+.Container, .centerContainer, .radioContainer, .btnAlignRight, .btnAlign, .addMessage {
   display: flex;
 }
 

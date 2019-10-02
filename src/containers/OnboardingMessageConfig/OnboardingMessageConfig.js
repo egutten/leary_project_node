@@ -121,7 +121,7 @@ class OnboardingMessageConfig extends Component {
             </div>
           </form>
         </div>
-        <div className={classes.btnAlignNext}>
+        <div className={classes.btnAlignRight}>
           <Button btnType="Nav" clicked={this.submitHandler}>Next</ Button>
         </div>
       </div>
