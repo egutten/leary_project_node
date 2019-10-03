@@ -12,7 +12,7 @@
 }
 
 .Auth, .Nav, .Edit, .Add {
-  background-color: #710DE6;
+  background-color: #5d34af;
   color: white;
 }
 
@@ -38,9 +38,9 @@
 
 .seeSnippet {
   background-color: white;
-  color: #710DE6;
+  color: #5d34af;
   font-size: 14px;
-  border-color: #710DE6
+  border-color: #5d34af
 }
 
 .seeSnippet:hover {
