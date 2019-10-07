@@ -6,8 +6,8 @@
 
 .Auth, .Nav, .Edit, .seeSnippet {
   border-radius: 5px;
-  box-shadow: 0px 5px 10px 0px #eee;
-  text-transform: uppercase;
+  box-shadow: 3px 3px 15px 0px #dad9db;
+  text-transform: capitalize;
   margin: 10px 0px;
 }
 
@@ -44,14 +44,19 @@
 }
 
 .seeSnippet:hover {
-  background-color: #710DE6;
+  background-color: #5d34af;
   color: white;
 }
 
 .Add {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 25px;
-  margin-right: 10px;
+  display: flex;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.Add p {
+  color: #5d34af;
+  font-size: 16px;
 }

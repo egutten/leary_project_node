@@ -44,7 +44,6 @@ class Messages extends Component {
         conversionEvent={message.conversion_event} 
         position={message.position} 
         updated={moment(message.updatedAt).format("LLL")}
-        created={moment(message.createdAt).format("LLL")} 
         seeSnippet={(event) => this.snippetHandler(event, message.id)} 
         editMessage={(event) => this.editHandler(event, message.id)} 
         userId={this.props.userId} 
@@ -56,10 +55,10 @@ class Messages extends Component {
       <div className={classes.formContainerWide}>
         <h2>Messages</h2>
         {messages}
-        <div className={classes.addMessage}>
-          <Button btnType="Add" clicked={this.createHandler}>+</ Button>
+        <Button clicked={this.createHandler} btnType="Add">
+          <div className={classes.addMessage}>+</div>
           <p>Add Message</p>
-        </div>
+        </Button>
         
         <div>
         </div>

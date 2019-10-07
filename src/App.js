@@ -14,6 +14,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import {connect} from 'react-redux';
 import Container from './hoc/Container/Container';
+import Background from './hoc/Background/Background';
 import {withRouter} from 'react-router';
 
 class App extends Component {
@@ -66,11 +67,14 @@ class App extends Component {
     
     return (
       <React.Fragment> 
-        {navbar}
-        <Container>
-          {routes}
-        </Container>
-        <Footer/>
+        <Background>
+          {navbar}
+          <Container>
+            {routes}
+          </Container>  
+        </Background>
+          <Footer/>
+        
       </React.Fragment>   
     );
   }

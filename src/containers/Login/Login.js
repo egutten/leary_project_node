@@ -93,11 +93,11 @@ class Login extends Component {
     return (
       <div className={classes.formContainer}>
         {authRedirect}
-        {errorMessage}
+        <p className={classes.errorMessage}>{errorMessage}</p>
         <h2>Login</h2>
         <form>
           {form}
-          <Button btnType="Auth" clicked={this.submitHandler}>LOGIN</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>Login</ Button>
         </form>
       </div>
     );

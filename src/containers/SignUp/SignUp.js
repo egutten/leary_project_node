@@ -124,11 +124,11 @@ class SignUp extends Component {
     return (
       <div className={classes.formContainer}>
         {authRedirect}
-        {errorMessage}
-        <h2>Sign Up</h2>
+        <p className={classes.errorMessage}>{errorMessage}</p>
+        <h2>Get started for free</h2>
         <form>
           {form}
-          <Button btnType="Auth" clicked={this.submitHandler}>SIGN UP</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>Sign Up</ Button>
         </form>
       </div>
     );

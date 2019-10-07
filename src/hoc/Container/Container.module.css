@@ -1,37 +1,41 @@
 body {
-  background-color: #ebebeb;
   margin: 0px;
   font-family: 'Open Sans',sans-serif;
   color: #626363;
-  height: 100%;
+  background-color: #ebebeb;
+  min-height: 100vh;
 }
 
 h2 {
   color: #5d34af;
   font-weight: normal;
   font-size: 40px;
+  margin-block-end: 20px;
+  margin-block-start: 0px;
 }
 
-.Container, .centerContainer, .radioContainer, .btnAlignRight, .btnAlign, .addMessage {
+.Container, .radioContainer, .btnAlignRight, .btnAlign, .addMessage {
   display: flex;
 }
 
-.Container, .centerContainer {
+.Container, .addMessage {
   flex-direction: column;
   align-items: center;
 }
 
 .Container {
-  width: 70%;
-  min-height: 85.5vh;
-  margin: 0 auto;
+  width: 60%;
+  max-width: 640px;
+  margin: 100px auto 150px auto;
   background-color: white;
-  padding: 40px;
+  padding: 30px 40px 40px 40px;
   box-sizing: border-box;
+  border-radius: 15px;
+  box-shadow: 3px 3px 15px 0px #bebdbf;
 }
 
 .formContainer {
-  width: 60%;
+  width: 70%;
   max-width: 400px;
 }
 
@@ -40,14 +44,11 @@ h2 {
   max-width: 600px;
 }
 
-.centerContainer {
-  justify-content: center;
-}
-
 .radioContainer {
-  align-items: center;
-  justify-content: space-around;
-  margin: 0px 0px 40px 0px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 40px 0px 40px 0px;
+  width: 280px;
 }
 
 .radioContainer p {
@@ -62,33 +63,73 @@ h2 {
   justify-content: space-between;
 }
 
+.btnCenter {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .addMessage {
-  align-items: center;
-  color: #5d34af;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 25px;
+  margin-right: 10px;
+  background-color: #710DE6;
+  justify-content: center;
 }
 
 .snippetBuffer {
   margin: 40px 0px;
 }
 
-.blankNav {
-  height: 340px;
-  background: white;
+.errorMessage {
+  color: red;
 }
 
-@media (max-width: 650px) {
+.configQuestions {
+  font-weight: bold;
+  margin-top: 40px;
+}
+
+.customerConfigList {
+  list-style: initial;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  align-items: flex-start;
+  margin-left: 15px;
+}
+
+.customerConfigList li {
+  line-height: 20px;
+}
+
+@media (max-width: 750px) {
   .Container {
     width: 100%;
-    padding: 20px;
-    min-height: 83.4vh;
+    padding: 50px;
+    min-height: 80vh;
+    margin: 0px auto 50px auto;
+    border-radius: 0px;
+    box-shadow: none;
   }
   
   h2 {
     margin-block-end: 20px;
     margin-block-start: 0px;
-    padding: 0px 20px;
+    padding: 0px;
   }
+  
   .formContainerWide {
+    width: 120%;
+  }
+  
+  .formContainer {
     width: 100%;
+  }
+  
+  .btnCenter {
+    margin-bottom: 20px;
   }
 }

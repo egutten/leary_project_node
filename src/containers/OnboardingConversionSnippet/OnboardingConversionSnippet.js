@@ -32,10 +32,14 @@ class OnboardingConversionSnippet extends Component {
       <React.Fragment>
         <div className={classes.formContainerWide}>
           <h2>Step 3: Insert Conversion Snippet</h2>
-          <p>Copy the snippet below and paste it in the body of the page that appears after a conversion takes place.</p>
-          <p><u>Remember</u>: You will be able to access this snippet and edit your Message on your Messages page.</p>
-          <p><strong><u>THIS SNIPPET REQUIRES CONFIGURATION!</u></strong></p>
-          <p><strong>Replace [CONFIGURE] with your customer conversion database references.</strong></p>
+          <p className={classes.configQuestions}>1. Paste the below snippet in the {`<body>`} of the page that loads after a conversion takes place.</p>
+          <p className={classes.configQuestions}>2. Replace [CONFIGURE] with each converted customer's:</p>
+          <ul className={classes.customerConfigList}>
+            <li>Email</li>
+            <li>First Name</li>
+            <li>Last Name</li>
+            <li>Company Name</li>
+          </ul>
           <div className={classes.snippetBuffer}>
             {snippetBox}
           </div>
@@ -44,7 +48,6 @@ class OnboardingConversionSnippet extends Component {
             <Button btnType="Nav" clicked={this.nextHandler}>Next</ Button>
           </div>
         </div>
-        <div className={classes.blankNav}></div>
       </React.Fragment>
     );
   }

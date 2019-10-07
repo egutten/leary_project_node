@@ -23,16 +23,16 @@ class EditMessage extends Component {
       }
     },
     radio: {
-      position_right: {
-        value: 'right',
-        text: 'Right',
-        checked: true
-      },
       position_left: {
         value: 'left',
-        text: 'Left',
+        text: 'Bottom Left',
         checked: false
-      }  
+      }, 
+      position_right: {
+        value: 'right',
+        text: 'Bottom Right',
+        checked: true
+      }
     }  
   }  
   
@@ -142,13 +142,16 @@ class EditMessage extends Component {
         <div className={classes.centerContainer}>
           <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
           <form>
+            <p className={classes.configQuestions}>1. What conversions do you want to track?</p>
             {form}
+            <p className={classes.configQuestions}>2. Where would you like your messages to show?</p>
             <div className={classes.radioContainer}>
-              <p>Message position:</p>
               {radio}
             </div>
           </form>
-          <Button btnType="Nav" clicked={this.submitHandler}>Save</ Button> 
+          <div className={classes.btnCenter}>
+            <Button btnType="Nav" clicked={this.submitHandler}>Save</ Button> 
+          </div>
         </div> 
       </div>
     );

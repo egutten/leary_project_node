@@ -10,10 +10,9 @@ const conversionCard = (props) => (
       <div>
         <p className={classes.eventText}>
           {props.conversionEvent}
-          <span className={classes.smallText}>({props.position})</span>
+          <span className={classes.smallText}>(bottom {props.position})</span>
         </p>
-        <p className={classes.smallText}>Updated: {props.updated}</p>
-        <p className={classes.smallText}>Created: {props.created}</p>
+        <p className={classes.smallText}>Last Updated: {props.updated}</p>
       </div>
       <Button btnType="Edit" clicked={props.editMessage}>Edit</Button>
     </div>

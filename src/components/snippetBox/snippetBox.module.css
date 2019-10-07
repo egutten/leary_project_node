@@ -32,3 +32,9 @@
   margin: 0px;
   font-size: 17px;
 }
+
+@media (max-width: 750px) {
+ .snippetBoxSmall {
+   height: 25px;
+ }
+}
