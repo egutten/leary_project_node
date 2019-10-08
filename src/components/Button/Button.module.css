@@ -1,0 +1,62 @@
+.Button {
+  outline: none;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.Auth, .Nav, .Edit, .seeSnippet {
+  border-radius: 5px;
+  box-shadow: 3px 3px 15px 0px #dad9db;
+  text-transform: capitalize;
+  margin: 10px 0px;
+}
+
+.Auth, .Nav, .Edit, .Add {
+  background-color: #5d34af;
+  color: white;
+}
+
+.Auth, .Nav, .Edit {
+    font-size: 16px;
+}
+
+.Auth {
+  width: 140px;
+  height: 40px;
+}
+
+.Nav {
+  width: 120px;
+  height: 40px;
+}
+
+.Edit {
+  width: 80px;
+  height: 30px;
+  font-size: 14px;
+}
+
+.seeSnippet {
+  background-color: white;
+  color: #5d34af;
+  font-size: 14px;
+  border-color: #5d34af
+}
+
+.seeSnippet:hover {
+  background-color: #5d34af;
+  color: white;
+}
+
+.Add {
+  display: flex;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.Add p {
+  color: #5d34af;
+  font-size: 16px;
+}

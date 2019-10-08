@@ -6,6 +6,7 @@ import Radio from '../../components/Radio/Radio';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
+import classes from '../../hoc/Container/Container.module.css';
 
 class OnboardingMessageConfig extends Component {
   state = {
@@ -14,24 +15,24 @@ class OnboardingMessageConfig extends Component {
         elementType: 'select',
         elementConfig: {
           options: [
-          {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
-          {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
+          {value: 'Just scheduled a demo', displayValue: 'Just scheduled a demo'},
+          {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'}
           ]
         },
-        value: 'Just signed-up for a trial'
+        value: 'Just scheduled a demo'
       }
     },
     radio: {
-      position_right: {
-        value: 'right',
-        text: 'Right',
-        checked: true
-      },
       position_left: {
         value: 'left',
-        text: 'Left',
+        text: 'Bottom Left',
+        checked: true
+      },  
+      position_right: {
+        value: 'right',
+        text: 'Bottom Right',
         checked: false
-      }  
+      }
     }  
   }
   
@@ -59,15 +60,8 @@ class OnboardingMessageConfig extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    this.props.history.push('/onboarding/message-snippet');
   };
-  
-  //only allow routing to snippet page after state updates, so snippet is properly populated
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.messages.length !== 0) {
-      nextProps.history.push('/onboarding/message-snippet');
-    }
-    return nextProps;
-  }
   
   render() {
     
@@ -108,15 +102,25 @@ class OnboardingMessageConfig extends Component {
     ));
     
     return (
-      <div>
-        <h4>Step 1: Configure Messages</h4>
-        <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
-        <form>
-          {form}
-          {radio}
-          <Button clicked={this.submitHandler}>Submit</ Button>
-        </form>
-      </div>
+      <React.Fragment>
+        <div>
+          <h2>Step 1: Configure Messages</h2>
+          <div>
+            <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
+            <form>
+              <p className={classes.configQuestions}>1. What conversions do you want to track?</p>
+              {form}
+              <p className={classes.configQuestions}>2. Where would you like your messages to show?</p>
+              <div className={classes.radioContainer}>
+                {radio}
+              </div>
+            </form>
+          </div>
+          <div className={classes.btnAlignRight}>
+            <Button btnType="Nav" clicked={this.submitHandler}>Next</ Button>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

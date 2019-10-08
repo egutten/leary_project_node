@@ -5,6 +5,7 @@ import {updateObject, checkValidation} from '../../shared/utility';
 import Button from '../../components/Button/Button';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
+import classes from '../../hoc/Container/Container.module.css';
 
 class Login extends Component {
   state = {
@@ -12,8 +13,7 @@ class Login extends Component {
       email: {
         elementType: 'input',
         elementConfig: {
-          type: 'email',
-          placeholder: 'Email'
+          type: 'email'
         },
         value: '',
         validation: {
@@ -27,8 +27,7 @@ class Login extends Component {
       password: {
         elementType: 'input',
         elementConfig: {
-          type: 'password',
-          placeholder: 'Password'
+          type: 'password'
         },
         value: '',
         validation: {
@@ -92,13 +91,13 @@ class Login extends Component {
     ));
     
     return (
-      <div>
+      <div className={classes.formContainer}>
         {authRedirect}
-        {errorMessage}
-        <h4>Login</h4>
+        <p className={classes.errorMessage}>{errorMessage}</p>
+        <h2>Login</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>Submit</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>Login</ Button>
         </form>
       </div>
     );

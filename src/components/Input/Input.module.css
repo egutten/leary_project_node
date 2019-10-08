@@ -1,29 +1,32 @@
 .Input {
   width: 100%;
-  padding: 10px;
   box-sizing: border-box;
+  margin: 40px 0px;
 }
 
 .Label {
-  font-weight: bold;
   display: block;
-  margin-bottom: 8px
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #807F7F;
 }
 
 .InputElement {
+  color: #626363;
   outline: none;
-  border: 1px solid #ccc;
   background-color: white;
   font: inherit;
   padding: 6px 10px;
   display: block;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #a0a3a1;
+  border-radius: 5px;
 }
 
 .InputElement:focus {
   outline: none;
-  background-color: #ccc;
+  background-color: #ebebeb;
 }
 
 .Invalid {
@@ -34,4 +37,21 @@
 .ValidationError {
   color: red;
   margin: 5px 0;
+}
+
+.Select {
+  width: 350px;
+  height: 30px;
+}
+
+@media (max-width: 650px) {
+  .Select {
+    width: 300px;
+    height: 40px;
+  }
+  select {
+    -webkit-appearance: none;
+    padding-left: 5px;
+    background: url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png") white no-repeat 97%
+  }
 }

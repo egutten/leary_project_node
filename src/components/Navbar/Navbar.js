@@ -1,23 +1,32 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import classes from './Navbar.module.css';
 
 
-const Navbar = (props) => (
-  <ul>
-    {props.isAuthenticated ? 
-      <React.Fragment>
-        <li><NavLink to="/logout">Logout</ NavLink></li>
-        <li><NavLink to="/messages">Messages</ NavLink></li>
-        <li><NavLink to="/">Homepage</ NavLink></li> 
-      </React.Fragment>
-        : 
-      <React.Fragment> 
-        <li><NavLink to="/login">Login</ NavLink></li>
-        <li><NavLink to="/signup">Sign Up</ NavLink></li>
-      </React.Fragment>
-    }  
-  </ul>  
+const navbar = (props) => (
+  <div className={classes.Navbar}>
+    <div className={classes.Container}>
+      <NavLink to="/">
+        <img className={classes.fullLogo} alt="leery-lamp" src={require("./img/lamp.svg")}></img>
+        <img className={classes.shortLogo} alt="leery-lamp" src={require("./img/lamp_only.svg")}></img>
+      </NavLink>
+      <ul>
+        {props.isAuthenticated ? 
+          <React.Fragment>
+            <li className={classes.Menu}><NavLink to="/messages">Messages</ NavLink></li>
+            <li className={classes.Auth}><NavLink to="/logout">Logout</ NavLink></li> 
+          </React.Fragment>
+            : 
+          <React.Fragment> 
+            <li className={classes.Menu}><NavLink to="/login">Login</ NavLink></li>
+            <li className={classes.Auth}><NavLink to="/signup">Sign Up</ NavLink></li>
+          </React.Fragment>
+        }  
+      </ul> 
+    </div>
+     
+  </div>
 );
 
 
-export default Navbar;
+export default navbar;

@@ -3,6 +3,7 @@ import Button from '../../components/Button/Button';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import ConversionCard from '../../components/conversionCard/conversionCard';
+import classes from '../../hoc/Container/Container.module.css';
 
 const moment = require("moment");
 
@@ -43,7 +44,6 @@ class Messages extends Component {
         conversionEvent={message.conversion_event} 
         position={message.position} 
         updated={moment(message.updatedAt).format("LLL")}
-        created={moment(message.createdAt).format("LLL")} 
         seeSnippet={(event) => this.snippetHandler(event, message.id)} 
         editMessage={(event) => this.editHandler(event, message.id)} 
         userId={this.props.userId} 
@@ -52,10 +52,14 @@ class Messages extends Component {
     ));
   
     return (
-      <div>
-        <h4>Messages</h4>
+      <div className={classes.formContainerWide}>
+        <h2>Messages</h2>
         {messages}
-        <Button clicked={this.createHandler}>Add Message</ Button>
+        <Button clicked={this.createHandler} btnType="Add">
+          <div className={classes.addMessage}>+</div>
+          <p>Add Message</p>
+        </Button>
+        
         <div>
         </div>
       </div>

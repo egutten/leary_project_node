@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button';
 import axios from 'axios';
 import * as actions from '../../store/actions';
 import {connect} from 'react-redux';
+import classes from '../../hoc/Container/Container.module.css';
 
 require('dotenv').config();
 
@@ -15,8 +16,7 @@ class SignUp extends Component {
       email: {
         elementType: 'input',
         elementConfig: {
-          type: 'email',
-          placeholder: 'Email'
+          type: 'email'
         },
         value: '',
         validation: {
@@ -30,8 +30,7 @@ class SignUp extends Component {
       password: {
         elementType: 'input',
         elementConfig: {
-          type: 'password',
-          placeholder: 'Password'
+          type: 'password'
         },
         value: '',
         validation: {
@@ -45,8 +44,7 @@ class SignUp extends Component {
       company_name: {
         elementType: 'input',
         elementConfig: {
-          type: 'text',
-          placeholder: 'Company Name'
+          type: 'text'
         },
         value: '',
         validation: {
@@ -124,13 +122,13 @@ class SignUp extends Component {
     ));
 
     return (
-      <div>
+      <div className={classes.formContainer}>
         {authRedirect}
-        {errorMessage}
-        <h4>Sign Up</h4>
+        <p className={classes.errorMessage}>{errorMessage}</p>
+        <h2>Get started for free</h2>
         <form>
           {form}
-          <Button clicked={this.submitHandler}>Submit</ Button>
+          <Button btnType="Auth" clicked={this.submitHandler}>Sign Up</ Button>
         </form>
       </div>
     );

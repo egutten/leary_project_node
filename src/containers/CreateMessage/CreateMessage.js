@@ -6,6 +6,7 @@ import Radio from '../../components/Radio/Radio';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 import MessageSimulation from  '../../components/messageSimulation/messageSimulation';
+import classes from '../../hoc/Container/Container.module.css';
 
 class CreateMessage extends Component {
   state = {
@@ -15,23 +16,23 @@ class CreateMessage extends Component {
         elementConfig: {
           options: [
           {value: 'Just signed-up for a trial', displayValue: 'Just signed-up for a trial'},
-          {value: 'Just signed-up for a demo', displayValue: 'Just signed-up for a demo'}
+          {value: 'Just scheduled a demo', displayValue: 'Just scheduled a demo'}
           ]
         },
-        value: 'Just signed-up for a trial'
+        value: 'Just scheduled a demo'
       }
     },
     radio: {
-      position_right: {
-        value: 'right',
-        text: 'Right',
-        checked: true
-      },
       position_left: {
         value: 'left',
-        text: 'Left',
+        text: 'Bottom Left',
+        checked: true
+      }, 
+      position_right: {
+        value: 'right',
+        text: 'Bottom Right',
         checked: false
-      }  
+      } 
     }   
   }
   
@@ -103,13 +104,21 @@ class CreateMessage extends Component {
     
     return (
       <div>
-        <h4>Create New Message</h4>
-        <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
-        <form>
-          {form}
-          {radio}
-          <Button clicked={this.submitHandler}>Save</ Button>
-        </form>
+        <h2>Create New Message</h2>
+        <div className={classes.centerContainer}>
+          <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
+          <form>
+            <p className={classes.configQuestions}>1. What conversions do you want to track?</p>
+            {form}
+            <p className={classes.configQuestions}>2. Where would you like your messages to show?</p>
+            <div className={classes.radioContainer}>
+              {radio}
+            </div>
+          </form>
+          <div className={classes.btnCenter}>
+            <Button btnType="Nav" clicked={this.submitHandler}>Save</ Button>
+          </div>
+        </div>
       </div>
     );
   }
