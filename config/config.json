@@ -16,10 +16,10 @@
     
   },
   "production": {
-    "username": "mgutten",
+    "username": "",
     "password": "",
-    "database": "leary",
-    "host": "localhost",
+    "database": "leery",
+    "host": "",
     "dialect": "postgres"
     
   }
