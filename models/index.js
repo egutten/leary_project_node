@@ -14,7 +14,12 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(process.env.RDS_CONNECTION_URL);
+  sequelize = new Sequelize("leery", process.env.RDS_USERNAME, process.env.RDS_PASSWORD, 
+  {
+    host: "leery.cwhjruemc5qx.us-west-1.rds.amazonaws.com",
+    dialect: "posgres"
+    }
+  );
 }
 
 fs
