@@ -25,7 +25,7 @@ require("./routes/api-routes.js")(app);
 
 //Server
 db.sequelize.sync().then(() => {
-  app.listen(process.env.RDS_PORT, () => {
+  app.listen(8081, () => {
     console.log("API listening");
   });
 });
