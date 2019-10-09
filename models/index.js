@@ -14,7 +14,7 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, process.env.RDS_USERNAME, process.env.RDS_PASSWORD, process.env.RDS_CONNECTION_URL, config);
+  sequelize = new Sequelize(process.env.RDS_CONNECTION_URL);
 }
 
 fs
