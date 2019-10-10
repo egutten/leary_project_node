@@ -6,7 +6,6 @@
 
 .Auth, .Nav, .Edit, .seeSnippet {
   border-radius: 5px;
-  box-shadow: 3px 3px 15px 0px #dad9db;
   text-transform: capitalize;
   margin: 10px 0px;
 }

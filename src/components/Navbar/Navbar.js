@@ -6,10 +6,10 @@ import classes from './Navbar.module.css';
 const navbar = (props) => (
   <div className={classes.Navbar}>
     <div className={classes.Container}>
-      <a href="http://app.getleery.com">
+      <NavLink to="/messages">
         <img className={classes.fullLogo} alt="leery-lamp" src={require("./img/lamp.svg")}></img>
         <img className={classes.shortLogo} alt="leery-lamp" src={require("./img/lamp_only.svg")}></img>
-      </a>
+      </NavLink>
       <ul>
         {props.isAuthenticated ? 
           <React.Fragment>
