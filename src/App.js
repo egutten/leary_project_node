@@ -55,7 +55,6 @@ class App extends Component {
           <Route path = "/messages" exact component={Messages} />
           <Route path = "/messages/new" component={CreateMessage} />
           <Route path = "/messages/:id" component={EditMessage} />
-          <Route path = "/" component={Placeholder} />
         </Switch>
       );
     }

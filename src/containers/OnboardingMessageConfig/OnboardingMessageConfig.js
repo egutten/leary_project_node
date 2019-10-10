@@ -60,10 +60,13 @@ class OnboardingMessageConfig extends Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
-    this.props.history.push('/onboarding/message-snippet');
   };
   
   render() {
+    
+    if (this.props.messages.length > 0) {
+      this.props.history.push('/onboarding/message-snippet');
+    }
     
     const formElementsArray = [];
     for (let key in this.state.configForm) {

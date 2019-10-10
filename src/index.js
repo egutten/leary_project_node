@@ -17,7 +17,7 @@ const persistConfig = {
   key: 'root',
   storage: storage,
   stateReconciler: autoMergeLevel2,
-  blacklist: ['error_message', 'messages']
+  blacklist: ['error_message']
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
