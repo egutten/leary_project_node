@@ -59,3 +59,10 @@
   color: #5d34af;
   font-size: 16px;
 }
+
+@media (max-width: 750px) {
+  .seeSnippet:hover {
+    background-color: white;
+    color: #5d34af;
+  }
+}

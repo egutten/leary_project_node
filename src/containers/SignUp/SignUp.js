@@ -108,6 +108,10 @@ class SignUp extends Component {
       });
     }
     
+    //Prevent inputs from switching in mobile view
+    const formOrder = ["email", "password", "company_name"];
+    formElementsArray.sort((a,b) => formOrder.indexOf(a.id) - formOrder.indexOf(b.id));
+    
     let form = formElementsArray.map(formElement => (
       <Input 
         key={formElement.id}

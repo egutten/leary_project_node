@@ -4,7 +4,6 @@ import SignUp from './containers/SignUp/SignUp';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
 import Messages from './containers/Messages/Messages';
-import Placeholder from './containers/Placeholder';
 import OnboardingMessageConfig from './containers/OnboardingMessageConfig/OnboardingMessageConfig';
 import OnboardingMessageSnippet from './containers/OnboardingMessageSnippet/OnboardingMessageSnippet';
 import OnboardingConversionSnippet from './containers/OnboardingConversionSnippet/OnboardingConversionSnippet';
