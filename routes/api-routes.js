@@ -87,6 +87,7 @@ module.exports = (app) => {
 
   //Create customer activities for views and conversions
   app.post("/customer-activity", (req, res) => {
+    console.log(req);
     const activity = {
       user_id: req.body.user_id,
       event: req.body.event,
