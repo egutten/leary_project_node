@@ -82,6 +82,22 @@ module.exports = (app) => {
     }); 
   });
   
+  app.delete("/admin/messages", (req, res) => {
+    const message_id = req.query.messageId;
+    const user_id = req.query.userId;
+    
+    fn.deleteConversionEvent(message_id)
+    .then(() => {
+      fn.getConversions(user_id)
+      .then((conversions) => {
+        res.json(conversions);
+      }).catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json({error: err});
+      }); 
+    });
+  });
   //******************************************************************
   //Widget-flow
   //******************************************************************

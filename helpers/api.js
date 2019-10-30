@@ -41,6 +41,14 @@ const axios = require('axios');
         return response[1][0].dataValues;
       })
    },
+   
+   deleteConversionEvent: (messageId) => {
+     return db.ConversionEvent.destroy({
+        where: {
+          id: messageId
+        }
+      });
+   },
   
   createCustomer: () => {
     return db.Customer.create()

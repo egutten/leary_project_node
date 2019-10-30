@@ -21,6 +21,10 @@ class Messages extends Component {
     this.props.history.push('/messages/' + id);
   }
   
+  deleteHandler = (event, id) => {
+    this.props.deleteConversions(id, this.props.userId);
+  }
+  
   snippetHandler = (event, id) => {
     this.props.messages.find((o, i) => {
       if (o.id === id) {
@@ -46,6 +50,7 @@ class Messages extends Component {
         updated={moment(message.updatedAt).format("LLL")}
         seeSnippet={(event) => this.snippetHandler(event, message.id)} 
         editMessage={(event) => this.editHandler(event, message.id)} 
+        deleteMessage={(event) => this.deleteHandler(event, message.id)} 
         userId={this.props.userId} 
         conversionEventId={message.id}
         showSnippet={this.state.showSnippet === message.id} />
@@ -76,7 +81,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getConversions: (userId) => dispatch(actions.getConversions(userId))
+    getConversions: (userId) => dispatch(actions.getConversions(userId)),
+    deleteConversions: (messageId, userId) => dispatch(actions.deleteConversions(messageId, userId))
   };
 };
 

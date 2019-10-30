@@ -16,7 +16,10 @@ const conversionCard = (props) => (
       </div>
       <Button btnType="Edit" clicked={props.editMessage}>Edit</Button>
     </div>
-    <Button btnType="seeSnippet" clicked={props.seeSnippet}>See Snippet</Button>
+    <div className={classes.seeDeleteSection}>
+      <Button btnType="seeSnippet" clicked={props.seeSnippet}>See Snippet</Button>
+      <Button btnType="seeSnippet" clicked={props.deleteMessage}>Delete</Button>
+    </div>
     {props.showSnippet ? 
       <React.Fragment>
         <SnippetBox boxSize="snippetBoxSmall" snippet={renderMessageSnippet(props.userId, props.position)}/>

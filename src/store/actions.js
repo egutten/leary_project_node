@@ -95,3 +95,15 @@ export const getConversions = (userId) => {
     });
   }
 }
+
+export const deleteConversions = (messageId, userId) => {
+  return dispatch => {
+    axios.delete(process.env.REACT_APP_NODE_API + "admin/messages?messageId=" + messageId + "&userId=" + userId)
+    .then(conversionEvents => {
+      dispatch(conversions(conversionEvents.data));
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+  }
+}

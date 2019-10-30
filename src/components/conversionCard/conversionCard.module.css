@@ -3,9 +3,13 @@ span {
   font-weight: normal;
 }
 
-.textEditSection {
-  justify-content: space-between;
+.textEditSection,
+.seeDeleteSection {
   display: flex;
+  justify-content: space-between;
+}
+
+.textEditSection {
   align-items: flex-start;
 }
 
