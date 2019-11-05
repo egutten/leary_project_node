@@ -71,7 +71,7 @@ class SignUp extends Component {
   
   submitHandler = (event) => {
     event.preventDefault();
-    axios.post(process.env.REACT_APP_NODE_API + "/signup", { 
+    axios.post(process.env.REACT_APP_NODE_API + "signup", { 
       email: this.state.signUpForm.email.value,
       password: this.state.signUpForm.password.value,
       company_name: this.state.signUpForm.company_name.value
