@@ -11,7 +11,7 @@ var dotenv            = require("dotenv").config(),
 
 //Allowed cors in localhost
 app.use(cors());
-app.use('/', express.static(__dirname + '/'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
