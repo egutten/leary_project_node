@@ -92,6 +92,9 @@ class CreateMessage extends Component {
       });
     }
     
+    const arrayOrder = ["position_left", "position_right"];
+    radioArray.sort((a,b) => arrayOrder.indexOf(a.id) - arrayOrder.indexOf(b.id));
+    
     let radio = radioArray.map(radioButton => (
       <Radio 
         key={radioButton.id}
