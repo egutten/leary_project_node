@@ -108,7 +108,7 @@ class CreateMessage extends Component {
     return (
       <div>
         <h2>Create New Message</h2>
-        <div className={classes.centerContainer}>
+        <div>
           <MessageSimulation conversionEvent={this.state.configForm.conversion_event.value} />
           <form>
             <p className={classes.configQuestions}>1. What conversions do you want to track?</p>
