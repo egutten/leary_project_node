@@ -57,9 +57,9 @@ class CreateMessage extends Component {
     this.setState({configForm: updatedForm});
   };  
   
-  submitHandler = (event) => {
+  submitHandler = async (event) => {
     event.preventDefault();
-    this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
+    await this.props.createUpdateConversion(this.state.configForm.conversion_event.value, this.props.userId, document.querySelector('input[name="position"]:checked').value);
     this.props.history.push('/messages');
   };
   

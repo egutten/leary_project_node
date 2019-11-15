@@ -9,10 +9,6 @@ const moment = require("moment");
 
 class Messages extends Component { 
   
-  state ={
-    showSnippet: 0
-  }
-  
   createHandler = (event) => {
     this.props.history.push('/messages/new');
   };
@@ -28,12 +24,11 @@ class Messages extends Component {
   snippetHandler = (event, id) => {
     this.props.messages.find((o, i) => {
       if (o.id === id) {
-        this.setState({showSnippet: id});
-      } 
+        o.show = !o.show;
+        const newList = this.props.messages.slice();
+        this.props.conversions(newList);
+      }
     });
-    if (this.state.showSnippet !== 0) {
-      this.setState({showSnippet: 0})
-    }
   };
   
   componentDidMount() {
@@ -52,7 +47,7 @@ class Messages extends Component {
         deleteMessage={(event) => this.deleteHandler(event, message.id)} 
         userId={this.props.userId} 
         conversionEventId={message.id}
-        showSnippet={this.state.showSnippet === message.id} />
+        showSnippet={message.show} />
     ));
   
     return (
@@ -81,6 +76,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getConversions: (userId) => dispatch(actions.getConversions(userId)),
+    conversions: (newList) => dispatch(actions.conversions(newList)),
     deleteConversions: (messageId, userId) => dispatch(actions.deleteConversions(messageId, userId))
   };
 };
